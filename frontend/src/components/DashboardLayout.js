@@ -59,6 +59,16 @@ const DashboardLayout = ({ user, onLogout, children }) => {
                 <div className="text-sm font-medium">{user.full_name}</div>
                 <div className="text-xs text-slate-600 capitalize">{user.role}</div>
               </div>
+              <Button 
+                data-testid="settings-btn"
+                variant="outline" 
+                size="sm" 
+                onClick={() => navigate('/settings')}
+                className="border-slate-300"
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Settings
+              </Button>
               <Button data-testid="logout-btn" onClick={onLogout} variant="outline" size="sm" className="border-slate-300">
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
