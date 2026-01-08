@@ -59,11 +59,12 @@ const Auth = ({ setUser }) => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-6">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-indigo-700 to-indigo-900 rounded-xl flex items-center justify-center">
-              <Briefcase className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-2xl font-bold" style={{fontFamily: 'Outfit, sans-serif'}}>Hiring referrals</span>
+          <div className="inline-flex items-center justify-center mb-4">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_talentsphere-4/artifacts/2at054ix_Flat%20New%20Orange%20logo%20Transparent.png" 
+              alt="Hiring Referrals Logo" 
+              className="h-16 w-auto"
+            />
           </div>
           <h1 className="text-3xl font-bold mb-2" style={{fontFamily: 'Outfit, sans-serif'}}>Welcome</h1>
           <p className="text-slate-600">Sign in or create your account</p>

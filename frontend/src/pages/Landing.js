@@ -12,10 +12,11 @@ const Landing = () => {
       <nav className="border-b border-slate-200 bg-white/70 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-indigo-700 to-indigo-900 rounded-lg flex items-center justify-center">
-              <Briefcase className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold tracking-tight" style={{fontFamily: 'Outfit, sans-serif'}}>Hiring referrals</span>
+            <img 
+              src="https://customer-assets.emergentagent.com/job_talentsphere-4/artifacts/2at054ix_Flat%20New%20Orange%20logo%20Transparent.png" 
+              alt="Hiring Referrals Logo" 
+              className="h-10 w-auto"
+            />
           </div>
           <Button data-testid="nav-login-btn" onClick={() => navigate('/auth')} className="bg-indigo-700 hover:bg-indigo-800 text-white rounded-lg px-6">
             Sign In
