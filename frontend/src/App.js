@@ -13,6 +13,7 @@ import EnterpriseAdmin from './pages/EnterpriseAdmin';
 import Settings from './pages/Settings';
 import DomainSettings from './pages/DomainSettings';
 import GamificationDashboard from './pages/GamificationDashboard';
+import GamificationPage from './pages/GamificationPage';
 import './App.css';
 
 function App() {
