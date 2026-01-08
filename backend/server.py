@@ -2513,6 +2513,182 @@ async def get_job_analytics(
         "views_by_day": views_by_day
     }
 
+# ============= WHATSAPP NOTIFICATIONS (MOCKED) =============
+
+class WhatsAppMessageRequest(BaseModel):
+    to_number: str
+    message: str
+
+class WhatsAppNotificationRequest(BaseModel):
+    to_number: str
+    notification_type: str
+    variables: Dict[str, Any]
+
+@api_router.get("/whatsapp/status")
+async def get_whatsapp_status(current_user: dict = Depends(get_current_user)):
+    """Get WhatsApp service status"""
+    return whatsapp_service.get_service_status()
+
+@api_router.post("/whatsapp/send")
+async def send_whatsapp_message(
+    request: WhatsAppMessageRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Send a WhatsApp message (mocked)"""
+    if current_user["role"] not in ["admin", "super_admin", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await whatsapp_service.send_message(request.to_number, request.message)
+    return result
+
+@api_router.post("/whatsapp/notify")
+async def send_whatsapp_notification(
+    request: WhatsAppNotificationRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Send a templated WhatsApp notification (mocked)"""
+    if current_user["role"] not in ["admin", "super_admin", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    try:
+        notification_type = NotificationType(request.notification_type)
+    except ValueError:
+        raise HTTPException(status_code=400, detail=f"Invalid notification type. Valid types: {[t.value for t in NotificationType]}")
+    
+    result = await whatsapp_service.send_notification(
+        request.to_number,
+        notification_type,
+        request.variables
+    )
+    return result
+
+@api_router.get("/whatsapp/log")
+async def get_whatsapp_log(
+    limit: int = 50,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get WhatsApp message log (mocked mode only)"""
+    if current_user["role"] not in ["admin", "super_admin"]:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    return {
+        "messages": whatsapp_service.get_message_log(limit),
+        "service_status": whatsapp_service.get_service_status()
+    }
+
+# ============= AI JOB DESCRIPTION GENERATOR =============
+
+class JDGenerateRequest(BaseModel):
+    job_title: str
+    company_name: str
+    department: Optional[str] = None
+    location: Optional[str] = None
+    employment_type: str = "Full-time"
+    experience_level: str = "Mid-level"
+    required_skills: Optional[List[str]] = None
+    salary_range: Optional[str] = None
+    additional_requirements: Optional[str] = None
+    company_description: Optional[str] = None
+    tone: str = "professional"
+
+class JDImproveRequest(BaseModel):
+    existing_jd: str
+    improvement_focus: str = "general"
+
+@api_router.post("/ai/generate-jd")
+async def generate_job_description(
+    request: JDGenerateRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Generate a professional job description using AI"""
+    if current_user["role"] not in ["admin", "super_admin", "recruiter", "client"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await jd_generator.generate_jd(
+        job_title=request.job_title,
+        company_name=request.company_name,
+        department=request.department,
+        location=request.location,
+        employment_type=request.employment_type,
+        experience_level=request.experience_level,
+        required_skills=request.required_skills,
+        salary_range=request.salary_range,
+        additional_requirements=request.additional_requirements,
+        company_description=request.company_description,
+        tone=request.tone
+    )
+    
+    # Log the generation
+    await audit_logger.log_action(
+        user_id=current_user["id"],
+        action=AuditAction.CREATE,
+        resource_type="jd_generation",
+        resource_id=result["id"],
+        details={"job_title": request.job_title, "company": request.company_name}
+    )
+    
+    return result
+
+@api_router.post("/ai/improve-jd")
+async def improve_job_description(
+    request: JDImproveRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Improve an existing job description using AI"""
+    if current_user["role"] not in ["admin", "super_admin", "recruiter", "client"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await jd_generator.improve_jd(
+        existing_jd=request.existing_jd,
+        improvement_focus=request.improvement_focus
+    )
+    return result
+
+# ============= CACHE MANAGEMENT =============
+
+@api_router.get("/cache/stats")
+async def get_cache_stats(current_user: dict = Depends(get_current_user)):
+    """Get cache statistics"""
+    if current_user["role"] not in ["admin", "super_admin"]:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    return cache_manager.get_stats()
+
+@api_router.post("/cache/clear")
+async def clear_cache(
+    prefix: Optional[str] = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Clear cache (all or by prefix)"""
+    if current_user["role"] not in ["admin", "super_admin"]:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    if prefix:
+        count = await cache_manager.cache.clear(prefix)
+        return {"cleared": count, "prefix": prefix}
+    
+    result = await cache_manager.clear_all()
+    return result
+
+@api_router.post("/cache/invalidate/jobs")
+async def invalidate_jobs_cache(current_user: dict = Depends(get_current_user)):
+    """Invalidate job listings cache"""
+    if current_user["role"] not in ["admin", "super_admin", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    count = await cache_manager.invalidate_jobs()
+    return {"invalidated": count, "type": "jobs"}
+
+@api_router.post("/cache/invalidate/dashboard")
+async def invalidate_dashboard_cache(
+    user_id: Optional[str] = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Invalidate dashboard cache"""
+    target_user = user_id or current_user["id"]
+    count = await cache_manager.invalidate_dashboard(target_user)
+    return {"invalidated": count, "user_id": target_user}
+
 
 # Include main API router
 app.include_router(api_router)
