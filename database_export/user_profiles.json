@@ -1,0 +1,140 @@
+[
+  {
+    "_id": "695fb6f63021b06174b179cb",
+    "user_id": "6e5466d8-676c-450d-bd36-ca93a806a226",
+    "created_at": "2026-01-08T13:53:58.890779+00:00",
+    "phone": "+91-9876543210",
+    "profile_completion": 20,
+    "updated_at": "2026-01-08T13:56:06.131959+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725c8",
+    "id": "01fb7c58-68bd-4664-a9a7-71c4253a2231",
+    "user_id": "e950e053-78d7-47f3-8d08-0378d0c118dd",
+    "first_name": "TechCorp",
+    "last_name": "Inc",
+    "profile_type": "company",
+    "created_at": "2026-01-08T09:33:31.912388+00:00",
+    "updated_at": "2026-01-08T14:04:12.591393+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725ca",
+    "id": "ab856b77-8839-4045-9d54-008efb582c77",
+    "user_id": "f9263d3c-409c-43f5-9c0f-15dc1b717ef1",
+    "first_name": "Sarah",
+    "last_name": "Recruiter",
+    "profile_type": "recruiter",
+    "created_at": "2026-01-08T09:33:54.429233+00:00",
+    "updated_at": "2026-01-08T14:04:12.597177+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725cc",
+    "id": "733009a5-4c9d-4d2d-9d19-6a0b030176bb",
+    "user_id": "bc509f9b-ee91-4452-a90a-72440833fe04",
+    "first_name": "John",
+    "last_name": "Developer",
+    "profile_type": "candidate",
+    "created_at": "2026-01-08T09:33:54.709197+00:00",
+    "updated_at": "2026-01-08T14:04:12.598727+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725ce",
+    "id": "c2697853-ca77-472e-bc95-aef09b2120c8",
+    "user_id": "c6022cef-e1b2-4584-8f99-8bbf9432048a",
+    "first_name": "Admin",
+    "last_name": "User",
+    "profile_type": "admin",
+    "created_at": "2026-01-08T09:34:05.398634+00:00",
+    "updated_at": "2026-01-08T14:04:12.600110+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725d0",
+    "id": "57afe9b5-633f-4b85-9d54-d59d47996fdc",
+    "user_id": "fd0d4660-63d6-4d35-a75d-4cc6e9db5e9c",
+    "first_name": "Rohit",
+    "last_name": "",
+    "profile_type": "candidate",
+    "created_at": "2026-01-08T09:35:46.745064+00:00",
+    "updated_at": "2026-01-08T14:04:12.601411+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725d2",
+    "id": "c70f57aa-9f71-44bd-8804-6243d4cecab6",
+    "user_id": "67679e4f-8264-4383-aac1-0a8d975bac0d",
+    "first_name": "Recruiter",
+    "last_name": "",
+    "profile_type": "recruiter",
+    "created_at": "2026-01-08T10:08:41.340982+00:00",
+    "updated_at": "2026-01-08T14:04:12.602699+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725d4",
+    "id": "964679a0-a3ed-482d-b4ae-3ef94d3d500b",
+    "user_id": "18797930-3030-4a8e-bdd9-9e1abb5b6e21",
+    "first_name": "Rohit",
+    "last_name": "",
+    "profile_type": "candidate",
+    "created_at": "2026-01-08T11:51:45.201635+00:00",
+    "updated_at": "2026-01-08T14:04:12.604012+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725d6",
+    "id": "d87c688d-cc21-4e2f-bf0b-46ebcc79746c",
+    "user_id": "b15cbe33-31ec-49ed-8f93-cc49e73239f1",
+    "first_name": "Recruiter",
+    "last_name": "",
+    "profile_type": "recruiter",
+    "created_at": "2026-01-08T11:53:52.755571+00:00",
+    "updated_at": "2026-01-08T14:04:12.605329+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725d7",
+    "id": "2f5f82eb-7202-44a1-bd0f-099468a6dc8d",
+    "user_id": "fc6f6461-c54a-40e6-9fe1-ed822c9c3f78",
+    "first_name": "company",
+    "last_name": "",
+    "profile_type": "company",
+    "created_at": "2026-01-08T11:55:34.975604+00:00",
+    "updated_at": "2026-01-08T14:04:12.606208+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725d9",
+    "id": "7ab6a780-8e8a-42e4-94ab-307d06aad92a",
+    "user_id": "d0af6d9c-9568-4596-aadc-c9f96cac6c55",
+    "first_name": "Admin",
+    "last_name": "",
+    "profile_type": "admin",
+    "created_at": "2026-01-08T11:58:19.448980+00:00",
+    "updated_at": "2026-01-08T14:04:12.607501+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725dc",
+    "id": "204ced95-991e-4c50-aca3-82b5cb58185f",
+    "user_id": "ffb0ec62-df44-42d0-8078-b508f6a23ac4",
+    "first_name": "Test",
+    "last_name": "Candidate",
+    "profile_type": "candidate",
+    "created_at": "2026-01-08T12:18:44.020994+00:00",
+    "updated_at": "2026-01-08T14:04:12.609879+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725de",
+    "id": "bae5ffe4-c025-44d4-a6c0-fa8f911eb687",
+    "user_id": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "first_name": "Admin",
+    "last_name": "User",
+    "profile_type": "admin",
+    "created_at": "2026-01-08T12:18:44.304878+00:00",
+    "updated_at": "2026-01-08T14:04:12.611195+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725e0",
+    "id": "9053bc39-3738-41f1-b6e3-6da0e402f0ec",
+    "user_id": "9f89364d-a8fc-4374-b9ad-24289aaa04b6",
+    "first_name": "Ajhar",
+    "last_name": "",
+    "profile_type": "admin",
+    "created_at": "2026-01-08T13:44:20.474686+00:00",
+    "updated_at": "2026-01-08T14:04:12.612491+00:00"
+  }
+]

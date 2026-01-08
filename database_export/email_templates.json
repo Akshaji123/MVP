@@ -1,0 +1,145 @@
+[
+  {
+    "_id": "695fb95c31ef025609a725c0",
+    "id": "936ed3a1-586c-4a17-a0ea-3efdf95433c9",
+    "template_name": "welcome_user",
+    "template_type": "transactional",
+    "subject_template": "Welcome to HiringReferrals, {{first_name}}!",
+    "html_template": "\n            <h1>Welcome {{first_name}}!</h1>\n            <p>Thank you for joining HiringReferrals. We're excited to have you on board.</p>\n            <p>Get started by:</p>\n            <ul>\n                <li>Completing your profile</li>\n                <li>Exploring job opportunities</li>\n                <li>Referring candidates to earn rewards</li>\n            </ul>\n            <p><a href=\"{{dashboard_url}}\">Go to Dashboard</a></p>\n        ",
+    "text_template": "Welcome {{first_name}}! Thank you for joining HiringReferrals.",
+    "variables": [
+      "first_name",
+      "dashboard_url"
+    ],
+    "language": "en",
+    "is_active": true,
+    "created_at": "2026-01-08T14:04:11.440809+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725c1",
+    "id": "5a4192d0-02a2-485b-bdb9-b3415880eaac",
+    "template_name": "application_received",
+    "template_type": "transactional",
+    "subject_template": "Application Received - {{job_title}}",
+    "html_template": "\n            <h2>Application Submitted Successfully</h2>\n            <p>Dear {{candidate_name}},</p>\n            <p>Your application for <strong>{{job_title}}</strong> at <strong>{{company_name}}</strong> has been received.</p>\n            <p>We will review your application and get back to you soon.</p>\n            <p>Application ID: {{application_id}}</p>\n        ",
+    "text_template": "Your application for {{job_title}} at {{company_name}} has been received.",
+    "variables": [
+      "candidate_name",
+      "job_title",
+      "company_name",
+      "application_id"
+    ],
+    "language": "en",
+    "is_active": true,
+    "created_at": "2026-01-08T14:04:11.440813+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725c2",
+    "id": "cdc72d33-4b8c-49fb-8887-298dfa01df0b",
+    "template_name": "application_shortlisted",
+    "template_type": "transactional",
+    "subject_template": "Congratulations! You've been shortlisted - {{job_title}}",
+    "html_template": "\n            <h2>You've Been Shortlisted!</h2>\n            <p>Dear {{candidate_name}},</p>\n            <p>Great news! Your application for <strong>{{job_title}}</strong> at <strong>{{company_name}}</strong> has been shortlisted.</p>\n            <p>Our team will contact you shortly to schedule the next steps.</p>\n        ",
+    "text_template": "Congratulations! Your application for {{job_title}} has been shortlisted.",
+    "variables": [
+      "candidate_name",
+      "job_title",
+      "company_name"
+    ],
+    "language": "en",
+    "is_active": true,
+    "created_at": "2026-01-08T14:04:11.440817+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725c3",
+    "id": "e8d78fda-87e8-43af-9524-5b9f5b46016b",
+    "template_name": "interview_scheduled",
+    "template_type": "transactional",
+    "subject_template": "Interview Scheduled - {{job_title}}",
+    "html_template": "\n            <h2>Interview Scheduled</h2>\n            <p>Dear {{candidate_name}},</p>\n            <p>Your interview for <strong>{{job_title}}</strong> has been scheduled.</p>\n            <p><strong>Date & Time:</strong> {{interview_date}}</p>\n            <p><strong>Type:</strong> {{interview_type}}</p>\n            <p><strong>Location/Link:</strong> {{location}}</p>\n            <p>Please confirm your attendance.</p>\n        ",
+    "text_template": "Your interview for {{job_title}} is scheduled on {{interview_date}}.",
+    "variables": [
+      "candidate_name",
+      "job_title",
+      "interview_date",
+      "interview_type",
+      "location"
+    ],
+    "language": "en",
+    "is_active": true,
+    "created_at": "2026-01-08T14:04:11.440822+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725c4",
+    "id": "95f69392-828b-4e04-9963-f41187e1bd2d",
+    "template_name": "referral_submitted",
+    "template_type": "transactional",
+    "subject_template": "Referral Submitted Successfully",
+    "html_template": "\n            <h2>Referral Submitted</h2>\n            <p>Dear {{referrer_name}},</p>\n            <p>Your referral for <strong>{{candidate_name}}</strong> for the position of <strong>{{job_title}}</strong> has been submitted successfully.</p>\n            <p>Referral ID: {{referral_id}}</p>\n            <p>We'll notify you when there's an update on your referral.</p>\n        ",
+    "text_template": "Your referral for {{candidate_name}} has been submitted.",
+    "variables": [
+      "referrer_name",
+      "candidate_name",
+      "job_title",
+      "referral_id"
+    ],
+    "language": "en",
+    "is_active": true,
+    "created_at": "2026-01-08T14:04:11.440826+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725c5",
+    "id": "a40f7331-99e6-4eda-9980-5f703efe1c19",
+    "template_name": "commission_earned",
+    "template_type": "transactional",
+    "subject_template": "Commission Earned - {{amount}}",
+    "html_template": "\n            <h2>Congratulations! Commission Earned</h2>\n            <p>Dear {{user_name}},</p>\n            <p>You have earned a commission of <strong>{{amount}}</strong> for the successful placement of <strong>{{candidate_name}}</strong>.</p>\n            <p><strong>Job:</strong> {{job_title}}</p>\n            <p><strong>Company:</strong> {{company_name}}</p>\n            <p>The commission will be processed within the next payment cycle.</p>\n        ",
+    "text_template": "You have earned a commission of {{amount}} for placing {{candidate_name}}.",
+    "variables": [
+      "user_name",
+      "amount",
+      "candidate_name",
+      "job_title",
+      "company_name"
+    ],
+    "language": "en",
+    "is_active": true,
+    "created_at": "2026-01-08T14:04:11.440830+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725c6",
+    "id": "4d0ec13f-086d-4b4e-b33a-bc995762ab00",
+    "template_name": "bgv_initiated",
+    "template_type": "transactional",
+    "subject_template": "Background Verification Initiated",
+    "html_template": "\n            <h2>Background Verification Started</h2>\n            <p>Dear {{candidate_name}},</p>\n            <p>A background verification has been initiated as part of your hiring process.</p>\n            <p><strong>Verification Types:</strong> {{verification_types}}</p>\n            <p>Please ensure all required documents are uploaded to expedite the process.</p>\n        ",
+    "text_template": "Background verification has been initiated. Please upload required documents.",
+    "variables": [
+      "candidate_name",
+      "verification_types"
+    ],
+    "language": "en",
+    "is_active": true,
+    "created_at": "2026-01-08T14:04:11.440834+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725c7",
+    "id": "613ec8c9-d394-4559-a4f7-eb95d8289839",
+    "template_name": "offer_letter",
+    "template_type": "transactional",
+    "subject_template": "Job Offer - {{job_title}} at {{company_name}}",
+    "html_template": "\n            <h2>Congratulations! You've Received an Offer</h2>\n            <p>Dear {{candidate_name}},</p>\n            <p>We are pleased to offer you the position of <strong>{{job_title}}</strong> at <strong>{{company_name}}</strong>.</p>\n            <p><strong>Package:</strong> {{package}}</p>\n            <p><strong>Start Date:</strong> {{start_date}}</p>\n            <p>Please review the attached offer letter and respond by {{deadline}}.</p>\n        ",
+    "text_template": "Congratulations! You've received an offer for {{job_title}} at {{company_name}}.",
+    "variables": [
+      "candidate_name",
+      "job_title",
+      "company_name",
+      "package",
+      "start_date",
+      "deadline"
+    ],
+    "language": "en",
+    "is_active": true,
+    "created_at": "2026-01-08T14:04:11.440839+00:00"
+  }
+]

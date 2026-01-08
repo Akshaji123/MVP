@@ -1,0 +1,167 @@
+[
+  {
+    "_id": "695fb69e46858d322b3e0c38",
+    "id": "7098a90e-3412-4f03-a96d-919461a11231",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "pending",
+    "new_status": "screening",
+    "changed_by": "system",
+    "reason": "Auto-screening: manual_review (score: 50.0)",
+    "notes": null,
+    "timestamp": "2026-01-08T13:52:30.395621+00:00"
+  },
+  {
+    "_id": "695fb6d846858d322b3e0c3d",
+    "id": "e66c2c36-e1dc-4bee-aa50-a3996f4d730b",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "screening",
+    "new_status": "screening",
+    "changed_by": "system",
+    "reason": "Auto-screening: manual_review (score: 50.0)",
+    "notes": null,
+    "timestamp": "2026-01-08T13:53:28.796872+00:00"
+  },
+  {
+    "_id": "695fb6f646858d322b3e0c42",
+    "id": "a5e4e225-7310-4493-9a5f-791f5e674287",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "screening",
+    "new_status": "screening",
+    "changed_by": "system",
+    "reason": "Auto-screening: manual_review (score: 50.0)",
+    "notes": null,
+    "timestamp": "2026-01-08T13:53:58.247451+00:00"
+  },
+  {
+    "_id": "695fb72f46858d322b3e0c47",
+    "id": "34412481-7e5e-4ecb-b109-233481abc58c",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "screening",
+    "new_status": "screening",
+    "changed_by": "system",
+    "reason": "Auto-screening: manual_review (score: 50.0)",
+    "notes": null,
+    "timestamp": "2026-01-08T13:54:55.684441+00:00"
+  },
+  {
+    "_id": "695fb72f46858d322b3e0c48",
+    "id": "ad82c931-dc54-4f46-ad2f-1b25968acf83",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "screening",
+    "new_status": "shortlisted",
+    "changed_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "reason": "Automated test",
+    "notes": "Test status update",
+    "timestamp": "2026-01-08T13:54:55.719652+00:00"
+  },
+  {
+    "_id": "695fb72f46858d322b3e0c4b",
+    "id": "4db3ae2e-c471-40bd-a8d7-8be5ec2408f1",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "shortlisted",
+    "new_status": "interview_scheduled",
+    "changed_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "reason": "Technical interview scheduled",
+    "notes": null,
+    "timestamp": "2026-01-08T13:54:55.787467+00:00"
+  },
+  {
+    "_id": "695fb72f46858d322b3e0c4d",
+    "id": "8a1aa5fb-b84a-4f59-a443-7c2846885af7",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "interview_scheduled",
+    "new_status": "interview_completed",
+    "changed_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "reason": "Interview feedback: proceed",
+    "notes": null,
+    "timestamp": "2026-01-08T13:54:55.821943+00:00"
+  },
+  {
+    "_id": "695fb74946858d322b3e0c51",
+    "id": "2135b969-0059-43a8-a7af-59ae42a7b339",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "interview_completed",
+    "new_status": "screening",
+    "changed_by": "system",
+    "reason": "Auto-screening: manual_review (score: 50.0)",
+    "notes": null,
+    "timestamp": "2026-01-08T13:55:21.601606+00:00"
+  },
+  {
+    "_id": "695fb74946858d322b3e0c52",
+    "id": "23d33ce9-c0b7-4f80-9ba5-6019cdf0b599",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "screening",
+    "new_status": "shortlisted",
+    "changed_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "reason": "Automated test",
+    "notes": "Test status update",
+    "timestamp": "2026-01-08T13:55:21.676986+00:00"
+  },
+  {
+    "_id": "695fb74946858d322b3e0c55",
+    "id": "cbd11178-adbf-4964-a71d-849df3552a37",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "shortlisted",
+    "new_status": "interview_scheduled",
+    "changed_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "reason": "Technical interview scheduled",
+    "notes": null,
+    "timestamp": "2026-01-08T13:55:21.744355+00:00"
+  },
+  {
+    "_id": "695fb74946858d322b3e0c57",
+    "id": "1f6d85dd-9d84-4269-8e5a-049c98b606bf",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "interview_scheduled",
+    "new_status": "interview_completed",
+    "changed_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "reason": "Interview feedback: proceed",
+    "notes": null,
+    "timestamp": "2026-01-08T13:55:21.781060+00:00"
+  },
+  {
+    "_id": "695fb77546858d322b3e0c5b",
+    "id": "c3460fb1-d5ba-4efc-9ca1-e1c2c58b7772",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "interview_completed",
+    "new_status": "screening",
+    "changed_by": "system",
+    "reason": "Auto-screening: manual_review (score: 50.0)",
+    "notes": null,
+    "timestamp": "2026-01-08T13:56:05.601701+00:00"
+  },
+  {
+    "_id": "695fb77546858d322b3e0c5c",
+    "id": "255fec50-8aa9-4380-8280-7fdfd1bc64a6",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "screening",
+    "new_status": "shortlisted",
+    "changed_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "reason": "Automated test",
+    "notes": "Test status update",
+    "timestamp": "2026-01-08T13:56:05.634332+00:00"
+  },
+  {
+    "_id": "695fb77546858d322b3e0c5f",
+    "id": "3f99ba91-a0d5-49e6-b5ba-d115279a2583",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "shortlisted",
+    "new_status": "interview_scheduled",
+    "changed_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "reason": "Technical interview scheduled",
+    "notes": null,
+    "timestamp": "2026-01-08T13:56:05.702535+00:00"
+  },
+  {
+    "_id": "695fb77546858d322b3e0c61",
+    "id": "f2069365-0f4a-4148-b77c-330803701cbc",
+    "application_id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "old_status": "interview_scheduled",
+    "new_status": "interview_completed",
+    "changed_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "reason": "Interview feedback: proceed",
+    "notes": null,
+    "timestamp": "2026-01-08T13:56:05.735171+00:00"
+  }
+]

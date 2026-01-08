@@ -1,0 +1,592 @@
+[
+  {
+    "_id": "695fb69e46858d322b3e0c3a",
+    "id": "028a8354-82ce-4e99-9ddb-21e958c67cc9",
+    "candidate_id": "6e5466d8-676c-450d-bd36-ca93a806a226",
+    "candidate_name": "Test Recruiter",
+    "candidate_email": "recruiter@refer.com",
+    "application_id": "7ece53e9-9ecc-4c89-9413-acc819451459",
+    "requested_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "requested_at": "2026-01-08T13:52:30.696989+00:00",
+    "priority": "normal",
+    "deadline": null,
+    "special_instructions": "Test BGV request for platform validation",
+    "status": "in_progress",
+    "verification_types": [
+      "identity",
+      "address",
+      "employment",
+      "education"
+    ],
+    "checks": [
+      {
+        "check_id": "8427e6c3-d916-453f-bfcd-db9dd847d13b",
+        "check_type": "identity",
+        "status": "assigned",
+        "assigned_to": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+        "required_documents": [
+          "aadhaar_card",
+          "pan_card",
+          "passport"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": "2026-01-08T13:52:30.790285+00:00",
+        "completed_at": null
+      },
+      {
+        "check_id": "fab4ef51-9029-4860-9d5b-2502c7d3b6e7",
+        "check_type": "address",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "utility_bill",
+          "rent_agreement",
+          "aadhaar_card"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "c8d7fe72-e3a3-4e80-9d77-88e82694871f",
+        "check_type": "employment",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "offer_letter",
+          "relieving_letter",
+          "payslips"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "847a6220-4e5b-4d7c-9b41-bd7256b62aa4",
+        "check_type": "education",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "degree_certificate",
+          "marksheets",
+          "provisional_certificate"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      }
+    ],
+    "overall_result": null,
+    "completion_percentage": 0,
+    "estimated_completion": "2026-01-13T13:52:30.696935+00:00",
+    "completed_at": null,
+    "report_url": null,
+    "created_at": "2026-01-08T13:52:30.696992+00:00",
+    "verification_status": "in_progress"
+  },
+  {
+    "_id": "695fb6d946858d322b3e0c3f",
+    "id": "3d0d52ab-456b-4ad7-9234-1ce58f3bad24",
+    "candidate_id": "6e5466d8-676c-450d-bd36-ca93a806a226",
+    "candidate_name": "Test Recruiter",
+    "candidate_email": "recruiter@refer.com",
+    "application_id": "2f988cc7-31ef-4418-99f4-48f204840587",
+    "requested_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "requested_at": "2026-01-08T13:53:29.061293+00:00",
+    "priority": "normal",
+    "deadline": null,
+    "special_instructions": "Test BGV request for platform validation",
+    "status": "in_progress",
+    "verification_types": [
+      "identity",
+      "address",
+      "employment",
+      "education"
+    ],
+    "checks": [
+      {
+        "check_id": "431cc9f9-789a-4da1-b84d-dfd2e14d131f",
+        "check_type": "identity",
+        "status": "assigned",
+        "assigned_to": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+        "required_documents": [
+          "aadhaar_card",
+          "pan_card",
+          "passport"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": "2026-01-08T13:53:29.097109+00:00",
+        "completed_at": null
+      },
+      {
+        "check_id": "cc2bab46-124e-46c4-8ff6-5dd65733dd08",
+        "check_type": "address",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "utility_bill",
+          "rent_agreement",
+          "aadhaar_card"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "6335be56-c3ee-487c-a695-ed608cd3b1b5",
+        "check_type": "employment",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "offer_letter",
+          "relieving_letter",
+          "payslips"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "9a6a28c7-6f4e-446e-bc72-dae17aad42dd",
+        "check_type": "education",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "degree_certificate",
+          "marksheets",
+          "provisional_certificate"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      }
+    ],
+    "overall_result": null,
+    "completion_percentage": 0,
+    "estimated_completion": "2026-01-13T13:53:29.061248+00:00",
+    "completed_at": null,
+    "report_url": null,
+    "created_at": "2026-01-08T13:53:29.061296+00:00",
+    "verification_status": "in_progress"
+  },
+  {
+    "_id": "695fb6f646858d322b3e0c44",
+    "id": "6c4b996c-b8fa-44c0-903c-30c5d0aaf266",
+    "candidate_id": "6e5466d8-676c-450d-bd36-ca93a806a226",
+    "candidate_name": "Test Recruiter",
+    "candidate_email": "recruiter@refer.com",
+    "application_id": "28f355ee-eb60-4a5d-8ab0-81ef5583b7de",
+    "requested_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "requested_at": "2026-01-08T13:53:58.477674+00:00",
+    "priority": "normal",
+    "deadline": null,
+    "special_instructions": "Test BGV request for platform validation",
+    "status": "in_progress",
+    "verification_types": [
+      "identity",
+      "address",
+      "employment",
+      "education"
+    ],
+    "checks": [
+      {
+        "check_id": "1024be49-3c66-4001-9bb9-338b3117f030",
+        "check_type": "identity",
+        "status": "assigned",
+        "assigned_to": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+        "required_documents": [
+          "aadhaar_card",
+          "pan_card",
+          "passport"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": "2026-01-08T13:53:58.509053+00:00",
+        "completed_at": null
+      },
+      {
+        "check_id": "100a81c6-4b0f-477c-9913-a75befd9b1c6",
+        "check_type": "address",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "utility_bill",
+          "rent_agreement",
+          "aadhaar_card"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "5855f6d5-a4c4-418a-8858-662cefb50958",
+        "check_type": "employment",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "offer_letter",
+          "relieving_letter",
+          "payslips"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "23929388-866e-42b6-8326-23996ae66f54",
+        "check_type": "education",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "degree_certificate",
+          "marksheets",
+          "provisional_certificate"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      }
+    ],
+    "overall_result": null,
+    "completion_percentage": 0,
+    "estimated_completion": "2026-01-13T13:53:58.477628+00:00",
+    "completed_at": null,
+    "report_url": null,
+    "created_at": "2026-01-08T13:53:58.477677+00:00",
+    "verification_status": "in_progress"
+  },
+  {
+    "_id": "695fb72f46858d322b3e0c4e",
+    "id": "0b57a408-a0bf-4a9a-b887-0b4b553beb30",
+    "candidate_id": "6e5466d8-676c-450d-bd36-ca93a806a226",
+    "candidate_name": "Test Recruiter",
+    "candidate_email": "recruiter@refer.com",
+    "application_id": "94c85d64-be44-4751-afdf-edf9f9ee0a20",
+    "requested_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "requested_at": "2026-01-08T13:54:55.890754+00:00",
+    "priority": "normal",
+    "deadline": null,
+    "special_instructions": "Test BGV request for platform validation",
+    "status": "in_progress",
+    "verification_types": [
+      "identity",
+      "address",
+      "employment",
+      "education"
+    ],
+    "checks": [
+      {
+        "check_id": "658c0eac-30c8-4167-bf6b-567080edfbb1",
+        "check_type": "identity",
+        "status": "assigned",
+        "assigned_to": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+        "required_documents": [
+          "aadhaar_card",
+          "pan_card",
+          "passport"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": "2026-01-08T13:54:55.971974+00:00",
+        "completed_at": null
+      },
+      {
+        "check_id": "52775262-7c5c-4481-a9cb-d046ec7a5872",
+        "check_type": "address",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "utility_bill",
+          "rent_agreement",
+          "aadhaar_card"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "d1d97e87-1f5c-4548-aa21-bb2076b8d813",
+        "check_type": "employment",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "offer_letter",
+          "relieving_letter",
+          "payslips"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "4fccb1f9-22b2-49b0-8286-693a828ff35a",
+        "check_type": "education",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "degree_certificate",
+          "marksheets",
+          "provisional_certificate"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      }
+    ],
+    "overall_result": null,
+    "completion_percentage": 0,
+    "estimated_completion": "2026-01-13T13:54:55.890714+00:00",
+    "completed_at": null,
+    "report_url": null,
+    "created_at": "2026-01-08T13:54:55.890757+00:00",
+    "verification_status": "in_progress"
+  },
+  {
+    "_id": "695fb74946858d322b3e0c58",
+    "id": "46c56077-67eb-4b83-8d1b-4ae5f70d3e3e",
+    "candidate_id": "6e5466d8-676c-450d-bd36-ca93a806a226",
+    "candidate_name": "Test Recruiter",
+    "candidate_email": "recruiter@refer.com",
+    "application_id": "d4c46d2e-a8bb-4eda-91ac-d4ac7a171e44",
+    "requested_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "requested_at": "2026-01-08T13:55:21.888587+00:00",
+    "priority": "normal",
+    "deadline": null,
+    "special_instructions": "Test BGV request for platform validation",
+    "status": "in_progress",
+    "verification_types": [
+      "identity",
+      "address",
+      "employment",
+      "education"
+    ],
+    "checks": [
+      {
+        "check_id": "e4772feb-54f8-4271-a2dd-a22f0b962b2c",
+        "check_type": "identity",
+        "status": "verified",
+        "assigned_to": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+        "required_documents": [
+          "aadhaar_card",
+          "pan_card",
+          "passport"
+        ],
+        "submitted_documents": [],
+        "verification_data": {
+          "document_type": "aadhaar",
+          "document_number": "XXXX-XXXX-1234",
+          "verified": true
+        },
+        "discrepancies": [],
+        "remarks": "Identity verification completed successfully",
+        "started_at": "2026-01-08T13:55:21.963725+00:00",
+        "completed_at": "2026-01-08T13:55:21.999456+00:00"
+      },
+      {
+        "check_id": "196165ec-af45-4ed1-b89b-9c08a0369283",
+        "check_type": "address",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "utility_bill",
+          "rent_agreement",
+          "aadhaar_card"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "14158d4b-ccae-4ac1-97a3-f03c1d6cb09d",
+        "check_type": "employment",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "offer_letter",
+          "relieving_letter",
+          "payslips"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "dbd1319a-0e61-4270-a1ac-dbc56d84e77f",
+        "check_type": "education",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "degree_certificate",
+          "marksheets",
+          "provisional_certificate"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      }
+    ],
+    "overall_result": null,
+    "completion_percentage": 25,
+    "estimated_completion": "2026-01-13T13:55:21.888540+00:00",
+    "completed_at": null,
+    "report_url": null,
+    "created_at": "2026-01-08T13:55:21.888590+00:00",
+    "verification_status": "in_progress"
+  },
+  {
+    "_id": "695fb77546858d322b3e0c62",
+    "id": "9f5fe943-a966-4332-aa6d-15a9f7168512",
+    "candidate_id": "6e5466d8-676c-450d-bd36-ca93a806a226",
+    "candidate_name": "Test Recruiter",
+    "candidate_email": "recruiter@refer.com",
+    "application_id": "dc4172a0-fea0-4424-b918-7de95e93b5ab",
+    "requested_by": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "requested_at": "2026-01-08T13:56:05.801757+00:00",
+    "priority": "normal",
+    "deadline": null,
+    "special_instructions": "Test BGV request for platform validation",
+    "status": "in_progress",
+    "verification_types": [
+      "identity",
+      "address",
+      "employment",
+      "education"
+    ],
+    "checks": [
+      {
+        "check_id": "1aa82ea2-482a-4873-bd0b-8982798db186",
+        "check_type": "identity",
+        "status": "verified",
+        "assigned_to": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+        "required_documents": [
+          "aadhaar_card",
+          "pan_card",
+          "passport"
+        ],
+        "submitted_documents": [],
+        "verification_data": {
+          "document_type": "aadhaar",
+          "document_number": "XXXX-XXXX-1234",
+          "verified": true
+        },
+        "discrepancies": [],
+        "remarks": "Identity verification completed successfully",
+        "started_at": "2026-01-08T13:56:05.831496+00:00",
+        "completed_at": "2026-01-08T13:56:05.865362+00:00"
+      },
+      {
+        "check_id": "e02552b1-8f64-49d7-8e62-9974518b3e6c",
+        "check_type": "address",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "utility_bill",
+          "rent_agreement",
+          "aadhaar_card"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "9da883e6-f98a-4fc1-85cb-62e5ded73259",
+        "check_type": "employment",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "offer_letter",
+          "relieving_letter",
+          "payslips"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      },
+      {
+        "check_id": "e9c53884-a8ae-4ee1-bd90-4dd93db970f5",
+        "check_type": "education",
+        "status": "pending",
+        "assigned_to": null,
+        "required_documents": [
+          "degree_certificate",
+          "marksheets",
+          "provisional_certificate"
+        ],
+        "submitted_documents": [],
+        "verification_data": {},
+        "discrepancies": [],
+        "remarks": null,
+        "started_at": null,
+        "completed_at": null
+      }
+    ],
+    "overall_result": null,
+    "completion_percentage": 25,
+    "estimated_completion": "2026-01-13T13:56:05.801713+00:00",
+    "completed_at": null,
+    "report_url": null,
+    "created_at": "2026-01-08T13:56:05.801760+00:00",
+    "verification_status": "in_progress"
+  }
+]

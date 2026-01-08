@@ -7,7 +7,11 @@
     "role": "company",
     "password": "$2b$12$CLKxfyTxFqZKv/Ky8b9kJeZbin415htdjuCwJ6d4.xYo9SnKYuyqa",
     "created_at": "2026-01-08T09:33:31.912388+00:00",
-    "currency_preference": "USD"
+    "currency_preference": "USD",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.588212+00:00"
   },
   {
     "_id": "695f7a02e004bb81c9641023",
@@ -16,7 +20,11 @@
     "full_name": "Sarah Recruiter",
     "role": "recruiter",
     "password": "$2b$12$Itjc.oJUB7KCIUkRJGW86uy34zpv6Nu1sxDUgb02jtQ.kBsi7Vqv6",
-    "created_at": "2026-01-08T09:33:54.429233+00:00"
+    "created_at": "2026-01-08T09:33:54.429233+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.595196+00:00"
   },
   {
     "_id": "695f7a02e004bb81c9641024",
@@ -25,7 +33,11 @@
     "full_name": "John Developer",
     "role": "candidate",
     "password": "$2b$12$Z3c4iv8pUipN0EokJS7JIuWUlhM5s3OtihDP0fAPdfRAWMg5ikuqS",
-    "created_at": "2026-01-08T09:33:54.709197+00:00"
+    "created_at": "2026-01-08T09:33:54.709197+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.597425+00:00"
   },
   {
     "_id": "695f7a0de004bb81c9641025",
@@ -34,7 +46,11 @@
     "full_name": "Admin User",
     "role": "admin",
     "password": "$2b$12$uIkiGxA2CZ8I7dYZ1fa5jemIYIf57hYffnwM2Y3X9Mh.KRSkN/.wu",
-    "created_at": "2026-01-08T09:34:05.398634+00:00"
+    "created_at": "2026-01-08T09:34:05.398634+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.598944+00:00"
   },
   {
     "_id": "695f7a72e004bb81c9641026",
@@ -43,7 +59,11 @@
     "full_name": "Rohit",
     "role": "candidate",
     "password": "$2b$12$Wy8ELeaa3ZHKrMcLtcx2JeOFp2g0x/mkacAyasfuGNp5PzqMBmyPa",
-    "created_at": "2026-01-08T09:35:46.745064+00:00"
+    "created_at": "2026-01-08T09:35:46.745064+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.600314+00:00"
   },
   {
     "_id": "695f8229e004bb81c9641027",
@@ -52,7 +72,11 @@
     "full_name": "Recruiter",
     "role": "recruiter",
     "password": "$2b$12$yEfKy7Qz4Kl5MgdlXjn1teieIbmZKd1EIKuVqb1GpGwpDd3joXcI.",
-    "created_at": "2026-01-08T10:08:41.340982+00:00"
+    "created_at": "2026-01-08T10:08:41.340982+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.601610+00:00"
   },
   {
     "_id": "695f9a51ffc71c9ca68f2514",
@@ -62,7 +86,11 @@
     "role": "candidate",
     "password": "$2b$12$K9rb7mCIasvUt.8i0bOmveyHzU.Hs/7NSxetm/mAliGCnz8fHfllu",
     "currency_preference": "INR",
-    "created_at": "2026-01-08T11:51:45.201635+00:00"
+    "created_at": "2026-01-08T11:51:45.201635+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.602890+00:00"
   },
   {
     "_id": "695f9ad0ffc71c9ca68f2519",
@@ -72,7 +100,11 @@
     "role": "recruiter",
     "password": "$2b$12$zJbK/PvAFia1vrWBQK64huKwqlLJuz7LKpQkPw5Frn5HW/F.9m9lC",
     "currency_preference": "INR",
-    "created_at": "2026-01-08T11:53:52.755571+00:00"
+    "created_at": "2026-01-08T11:53:52.755571+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.604210+00:00"
   },
   {
     "_id": "695f9b36ffc71c9ca68f251b",
@@ -82,7 +114,11 @@
     "role": "company",
     "password": "$2b$12$V04trb/AEtzIKpX7HaNrNeh/yfCcf.0jykX.L59TSImvBG3LrC5ae",
     "currency_preference": "INR",
-    "created_at": "2026-01-08T11:55:34.975604+00:00"
+    "created_at": "2026-01-08T11:55:34.975604+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.605530+00:00"
   },
   {
     "_id": "695f9bdbffc71c9ca68f251e",
@@ -92,7 +128,11 @@
     "role": "admin",
     "password": "$2b$12$uBoxt6gzVbCqDnfo7TAhj.iw5S0UFEv0lBCl.BaCZReH6soi327eK",
     "currency_preference": "INR",
-    "created_at": "2026-01-08T11:58:19.448980+00:00"
+    "created_at": "2026-01-08T11:58:19.448980+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.606415+00:00"
   },
   {
     "_id": "695fa0a3c91ff0c92b0ed361",
@@ -102,7 +142,11 @@
     "role": "recruiter",
     "password": "$2b$12$OtYqJSMu0MijtGio7gXnqeHhxufR9ky44NVYw80nWYFyxyfrEArki",
     "currency_preference": "INR",
-    "created_at": "2026-01-08T12:18:43.713545+00:00"
+    "created_at": "2026-01-08T12:18:43.713545+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.607693+00:00"
   },
   {
     "_id": "695fa0a4c91ff0c92b0ed362",
@@ -112,7 +156,11 @@
     "role": "candidate",
     "password": "$2b$12$tu0mus5GIRmq7hutK/Mg1.cbmDk3EuSWz52aLtFXFJygdQ8EUFN76",
     "currency_preference": "INR",
-    "created_at": "2026-01-08T12:18:44.020994+00:00"
+    "created_at": "2026-01-08T12:18:44.020994+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.608782+00:00"
   },
   {
     "_id": "695fa0a4c91ff0c92b0ed363",
@@ -122,7 +170,11 @@
     "role": "admin",
     "password": "$2b$12$Rh0HsMrmScZbzOReE6MAmeplCF1UDk5y5T5X2K2bjezHO3fK.34QW",
     "currency_preference": "INR",
-    "created_at": "2026-01-08T12:18:44.304878+00:00"
+    "created_at": "2026-01-08T12:18:44.304878+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.610100+00:00"
   },
   {
     "_id": "695fb4b47e60aff74ffa3009",
@@ -132,6 +184,10 @@
     "role": "admin",
     "password": "$2b$12$EkoeGDZ8Bg5zwj5IadOx1uR4aj7VJUMBzYcyL7CsVeVk5.uhwmlWW",
     "currency_preference": "INR",
-    "created_at": "2026-01-08T13:44:20.474686+00:00"
+    "created_at": "2026-01-08T13:44:20.474686+00:00",
+    "failed_login_attempts": 0,
+    "is_active": true,
+    "is_verified": true,
+    "updated_at": "2026-01-08T14:04:12.611397+00:00"
   }
 ]

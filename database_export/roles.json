@@ -1,0 +1,165 @@
+[
+  {
+    "_id": "695fb95c31ef025609a725b9",
+    "id": "ae3310ba-3ca7-4257-af29-ba42d75a17bc",
+    "name": "super_admin",
+    "description": "Super Administrator with full system access",
+    "hierarchy_level": 1,
+    "permissions": {
+      "all": true
+    },
+    "created_at": "2026-01-08T14:04:11.440759+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725ba",
+    "id": "cacfaf3a-103a-49e1-9b25-0cb0cd2e2a5e",
+    "name": "admin",
+    "description": "Administrator with limited system access",
+    "hierarchy_level": 2,
+    "permissions": {
+      "users": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "jobs": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "applications": [
+        "read",
+        "write"
+      ],
+      "reports": [
+        "read",
+        "export"
+      ],
+      "settings": [
+        "read",
+        "write"
+      ]
+    },
+    "created_at": "2026-01-08T14:04:11.440774+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725bb",
+    "id": "1f9735de-69c5-409a-8fef-32058b9dd0a3",
+    "name": "client",
+    "description": "Company HR/Recruiter with company-specific access",
+    "hierarchy_level": 3,
+    "permissions": {
+      "jobs": [
+        "read",
+        "write"
+      ],
+      "candidates": [
+        "read"
+      ],
+      "applications": [
+        "read",
+        "write"
+      ],
+      "reports": [
+        "read"
+      ]
+    },
+    "created_at": "2026-01-08T14:04:11.440779+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725bc",
+    "id": "ff5281c4-77a6-41bf-bd09-81752a19ebc5",
+    "name": "recruiter",
+    "description": "Internal recruiter with recruitment operations access",
+    "hierarchy_level": 3,
+    "permissions": {
+      "jobs": [
+        "read",
+        "write"
+      ],
+      "candidates": [
+        "read",
+        "write"
+      ],
+      "applications": [
+        "read",
+        "write"
+      ],
+      "referrals": [
+        "read",
+        "write"
+      ],
+      "interviews": [
+        "read",
+        "write"
+      ]
+    },
+    "created_at": "2026-01-08T14:04:11.440788+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725bd",
+    "id": "e9a1cfde-1ffa-4972-9553-6b922bf327c3",
+    "name": "freelancer",
+    "description": "Freelancer/Referrer with referral management access",
+    "hierarchy_level": 4,
+    "permissions": {
+      "jobs": [
+        "read"
+      ],
+      "referrals": [
+        "read",
+        "write"
+      ],
+      "commissions": [
+        "read"
+      ],
+      "profile": [
+        "read",
+        "write"
+      ]
+    },
+    "created_at": "2026-01-08T14:04:11.440793+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725be",
+    "id": "ce4c1658-3e2a-4bab-a4e0-62910cbefe95",
+    "name": "candidate",
+    "description": "Job seeker with self-service portal access",
+    "hierarchy_level": 5,
+    "permissions": {
+      "profile": [
+        "read",
+        "write"
+      ],
+      "applications": [
+        "read",
+        "write"
+      ],
+      "jobs": [
+        "read"
+      ]
+    },
+    "created_at": "2026-01-08T14:04:11.440798+00:00"
+  },
+  {
+    "_id": "695fb95c31ef025609a725bf",
+    "id": "34fcfb3a-91ea-4a02-97a8-e2cfc71a4111",
+    "name": "bgv_specialist",
+    "description": "Background verification specialist",
+    "hierarchy_level": 3,
+    "permissions": {
+      "bgv": [
+        "read",
+        "write"
+      ],
+      "candidates": [
+        "read"
+      ],
+      "documents": [
+        "read",
+        "write"
+      ]
+    },
+    "created_at": "2026-01-08T14:04:11.440802+00:00"
+  }
+]
