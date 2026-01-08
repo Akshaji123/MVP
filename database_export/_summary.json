@@ -1,4 +1,6 @@
 {
+  "exported_at": "2026-01-08T13:36:56.784388+00:00",
+  "database": "test_database",
   "collections": {
     "resumes": 11,
     "applications": 3,
@@ -10,5 +12,6 @@
     "user_streaks": 2,
     "gamification_achievements": 11,
     "users": 13
-  }
+  },
+  "total_documents": 56
 }
