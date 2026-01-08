@@ -99,6 +99,18 @@ class BackendTester:
             self.log_result("Recruiter Login", False, error=error)
             return False
         
+        # Test candidate login
+        response = self.make_request("POST", "/auth/login", TEST_CANDIDATE)
+        if response and response.status_code == 200:
+            data = response.json()
+            self.candidate_token = data.get("access_token")
+            self.candidate_user = data.get("user")
+            self.log_result("Candidate Login", True, f"User ID: {self.candidate_user.get('id')}")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Candidate Login", False, error=error)
+            # Don't fail if candidate login fails, as it's not critical for most tests
+        
         return True
     
     def test_commission_calculation(self):
