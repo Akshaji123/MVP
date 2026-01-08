@@ -373,7 +373,7 @@ class BackendTester:
             # Test BGV check update
             check_data = {
                 "check_type": "identity",
-                "status": "verified",
+                "new_status": "verified",
                 "verification_data": {
                     "document_type": "aadhaar",
                     "document_number": "XXXX-XXXX-1234",
