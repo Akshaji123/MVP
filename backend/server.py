@@ -374,6 +374,13 @@ Respond ONLY with valid JSON."""
 
 @api_router.post("/auth/register", response_model=TokenResponse)
 async def register(user: UserCreate):
+    # Check domain restrictions
+    if not await check_domain_allowed(user.email):
+        raise HTTPException(
+            status_code=403, 
+            detail="Registration not allowed for this email domain. Please contact administrator."
+        )
+    
     # Check if user exists
     existing = await db.users.find_one({"email": user.email}, {"_id": 0, "id": 1})
     if existing:
