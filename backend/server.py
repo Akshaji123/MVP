@@ -1609,6 +1609,127 @@ async def get_automation_rules(limit: int = 100, current_user: dict = Depends(ge
 
 # ============= BACKUP & EXPORT ENDPOINTS =============
 
+@api_router.get("/admin/database/status")
+async def get_database_status(current_user: dict = Depends(get_current_user)):
+    """Get database connection status and statistics"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    try:
+        # Get collection stats
+        collections = await db.list_collection_names()
+        collection_stats = {}
+        total_documents = 0
+        
+        for col_name in collections:
+            count = await db[col_name].count_documents({})
+            collection_stats[col_name] = count
+            total_documents += count
+        
+        return {
+            "status": "connected",
+            "database": os.environ.get('DB_NAME', 'test_database'),
+            "collections_count": len(collections),
+            "total_documents": total_documents,
+            "collections": collection_stats,
+            "export_location": "/app/database_export/",
+            "checked_at": datetime.now(timezone.utc).isoformat()
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "checked_at": datetime.now(timezone.utc).isoformat()
+        }
+
+@api_router.post("/admin/database/export")
+async def export_database_to_json(current_user: dict = Depends(get_current_user)):
+    """Export all collections to JSON files"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    import json as json_module
+    export_dir = "/app/database_export"
+    os.makedirs(export_dir, exist_ok=True)
+    
+    collections = await db.list_collection_names()
+    results = {}
+    
+    for col_name in collections:
+        documents = await db[col_name].find({}).to_list(10000)
+        
+        # Convert ObjectId to string
+        for doc in documents:
+            if '_id' in doc:
+                doc['_id'] = str(doc['_id'])
+        
+        filepath = os.path.join(export_dir, f"{col_name}.json")
+        with open(filepath, 'w') as f:
+            json_module.dump(documents, f, indent=2, default=str)
+        
+        results[col_name] = len(documents)
+    
+    # Save summary
+    summary = {
+        "exported_at": datetime.now(timezone.utc).isoformat(),
+        "database": os.environ.get('DB_NAME', 'test_database'),
+        "collections": results,
+        "total_documents": sum(results.values())
+    }
+    
+    with open(os.path.join(export_dir, "_summary.json"), 'w') as f:
+        json_module.dump(summary, f, indent=2)
+    
+    return {
+        "message": "Database exported successfully",
+        "export_path": export_dir,
+        "collections_exported": len(results),
+        "total_documents": sum(results.values()),
+        "exported_at": summary["exported_at"]
+    }
+
+@api_router.get("/admin/database/collections")
+async def list_database_collections(current_user: dict = Depends(get_current_user)):
+    """List all database collections with document counts"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    collections = await db.list_collection_names()
+    result = []
+    
+    for col_name in sorted(collections):
+        count = await db[col_name].count_documents({})
+        result.append({
+            "name": col_name,
+            "document_count": count
+        })
+    
+    return result
+
+@api_router.get("/admin/database/collection/{collection_name}")
+async def query_collection(
+    collection_name: str,
+    limit: int = 50,
+    current_user: dict = Depends(get_current_user)
+):
+    """Query documents from a specific collection"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    collections = await db.list_collection_names()
+    if collection_name not in collections:
+        raise HTTPException(status_code=404, detail=f"Collection '{collection_name}' not found")
+    
+    documents = await db[collection_name].find({}, {"_id": 0}).limit(limit).to_list(limit)
+    total = await db[collection_name].count_documents({})
+    
+    return {
+        "collection": collection_name,
+        "total_documents": total,
+        "returned": len(documents),
+        "documents": documents
+    }
+
 @api_router.post("/admin/backup")
 async def create_backup(current_user: dict = Depends(get_current_user)):
     """Create full database backup"""
