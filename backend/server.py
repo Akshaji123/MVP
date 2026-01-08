@@ -207,6 +207,61 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         raise HTTPException(status_code=401, detail="User not found")
     return user
 
+
+async def check_domain_allowed(email: str) -> bool:
+    """Check if email domain is allowed based on admin settings"""
+    # Get domain restrictions from database
+    settings = await db.platform_settings.find_one({"key": "domain_restrictions"}, {"_id": 0})
+    
+    if not settings or not settings.get("enabled", False):
+        # No restrictions - allow all domains
+        return True
+    
+    allowed_domains = settings.get("allowed_domains", [])
+    if not allowed_domains:
+        return True
+    
+    email_domain = email.split('@')[1].lower()
+    return email_domain in [d.lower() for d in allowed_domains]
+
+async def get_current_user_flexible(request: Request):
+    """Get current user from either cookie or Authorization header"""
+    # REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
+    
+    # Try cookie first (for Gmail OAuth)
+    session_token = request.cookies.get("session_token")
+    
+    if session_token:
+        # Validate session token
+        session = await db.user_sessions.find_one({"session_token": session_token}, {"_id": 0})
+        if session:
+            expires_at = session["expires_at"]
+            if isinstance(expires_at, str):
+                expires_at = datetime.fromisoformat(expires_at)
+            if expires_at.tzinfo is None:
+                expires_at = expires_at.replace(tzinfo=timezone.utc)
+            
+            if expires_at < datetime.now(timezone.utc):
+                raise HTTPException(status_code=401, detail="Session expired")
+            
+            user = await db.users.find_one({"user_id": session["user_id"]}, {"_id": 0, "password": 0})
+            if user:
+                return user
+    
+    # Try Authorization header (for JWT)
+    auth_header = request.headers.get("Authorization")
+    if auth_header and auth_header.startswith("Bearer "):
+        token = auth_header.split(" ")[1]
+        try:
+            payload = decode_token(token)
+            user = await db.users.find_one({"id": payload["user_id"]}, {"_id": 0, "password": 0})
+            if user:
+                return user
+        except:
+            pass
+    
+    raise HTTPException(status_code=401, detail="Not authenticated")
+
 async def parse_resume_with_ai(file_content: bytes, file_name: str) -> Dict[str, Any]:
     """Parse resume using GPT-4o via emergentintegrations"""
     try:
