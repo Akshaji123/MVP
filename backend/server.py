@@ -1121,6 +1121,15 @@ async def generate_invoice(
     company = await db.users.find_one({"id": tracking["company_id"]}, {"_id": 0})
     application = await db.applications.find_one({"id": tracking["application_id"]}, {"_id": 0})
     
+    # Get company's currency preference
+    currency = company.get("currency_preference", "INR")
+    currency_symbol = "₹" if currency == "INR" else "$"
+    
+    # Convert amount if needed
+    if currency == "USD":
+        # Convert INR to USD (1 INR = 0.012 USD approximately)
+        amount = amount * 0.012
+    
     invoice_id = str(uuid.uuid4())
     invoice_number = f"INV-{datetime.now().strftime('%Y%m')}-{str(uuid.uuid4())[:8].upper()}"
     
@@ -1139,7 +1148,8 @@ async def generate_invoice(
         "amount": amount,
         "tax_amount": tax_amount,
         "total_amount": total_amount,
-        "currency": "INR",
+        "currency": currency,
+        "currency_symbol": currency_symbol,
         "issue_date": datetime.now().strftime("%Y-%m-%d"),
         "due_date": (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d"),
         "status": "sent",
@@ -1170,7 +1180,7 @@ async def generate_invoice(
         {"$set": {"invoice_generated": True}}
     )
     
-    return {"message": "Invoice generated", "invoice_id": invoice_id, "invoice_number": invoice_number}
+    return {"message": "Invoice generated", "invoice_id": invoice_id, "invoice_number": invoice_number, "currency": currency}
 
 @api_router.get("/invoices")
 async def get_invoices(
