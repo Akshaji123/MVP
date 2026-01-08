@@ -31,6 +31,9 @@ from services.matching_service import CandidateMatcher, create_candidate_matcher
 from services.pipeline_service import ApplicationPipeline, ApplicationStatus, create_application_pipeline
 from services.audit_service import AuditLogger, AuditAction, create_audit_logger
 from services.bgv_service import BGVService, BGVType, BGVStatus, create_bgv_service
+from services.whatsapp_service import whatsapp_service, NotificationType
+from services.jd_generator_service import jd_generator
+from services.cache_service import cache_manager, cached, CacheKeys, InMemoryCache
 
 # Import routers
 from routers.companies import get_company_router
