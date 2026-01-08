@@ -1,0 +1,170 @@
+{
+  "design_system": {
+    "identity": {
+      "name": "E1_Anti_AI",
+      "core_philosophy": "Fusion over Imitation. Emotion First. Content is King.",
+      "anti_patterns": [
+        "Purple/Teal for CTA",
+        "Inter font for headings",
+        "Centered layouts everywhere",
+        "Gradient overload (>20%)",
+        "Generic 'AI' brain/node visualizations"
+      ]
+    },
+    "theme": {
+      "mode": "light",
+      "strategy": "Swiss & High-Contrast with Electric Accents",
+      "rationale": "B2B Recruitment requires clarity (Swiss) but 'Next-Gen' implies energy (Electric). Light mode builds trust; electric accents drive gamification."
+    },
+    "typography": {
+      "font_family": {
+        "headings": "Outfit, sans-serif",
+        "body": "Satoshi, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "usage_rules": {
+        "headings": "Tight tracking (tracking-tight). Bold or Black weights. Never Inter.",
+        "body": "Relaxed leading (leading-relaxed). High legibility.",
+        "overline": "Uppercase, wide spacing (tracking-widest), tiny size."
+      },
+      "scale": {
+        "h1": "text-5xl md:text-7xl font-bold tracking-tighter",
+        "h2": "text-4xl md:text-5xl font-bold tracking-tight",
+        "h3": "text-2xl md:text-3xl font-semibold tracking-tight",
+        "body_lg": "text-lg leading-relaxed",
+        "body_base": "text-base leading-relaxed text-slate-600",
+        "caption": "text-xs font-medium uppercase tracking-widest text-slate-400"
+      }
+    },
+    "colors": {
+      "palette": {
+        "primary": {
+          "name": "Deep Indigo",
+          "hex": "#4338ca",
+          "tailwind": "indigo-700",
+          "usage": "Primary Actions, Brand Identity"
+        },
+        "secondary": {
+          "name": "Electric Lime",
+          "hex": "#a3e635",
+          "tailwind": "lime-400",
+          "usage": "Gamification Badges, Success States, High-Energy Accents"
+        },
+        "background": {
+          "default": "#ffffff",
+          "subtle": "#f8fafc",
+          "dark": "#0f172a"
+        },
+        "text": {
+          "primary": "#0f172a",
+          "secondary": "#475569",
+          "muted": "#94a3b8"
+        },
+        "border": {
+          "default": "#e2e8f0",
+          "active": "#cbd5e1"
+        }
+      },
+      "rules": [
+        "No generic full-screen gradients.",
+        "Use 'Tinted Grey' (slate/zinc) instead of pure grey.",
+        "Text on colored backgrounds must meet APCA contrast.",
+        "Hover states must explicitly set text color."
+      ]
+    },
+    "layout": {
+      "spacing_system": {
+        "base": "Generous. 2-3x standard.",
+        "scale": ["p-4", "p-8", "p-12", "p-16", "p-24", "p-32"],
+        "container_padding": "p-6 or p-8 for bordered containers."
+      },
+      "grids": {
+        "marketing": {
+          "name": "The Tetris Grid",
+          "cols": "grid-cols-1 md:grid-cols-12",
+          "gap": "gap-8 md:gap-12",
+          "rules": "Asymmetry. Mix 'Hero' (col-span-8), 'Tall' (row-span-2), and 'Filler' (col-span-2)."
+        },
+        "dashboard": {
+          "name": "The Control Room",
+          "cols": "grid-cols-1 md:grid-cols-4",
+          "gap": "gap-4",
+          "rules": "Density. 100% utilization. No jagged bottoms."
+        }
+      },
+      "alignment": {
+        "default": "Left-aligned text.",
+        "headings": "Left-aligned (unless specific hierarchy demands center).",
+        "mobile": "Single column (grid-cols-1)."
+      }
+    },
+    "components": {
+      "strategy": {
+        "marketing": "Custom HTML + Tailwind. Raw divs. No rigid components.",
+        "dashboard": "Shadcn UI (customized). Dense, functional.",
+        "interactive": "Shadcn for logic (Forms, Dialogs, Popovers)."
+      },
+      "styling": {
+        "radius": "rounded-lg (0.5rem) or rounded-xl (0.75rem)",
+        "shadows": "shadow-sm for cards, shadow-xl for floating elements.",
+        "borders": "1px solid border-slate-200. Active: border-indigo-500."
+      },
+      "specifics": {
+        "buttons": "Pill-shaped or sharp. Micro-interactions on hover (scale-105).",
+        "cards": "Flat, bordered. Hover: lift (-translate-y-1) + shadow-md.",
+        "inputs": "Shadcn Input. Focus: ring-2 ring-indigo-100 border-indigo-500."
+      }
+    },
+    "visual_enhancers": {
+      "textures": "Subtle noise/grain on solid backgrounds to kill digital flatness.",
+      "glassmorphism": "Backdrop-blur-xl + white/70 + 1px white/40 border. Use for sticky navs.",
+      "motion": {
+        "library": "Framer Motion",
+        "types": [
+          "Hover: scale, color shift",
+          "Entrance: Staggered fade-up",
+          "Transition: Smooth layout changes (layout prop)"
+        ],
+        "rules": "Respect prefers-reduced-motion. No 'transition: all'."
+      }
+    },
+    "assets": {
+      "icons": {
+        "library": "Phosphor Icons (@phosphor-icons/react)",
+        "style": "Duotone or Regular",
+        "rationale": "Professional, consistent, high-quality."
+      },
+      "images": {
+        "style": "Authentic, candid, high-resolution.",
+        "subjects": "Diverse teams, modern offices, abstract architectural forms (for AI).",
+        "rules": "No generic stock photos. Use 'image selector' tool."
+      }
+    },
+    "accessibility": {
+      "contrast": "APCA preferred. WCAG AA minimum.",
+      "testing": "data-testid on all interactive elements.",
+      "focus": "Visible focus rings (ring-2 ring-offset-2)."
+    }
+  },
+  "implementation_plan": {
+    "phase_1": "Setup & Config (Tailwind, Fonts, Utils)",
+    "phase_2": "Core Components (Buttons, Inputs, Cards, Layouts)",
+    "phase_3": "Pages (Landing, Auth, Dashboards)",
+    "phase_4": "Polish (Animations, Textures, Responsive Check)"
+  },
+  "universal_guidelines": [
+    "Avoid 'AI slop' (generic centered layouts, gradients).",
+    "Create depth with z-index and layered elements.",
+    "Micro-animations for every interaction.",
+    "Use named exports for components, default for pages.",
+    "Use Sonner for toasts.",
+    "Do not use 'Inter' for headings."
+  ],
+  "image_urls": {
+    "hero_background": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80",
+    "team_meeting": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80",
+    "recruiter_working": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80",
+    "abstract_ai": "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80",
+    "office_space": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80"
+  }
+}
