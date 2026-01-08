@@ -441,8 +441,10 @@ class BackendTester:
         # Test notifications
         response = self.make_request("GET", "/notifications", token=self.recruiter_token)
         if response and response.status_code == 200:
-            notifications = response.json()
-            self.log_result("User Notifications", True, f"Found {len(notifications)} notifications")
+            data = response.json()
+            notifications = data.get("notifications", [])
+            unread_count = data.get("unread_count", 0)
+            self.log_result("User Notifications", True, f"Found {len(notifications)} notifications, {unread_count} unread")
             
             if notifications and len(notifications) > 0:
                 # Test marking notification as read
