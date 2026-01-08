@@ -2511,7 +2511,22 @@ async def get_job_analytics(
     }
 
 
+# Include main API router
 app.include_router(api_router)
+
+# Initialize and include new modular routers
+companies_router = get_company_router(db, get_current_user)
+candidates_router = get_candidate_router(db, get_current_user)
+interviews_router = get_interview_router(db, get_current_user)
+financial_router = get_financial_router(db, get_current_user, commission_calculator)
+communication_router = get_communication_router(db, get_current_user)
+
+# Include all new routers with /api prefix
+app.include_router(companies_router, prefix="/api")
+app.include_router(candidates_router, prefix="/api")
+app.include_router(interviews_router, prefix="/api")
+app.include_router(financial_router, prefix="/api")
+app.include_router(communication_router, prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
