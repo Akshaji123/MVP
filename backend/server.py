@@ -2619,7 +2619,7 @@ async def generate_job_description(
     )
     
     # Log the generation
-    await audit_logger.log_action(
+    await audit_logger.log(
         user_id=current_user["id"],
         action=AuditAction.CREATE,
         resource_type="jd_generation",
