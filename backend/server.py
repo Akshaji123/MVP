@@ -689,6 +689,39 @@ async def get_users(role: Optional[str] = None, limit: int = 100, current_user: 
     users = await db.users.find(query, {"_id": 0, "password": 0}).limit(limit).to_list(limit)
     return [UserResponse(**u) for u in users]
 
+@api_router.patch("/users/{user_id}/currency")
+async def update_currency_preference(
+    user_id: str,
+    currency: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Update user currency preference"""
+    if current_user["id"] != user_id and current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    if currency not in ["INR", "USD"]:
+        raise HTTPException(status_code=400, detail="Currency must be INR or USD")
+    
+    await db.users.update_one(
+        {"id": user_id},
+        {"$set": {"currency_preference": currency}}
+    )
+    
+    return {"message": "Currency preference updated", "currency": currency}
+
+@api_router.get("/settings/currency-rates")
+async def get_currency_rates():
+    """Get current currency exchange rates"""
+    # In production, fetch from exchange rate API
+    return {
+        "base": "INR",
+        "rates": {
+            "USD": 0.012,  # 1 INR = 0.012 USD
+            "INR": 1.0
+        },
+        "updated_at": datetime.now().isoformat()
+    }
+
 
 # ============= DOCUMENT MANAGEMENT ENDPOINTS =============
 
