@@ -30,16 +30,36 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
+# Initialize enterprise utilities
+invoice_generator = InvoiceGenerator()
+backup_manager = BackupManager()
+code_exporter = CodeExporter()
+
 # JWT Configuration
 JWT_SECRET = os.environ.get('JWT_SECRET', 'your-secret-key-change-in-production')
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 720
+
+# File upload configuration
+UPLOAD_DIR = "/app/uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # Security
 security = HTTPBearer()
 
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
+
+# ATS Stage definitions
+ATS_STAGES = [
+    {"id": "applied", "name": "Applied", "order": 1, "color": "#94a3b8"},
+    {"id": "screening", "name": "Screening", "order": 2, "color": "#60a5fa"},
+    {"id": "interview", "name": "Interview", "order": 3, "color": "#a78bfa"},
+    {"id": "assessment", "name": "Assessment", "order": 4, "color": "#f59e0b"},
+    {"id": "offer", "name": "Offer", "order": 5, "color": "#10b981"},
+    {"id": "hired", "name": "Hired", "order": 6, "color": "#22c55e"},
+    {"id": "rejected", "name": "Rejected", "order": 7, "color": "#ef4444"},
+]
 
 # ============= Models =============
 
