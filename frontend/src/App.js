@@ -9,6 +9,7 @@ import RecruiterDashboard from './pages/RecruiterDashboard';
 import CandidateDashboard from './pages/CandidateDashboard';
 import JobDetails from './pages/JobDetails';
 import Leaderboard from './pages/Leaderboard';
+import EnterpriseAdmin from './pages/EnterpriseAdmin';
 import './App.css';
 
 function App() {
@@ -76,6 +77,11 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/leaderboard" element={<Leaderboard user={user} onLogout={handleLogout} />} />
+          <Route path="/enterprise-admin" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <EnterpriseAdmin user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          } />
         </Routes>
       </BrowserRouter>
       <Toaster position="top-right" expand={true} richColors />
