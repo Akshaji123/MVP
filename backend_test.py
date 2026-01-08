@@ -179,6 +179,8 @@ class BackendTester:
             self.log_result("Matching Tests", False, error="No admin token available")
             return
         
+        job_id = None  # Initialize job_id
+        
         # First, create a test job
         job_data = {
             "title": "Senior Python Developer",
