@@ -66,18 +66,20 @@ class InvoiceGenerator:
         
         # Line Items
         items_data = [['Description', 'Quantity', 'Rate', 'Amount']]
+        currency_symbol = invoice_data.get('currency_symbol', invoice_data['currency'])
+        
         for item in invoice_data['items']:
             items_data.append([
                 item['description'],
                 str(item['quantity']),
-                f"{invoice_data['currency']} {item['rate']:.2f}",
-                f"{invoice_data['currency']} {item['amount']:.2f}"
+                f"{currency_symbol} {item['rate']:.2f}",
+                f"{currency_symbol} {item['amount']:.2f}"
             ])
         
         # Add totals
-        items_data.append(['', '', 'Subtotal:', f"{invoice_data['currency']} {invoice_data['amount']:.2f}"])
-        items_data.append(['', '', 'Tax:', f"{invoice_data['currency']} {invoice_data['tax_amount']:.2f}"])
-        items_data.append(['', '', 'Total:', f"{invoice_data['currency']} {invoice_data['total_amount']:.2f}"])
+        items_data.append(['', '', 'Subtotal:', f"{currency_symbol} {invoice_data['amount']:.2f}"])
+        items_data.append(['', '', 'Tax:', f"{currency_symbol} {invoice_data['tax_amount']:.2f}"])
+        items_data.append(['', '', 'Total:', f"{currency_symbol} {invoice_data['total_amount']:.2f}"])
         
         items_table = Table(items_data, colWidths=[3*inch, 1*inch, 1.5*inch, 1.5*inch])
         items_table.setStyle(TableStyle([
