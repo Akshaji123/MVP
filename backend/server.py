@@ -78,6 +78,7 @@ class UserLogin(BaseModel):
 class UserResponse(UserBase):
     id: str
     created_at: str
+    currency_preference: Optional[str] = "INR"
 
 class TokenResponse(BaseModel):
     access_token: str
