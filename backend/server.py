@@ -630,7 +630,7 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
     return stats
 
 @api_router.get("/users", response_model=List[UserResponse])
-async def get_users(role: Optional[str] = None, current_user: dict = Depends(get_current_user)):
+async def get_users(role: Optional[str] = None, limit: int = 100, current_user: dict = Depends(get_current_user)):
     if current_user["role"] != "admin":
         raise HTTPException(status_code=403, detail="Admin access required")
     
@@ -638,7 +638,7 @@ async def get_users(role: Optional[str] = None, current_user: dict = Depends(get
     if role:
         query["role"] = role
     
-    users = await db.users.find(query, {"_id": 0, "password": 0}).to_list(1000)
+    users = await db.users.find(query, {"_id": 0, "password": 0}).limit(limit).to_list(limit)
     return [UserResponse(**u) for u in users]
 
 app.include_router(api_router)
