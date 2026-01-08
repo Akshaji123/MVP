@@ -32,6 +32,13 @@ from services.pipeline_service import ApplicationPipeline, ApplicationStatus, cr
 from services.audit_service import AuditLogger, AuditAction, create_audit_logger
 from services.bgv_service import BGVService, BGVType, BGVStatus, create_bgv_service
 
+# Import routers
+from routers.companies import get_company_router
+from routers.candidates import get_candidate_router
+from routers.interviews import get_interview_router
+from routers.financial import get_financial_router
+from routers.communication import get_communication_router
+
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
