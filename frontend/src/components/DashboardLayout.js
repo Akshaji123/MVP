@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Briefcase, LayoutDashboard, Users, Award, LogOut, Menu, Settings, Shield } from 'lucide-react';
+import { Briefcase, LayoutDashboard, Users, Award, LogOut, Menu, Settings, Shield, Trophy } from 'lucide-react';
 import { useState } from 'react';
 
 const DashboardLayout = ({ user, onLogout, children }) => {
@@ -11,6 +11,7 @@ const DashboardLayout = ({ user, onLogout, children }) => {
   const navigation = [
     { name: 'Dashboard', path: '/', icon: <LayoutDashboard className="w-5 h-5" /> },
     { name: 'Leaderboard', path: '/leaderboard', icon: <Award className="w-5 h-5" /> },
+    { name: 'Gamification', path: '/gamification', icon: <Trophy className="w-5 h-5" /> },
   ];
 
   // Add Enterprise Admin for admin users
