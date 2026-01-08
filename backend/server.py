@@ -489,20 +489,20 @@ async def create_application(app: ApplicationCreate, current_user: dict = Depend
     return ApplicationResponse(**{k: v for k, v in app_doc.items() if k not in ["_id", "score_details"]})
 
 @api_router.get("/applications", response_model=List[ApplicationResponse])
-async def get_applications(job_id: Optional[str] = None, current_user: dict = Depends(get_current_user)):
+async def get_applications(job_id: Optional[str] = None, limit: int = 100, current_user: dict = Depends(get_current_user)):
     query = {}
     
     if current_user["role"] == "candidate":
         query["candidate_id"] = current_user["id"]
     elif current_user["role"] == "company":
-        jobs = await db.jobs.find({"company_id": current_user["id"]}, {"_id": 0, "id": 1}).to_list(1000)
+        jobs = await db.jobs.find({"company_id": current_user["id"]}, {"_id": 0, "id": 1}).limit(1000).to_list(1000)
         job_ids = [j["id"] for j in jobs]
         query["job_id"] = {"$in": job_ids}
     
     if job_id:
         query["job_id"] = job_id
     
-    applications = await db.applications.find(query, {"_id": 0}).sort("match_score", -1).to_list(1000)
+    applications = await db.applications.find(query, {"_id": 0}).sort("match_score", -1).limit(limit).to_list(limit)
     return [ApplicationResponse(**{k: v for k, v in app.items() if k != "score_details"}) for app in applications]
 
 @api_router.patch("/applications/{app_id}/status")
