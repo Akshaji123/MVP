@@ -786,6 +786,192 @@ async def get_currency_rates():
 
 # ============= DOCUMENT MANAGEMENT ENDPOINTS =============
 
+# ============= GMAIL OAUTH AUTHENTICATION =============
+
+@api_router.post("/auth/gmail-session")
+async def process_gmail_session(
+    response: Response,
+    x_session_id: str = Header(None, alias="X-Session-ID")
+):
+    """Process Gmail OAuth session_id and create user session"""
+    # REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
+    
+    if not x_session_id:
+        raise HTTPException(status_code=400, detail="Session ID required")
+    
+    try:
+        # Get user data from Emergent Auth
+        async with httpx.AsyncClient() as client:
+            auth_response = await client.get(
+                EMERGENT_AUTH_URL,
+                headers={"X-Session-ID": x_session_id}
+            )
+            auth_response.raise_for_status()
+            user_data = auth_response.json()
+        
+        email = user_data["email"]
+        
+        # Check domain restrictions
+        if not await check_domain_allowed(email):
+            raise HTTPException(status_code=403, detail="Domain not allowed for registration")
+        
+        # Check if user exists
+        user = await db.users.find_one({"email": email}, {"_id": 0})
+        
+        if not user:
+            # Create new user with Gmail OAuth
+            user_id = f"user_{uuid.uuid4().hex[:12]}"
+            user = {
+                "user_id": user_id,
+                "id": user_id,  # For compatibility with existing system
+                "email": email,
+                "full_name": user_data["name"],
+                "picture": user_data.get("picture"),
+                "role": "candidate",  # Default role
+                "currency_preference": "INR",
+                "auth_provider": "gmail",
+                "created_at": datetime.now(timezone.utc).isoformat()
+            }
+            await db.users.insert_one(user)
+        else:
+            # Update existing user info
+            user_id = user.get("user_id") or user.get("id")
+            await db.users.update_one(
+                {"email": email},
+                {"$set": {
+                    "full_name": user_data["name"],
+                    "picture": user_data.get("picture"),
+                    "auth_provider": "gmail"
+                }}
+            )
+        
+        # Create session
+        session_token = user_data["session_token"]
+        expires_at = datetime.now(timezone.utc) + timedelta(days=7)
+        
+        await db.user_sessions.insert_one({
+            "user_id": user_id,
+            "session_token": session_token,
+            "expires_at": expires_at,
+            "created_at": datetime.now(timezone.utc)
+        })
+        
+        # Set httpOnly cookie
+        response.set_cookie(
+            key="session_token",
+            value=session_token,
+            httponly=True,
+            secure=True,
+            samesite="none",
+            path="/",
+            max_age=7 * 24 * 60 * 60  # 7 days
+        )
+        
+        # Get fresh user data
+        user_doc = await db.users.find_one({"email": email}, {"_id": 0, "password": 0})
+        
+        return {"message": "Authentication successful", "user": user_doc}
+        
+    except httpx.HTTPError as e:
+        logging.error(f"Gmail OAuth error: {str(e)}")
+        raise HTTPException(status_code=400, detail="Invalid session ID")
+    except Exception as e:
+        logging.error(f"Session processing error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Authentication failed")
+
+@api_router.get("/auth/me-flexible")
+async def get_current_user_info(request: Request):
+    """Get current user from cookie or header"""
+    user = await get_current_user_flexible(request)
+    return user
+
+@api_router.post("/auth/logout")
+async def logout(response: Response, request: Request):
+    """Logout user and clear session"""
+    session_token = request.cookies.get("session_token")
+    
+    if session_token:
+        # Delete session from database
+        await db.user_sessions.delete_one({"session_token": session_token})
+    
+    # Clear cookie
+    response.delete_cookie(key="session_token", path="/")
+    
+    return {"message": "Logged out successfully"}
+
+# ============= DOMAIN-BASED ACCESS CONTROL =============
+
+@api_router.get("/admin/domain-settings")
+async def get_domain_settings(current_user: dict = Depends(get_current_user)):
+    """Get domain restriction settings"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    settings = await db.platform_settings.find_one({"key": "domain_restrictions"}, {"_id": 0})
+    if not settings:
+        settings = {
+            "key": "domain_restrictions",
+            "enabled": False,
+            "allowed_domains": []
+        }
+    
+    return settings
+
+@api_router.post("/admin/domain-settings")
+async def update_domain_settings(
+    enabled: bool,
+    allowed_domains: List[str],
+    current_user: dict = Depends(get_current_user)
+):
+    """Update domain restriction settings"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    await db.platform_settings.update_one(
+        {"key": "domain_restrictions"},
+        {"$set": {
+            "key": "domain_restrictions",
+            "enabled": enabled,
+            "allowed_domains": [d.strip().lower() for d in allowed_domains if d.strip()],
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_by": current_user["id"]
+        }},
+        upsert=True
+    )
+    
+    return {"message": "Domain settings updated successfully"}
+
+# ============= EMAIL AUTOMATION ENDPOINTS =============
+
+@api_router.get("/admin/emails/sent")
+async def get_sent_emails(limit: int = 50, current_user: dict = Depends(get_current_user)):
+    """Get list of sent emails (testing mode)"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    emails = email_service.get_sent_emails(limit)
+    return {"emails": emails, "total": len(email_service.sent_emails)}
+
+@api_router.post("/emails/test-send")
+async def test_send_email(
+    recipient_email: str,
+    subject: str,
+    content: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Test email sending"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    result = await email_service.send_email(
+        to_email=recipient_email,
+        subject=subject,
+        html_content=content
+    )
+    
+    return {"message": "Email logged successfully", "email_id": result["id"]}
+
+
 @api_router.post("/documents/upload")
 async def upload_document(
     file: UploadFile = File(...),
