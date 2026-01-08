@@ -170,7 +170,7 @@ def decode_token(token: str) -> dict:
 async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
     payload = decode_token(token)
-    user = await db.users.find_one({"id": payload["user_id"]}, {"_id": 0})
+    user = await db.users.find_one({"id": payload["user_id"]}, {"_id": 0, "password": 0})
     if not user:
         raise HTTPException(status_code=401, detail="User not found")
     return user
@@ -288,7 +288,7 @@ Respond ONLY with valid JSON."""
 @api_router.post("/auth/register", response_model=TokenResponse)
 async def register(user: UserCreate):
     # Check if user exists
-    existing = await db.users.find_one({"email": user.email}, {"_id": 0})
+    existing = await db.users.find_one({"email": user.email}, {"_id": 0, "id": 1})
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
     
@@ -495,7 +495,13 @@ async def get_applications(job_id: Optional[str] = None, limit: int = 100, curre
     if current_user["role"] == "candidate":
         query["candidate_id"] = current_user["id"]
     elif current_user["role"] == "company":
-        jobs = await db.jobs.find({"company_id": current_user["id"]}, {"_id": 0, "id": 1}).limit(1000).to_list(1000)
+        # Use aggregation to efficiently get applications for company's jobs
+        pipeline = [
+            {"$match": {"company_id": current_user["id"]}},
+            {"$project": {"id": 1, "_id": 0}},
+            {"$limit": limit}
+        ]
+        jobs = await db.jobs.aggregate(pipeline).to_list(limit)
         job_ids = [j["id"] for j in jobs]
         query["job_id"] = {"$in": job_ids}
     
@@ -615,14 +621,29 @@ async def get_dashboard_stats(current_user: dict = Depends(get_current_user)):
         stats.total_jobs = await db.jobs.count_documents({"company_id": current_user["id"]})
         stats.active_jobs = await db.jobs.count_documents({"company_id": current_user["id"], "status": "active"})
         
-        jobs = await db.jobs.find({"company_id": current_user["id"]}, {"_id": 0, "id": 1}).to_list(1000)
-        job_ids = [j["id"] for j in jobs]
+        # Use aggregation to count applications across all company jobs
+        pipeline = [
+            {"$match": {"company_id": current_user["id"]}},
+            {"$lookup": {
+                "from": "applications",
+                "localField": "id",
+                "foreignField": "job_id",
+                "as": "apps"
+            }},
+            {"$unwind": {"path": "$apps", "preserveNullAndEmptyArrays": False}},
+            {"$facet": {
+                "total": [{"$count": "count"}],
+                "pending": [
+                    {"$match": {"apps.status": "pending"}},
+                    {"$count": "count"}
+                ]
+            }}
+        ]
         
-        stats.total_applications = await db.applications.count_documents({"job_id": {"$in": job_ids}})
-        stats.pending_applications = await db.applications.count_documents({
-            "job_id": {"$in": job_ids},
-            "status": "pending"
-        })
+        result = await db.jobs.aggregate(pipeline).to_list(1)
+        if result:
+            stats.total_applications = result[0]["total"][0]["count"] if result[0]["total"] else 0
+            stats.pending_applications = result[0]["pending"][0]["count"] if result[0]["pending"] else 0
     elif current_user["role"] == "candidate":
         stats.total_applications = await db.applications.count_documents({"candidate_id": current_user["id"]})
         stats.active_jobs = await db.jobs.count_documents({"status": "active"})
