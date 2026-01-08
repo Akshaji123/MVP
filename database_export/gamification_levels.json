@@ -1,0 +1,47 @@
+[
+  {
+    "_id": "695fa0c33efd0a642d1c27c5",
+    "id": "level1",
+    "name": "Referral Associate",
+    "min_referrals": 0,
+    "commission_rate": 0.05,
+    "color": "#B87333",
+    "icon": "level1_icon"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27c6",
+    "id": "level2",
+    "name": "Referral Specialist",
+    "min_referrals": 5,
+    "commission_rate": 0.075,
+    "color": "#C0C0C0",
+    "icon": "level2_icon"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27c7",
+    "id": "level3",
+    "name": "Referral Expert",
+    "min_referrals": 10,
+    "commission_rate": 0.1,
+    "color": "#FFD700",
+    "icon": "level3_icon"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27c8",
+    "id": "level4",
+    "name": "Referral Master",
+    "min_referrals": 25,
+    "commission_rate": 0.125,
+    "color": "#E5E4E2",
+    "icon": "level4_icon"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27c9",
+    "id": "level5",
+    "name": "Referral Champion",
+    "min_referrals": 50,
+    "commission_rate": 0.15,
+    "color": "#B9F2FF",
+    "icon": "level5_icon"
+  }
+]

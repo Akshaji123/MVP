@@ -1,0 +1,56 @@
+[
+  {
+    "_id": "695f9a79ffc71c9ca68f2516",
+    "id": "d87d32a4-eb1b-4157-89a0-91b6a6c9c58d",
+    "job_id": "7f73ff11-14ee-4d28-8d19-b482e4749d6c",
+    "job_title": "Senior Full Stack Developer",
+    "candidate_id": "18797930-3030-4a8e-bdd9-9e1abb5b6e21",
+    "candidate_name": "Rohit",
+    "resume_id": "66258898-b00e-4052-a49f-fac2fdf50bfb",
+    "match_score": 50,
+    "score_details": {
+      "match_score": 50,
+      "strengths": [],
+      "gaps": [],
+      "recommendation": "Manual review recommended"
+    },
+    "status": "pending",
+    "created_at": "2026-01-08T11:52:25.609291+00:00"
+  },
+  {
+    "_id": "695f9a7bffc71c9ca68f2517",
+    "id": "bb24a7c8-5124-4617-ba7b-98ac385e65ad",
+    "job_id": "7f73ff11-14ee-4d28-8d19-b482e4749d6c",
+    "job_title": "Senior Full Stack Developer",
+    "candidate_id": "18797930-3030-4a8e-bdd9-9e1abb5b6e21",
+    "candidate_name": "Rohit",
+    "resume_id": "66258898-b00e-4052-a49f-fac2fdf50bfb",
+    "match_score": 50,
+    "score_details": {
+      "match_score": 50,
+      "strengths": [],
+      "gaps": [],
+      "recommendation": "Manual review recommended"
+    },
+    "status": "pending",
+    "created_at": "2026-01-08T11:52:27.985341+00:00"
+  },
+  {
+    "_id": "695f9a7effc71c9ca68f2518",
+    "id": "069c6ce4-8bca-4d65-90a5-108fa6aadccb",
+    "job_id": "7f73ff11-14ee-4d28-8d19-b482e4749d6c",
+    "job_title": "Senior Full Stack Developer",
+    "candidate_id": "18797930-3030-4a8e-bdd9-9e1abb5b6e21",
+    "candidate_name": "Rohit",
+    "resume_id": "66258898-b00e-4052-a49f-fac2fdf50bfb",
+    "match_score": 50,
+    "score_details": {
+      "match_score": 50,
+      "strengths": [],
+      "gaps": [],
+      "recommendation": "Manual review recommended"
+    },
+    "status": "pending",
+    "created_at": "2026-01-08T11:52:30.069653+00:00"
+  }
+]

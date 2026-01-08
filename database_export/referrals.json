@@ -1,0 +1,30 @@
+[
+  {
+    "_id": "695f9b02ffc71c9ca68f251a",
+    "id": "d4810c97-3395-4c00-b80c-7fec837b9efc",
+    "job_id": "7f73ff11-14ee-4d28-8d19-b482e4749d6c",
+    "job_title": "Senior Full Stack Developer",
+    "referrer_id": "b15cbe33-31ec-49ed-8f93-cc49e73239f1",
+    "referrer_name": "Recruiter",
+    "candidate_email": "mvlogistics28@mail.com",
+    "candidate_name": "Anand Pandey",
+    "candidate_phone": "07666775242",
+    "status": "pending",
+    "reward_amount": 5000,
+    "created_at": "2026-01-08T11:54:42.465346+00:00"
+  },
+  {
+    "_id": "695f9b92ffc71c9ca68f251d",
+    "id": "9ef83de8-d366-48b1-a326-f6dbbe137972",
+    "job_id": "ca6574f0-b1ef-47d6-a42b-342c3f9bc928",
+    "job_title": "Job 1",
+    "referrer_id": "b15cbe33-31ec-49ed-8f93-cc49e73239f1",
+    "referrer_name": "Recruiter",
+    "candidate_email": "mvlogistics28@mail.com",
+    "candidate_name": "Anand Pandey",
+    "candidate_phone": "",
+    "status": "pending",
+    "reward_amount": 5000,
+    "created_at": "2026-01-08T11:57:06.657065+00:00"
+  }
+]

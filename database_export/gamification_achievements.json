@@ -1,0 +1,114 @@
+[
+  {
+    "_id": "695fa0c33efd0a642d1c27b5",
+    "id": "first_referral",
+    "name": "First Connection",
+    "description": "Successfully refer your first candidate",
+    "type": "referral",
+    "points": 100,
+    "tier": 1,
+    "icon": "trophy_bronze"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27b6",
+    "id": "referral_5",
+    "name": "Growing Network",
+    "description": "Successfully refer 5 candidates",
+    "type": "referral",
+    "points": 250,
+    "tier": 2,
+    "icon": "trophy_silver"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27b7",
+    "id": "referral_10",
+    "name": "Referral Pro",
+    "description": "Successfully refer 10 candidates",
+    "type": "referral",
+    "points": 500,
+    "tier": 3,
+    "icon": "trophy_gold"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27b8",
+    "id": "referral_25",
+    "name": "Referral Master",
+    "description": "Successfully refer 25 candidates",
+    "type": "referral",
+    "points": 1000,
+    "tier": 4,
+    "icon": "trophy_platinum"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27b9",
+    "id": "first_mentorship",
+    "name": "Mentor Initiate",
+    "description": "Complete your first mentorship session",
+    "type": "mentor",
+    "points": 150,
+    "tier": 1,
+    "icon": "mentor_bronze"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27ba",
+    "id": "first_hire",
+    "name": "First Success",
+    "description": "Your first referral gets hired",
+    "type": "placement",
+    "points": 500,
+    "tier": 2,
+    "icon": "hire_silver"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27bb",
+    "id": "placement_5",
+    "name": "Talent Scout",
+    "description": "5 of your referrals get hired",
+    "type": "placement",
+    "points": 1500,
+    "tier": 3,
+    "icon": "hire_gold"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27bc",
+    "id": "profile_complete",
+    "name": "Identity Established",
+    "description": "Complete your profile with all details",
+    "type": "profile",
+    "points": 50,
+    "tier": 1,
+    "icon": "profile_bronze"
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27bd",
+    "id": "streak_week",
+    "name": "Weekly Streak",
+    "description": "Active for 7 days in a row",
+    "type": "streak",
+    "points": 100,
+    "tier": 1,
+    "icon": "streak_bronze",
+    "renewable": true
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27be",
+    "id": "streak_month",
+    "name": "Monthly Dedication",
+    "description": "Active for 30 days in a row",
+    "type": "streak",
+    "points": 500,
+    "tier": 3,
+    "icon": "streak_gold",
+    "renewable": true
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27bf",
+    "id": "join_milestone",
+    "name": "New Journey",
+    "description": "Join the HiringReferrals platform",
+    "type": "milestone",
+    "points": 25,
+    "tier": 1,
+    "icon": "milestone_bronze"
+  }
+]

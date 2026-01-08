@@ -1,0 +1,14 @@
+{
+  "collections": {
+    "resumes": 11,
+    "applications": 3,
+    "referrals": 2,
+    "user_gamification": 2,
+    "gamification_levels": 5,
+    "jobs": 2,
+    "gamification_tiers": 5,
+    "user_streaks": 2,
+    "gamification_achievements": 11,
+    "users": 13
+  }
+}

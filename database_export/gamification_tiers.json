@@ -1,0 +1,117 @@
+[
+  {
+    "_id": "695fa0c33efd0a642d1c27c0",
+    "id": "tier1",
+    "name": "Bronze",
+    "point_threshold": 0,
+    "rewards": [
+      {
+        "id": "profile_badge_bronze",
+        "name": "Bronze Profile Badge",
+        "type": "badge"
+      }
+    ]
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27c1",
+    "id": "tier2",
+    "name": "Silver",
+    "point_threshold": 1000,
+    "rewards": [
+      {
+        "id": "profile_badge_silver",
+        "name": "Silver Profile Badge",
+        "type": "badge"
+      },
+      {
+        "id": "fee_discount_5",
+        "name": "5% Fee Discount",
+        "type": "discount"
+      }
+    ]
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27c2",
+    "id": "tier3",
+    "name": "Gold",
+    "point_threshold": 3000,
+    "rewards": [
+      {
+        "id": "profile_badge_gold",
+        "name": "Gold Profile Badge",
+        "type": "badge"
+      },
+      {
+        "id": "fee_discount_10",
+        "name": "10% Fee Discount",
+        "type": "discount"
+      },
+      {
+        "id": "priority_support",
+        "name": "Priority Support",
+        "type": "service"
+      }
+    ]
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27c3",
+    "id": "tier4",
+    "name": "Platinum",
+    "point_threshold": 7500,
+    "rewards": [
+      {
+        "id": "profile_badge_platinum",
+        "name": "Platinum Profile Badge",
+        "type": "badge"
+      },
+      {
+        "id": "fee_discount_15",
+        "name": "15% Fee Discount",
+        "type": "discount"
+      },
+      {
+        "id": "priority_support",
+        "name": "Priority Support",
+        "type": "service"
+      },
+      {
+        "id": "early_access",
+        "name": "Early Access to Features",
+        "type": "feature"
+      }
+    ]
+  },
+  {
+    "_id": "695fa0c33efd0a642d1c27c4",
+    "id": "tier5",
+    "name": "Diamond",
+    "point_threshold": 15000,
+    "rewards": [
+      {
+        "id": "profile_badge_diamond",
+        "name": "Diamond Profile Badge",
+        "type": "badge"
+      },
+      {
+        "id": "fee_discount_20",
+        "name": "20% Fee Discount",
+        "type": "discount"
+      },
+      {
+        "id": "priority_support",
+        "name": "Priority Support",
+        "type": "service"
+      },
+      {
+        "id": "early_access",
+        "name": "Early Access to Features",
+        "type": "feature"
+      },
+      {
+        "id": "commission_boost_5",
+        "name": "5% Commission Boost",
+        "type": "boost"
+      }
+    ]
+  }
+]

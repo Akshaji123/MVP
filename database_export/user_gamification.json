@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "695fa0afc91ff0c92b0ed364",
+    "user_id": "6e5466d8-676c-450d-bd36-ca93a806a226",
+    "total_points": 0,
+    "current_tier": "tier1",
+    "current_level": "level1",
+    "created_at": "2026-01-08T12:18:55.827500+00:00"
+  },
+  {
+    "_id": "695fa0f38cbb37f6a9241c6f",
+    "user_id": "18797930-3030-4a8e-bdd9-9e1abb5b6e21",
+    "total_points": 0,
+    "current_tier": "tier1",
+    "current_level": "level1",
+    "created_at": "2026-01-08T12:20:03.168316+00:00"
+  }
+]

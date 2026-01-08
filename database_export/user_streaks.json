@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "695fa0d98cbb37f6a9241c6e",
+    "user_id": "6e5466d8-676c-450d-bd36-ca93a806a226",
+    "current_streak": 1,
+    "max_streak": 1,
+    "last_active_date": "2026-01-08",
+    "streak_freeze_available": false
+  },
+  {
+    "_id": "695fa0f38cbb37f6a9241c70",
+    "user_id": "18797930-3030-4a8e-bdd9-9e1abb5b6e21",
+    "current_streak": 1,
+    "max_streak": 1,
+    "last_active_date": "2026-01-08",
+    "streak_freeze_available": false
+  }
+]

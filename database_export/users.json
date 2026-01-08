@@ -1,0 +1,127 @@
+[
+  {
+    "_id": "695f79ebe004bb81c9641021",
+    "id": "e950e053-78d7-47f3-8d08-0378d0c118dd",
+    "email": "company@techcorp.com",
+    "full_name": "TechCorp Inc",
+    "role": "company",
+    "password": "$2b$12$CLKxfyTxFqZKv/Ky8b9kJeZbin415htdjuCwJ6d4.xYo9SnKYuyqa",
+    "created_at": "2026-01-08T09:33:31.912388+00:00",
+    "currency_preference": "USD"
+  },
+  {
+    "_id": "695f7a02e004bb81c9641023",
+    "id": "f9263d3c-409c-43f5-9c0f-15dc1b717ef1",
+    "email": "recruiter@talent.com",
+    "full_name": "Sarah Recruiter",
+    "role": "recruiter",
+    "password": "$2b$12$Itjc.oJUB7KCIUkRJGW86uy34zpv6Nu1sxDUgb02jtQ.kBsi7Vqv6",
+    "created_at": "2026-01-08T09:33:54.429233+00:00"
+  },
+  {
+    "_id": "695f7a02e004bb81c9641024",
+    "id": "bc509f9b-ee91-4452-a90a-72440833fe04",
+    "email": "candidate@dev.com",
+    "full_name": "John Developer",
+    "role": "candidate",
+    "password": "$2b$12$Z3c4iv8pUipN0EokJS7JIuWUlhM5s3OtihDP0fAPdfRAWMg5ikuqS",
+    "created_at": "2026-01-08T09:33:54.709197+00:00"
+  },
+  {
+    "_id": "695f7a0de004bb81c9641025",
+    "id": "c6022cef-e1b2-4584-8f99-8bbf9432048a",
+    "email": "admin@talentsphere.com",
+    "full_name": "Admin User",
+    "role": "admin",
+    "password": "$2b$12$uIkiGxA2CZ8I7dYZ1fa5jemIYIf57hYffnwM2Y3X9Mh.KRSkN/.wu",
+    "created_at": "2026-01-08T09:34:05.398634+00:00"
+  },
+  {
+    "_id": "695f7a72e004bb81c9641026",
+    "id": "fd0d4660-63d6-4d35-a75d-4cc6e9db5e9c",
+    "email": "mvlogistics28@mail.com",
+    "full_name": "Rohit",
+    "role": "candidate",
+    "password": "$2b$12$Wy8ELeaa3ZHKrMcLtcx2JeOFp2g0x/mkacAyasfuGNp5PzqMBmyPa",
+    "created_at": "2026-01-08T09:35:46.745064+00:00"
+  },
+  {
+    "_id": "695f8229e004bb81c9641027",
+    "id": "67679e4f-8264-4383-aac1-0a8d975bac0d",
+    "email": "Recruiter@gmail.com",
+    "full_name": "Recruiter",
+    "role": "recruiter",
+    "password": "$2b$12$yEfKy7Qz4Kl5MgdlXjn1teieIbmZKd1EIKuVqb1GpGwpDd3joXcI.",
+    "created_at": "2026-01-08T10:08:41.340982+00:00"
+  },
+  {
+    "_id": "695f9a51ffc71c9ca68f2514",
+    "id": "18797930-3030-4a8e-bdd9-9e1abb5b6e21",
+    "email": "Rohit@candidate.com",
+    "full_name": "Rohit",
+    "role": "candidate",
+    "password": "$2b$12$K9rb7mCIasvUt.8i0bOmveyHzU.Hs/7NSxetm/mAliGCnz8fHfllu",
+    "currency_preference": "INR",
+    "created_at": "2026-01-08T11:51:45.201635+00:00"
+  },
+  {
+    "_id": "695f9ad0ffc71c9ca68f2519",
+    "id": "b15cbe33-31ec-49ed-8f93-cc49e73239f1",
+    "email": "Recruiter@recruiter.com",
+    "full_name": "Recruiter",
+    "role": "recruiter",
+    "password": "$2b$12$zJbK/PvAFia1vrWBQK64huKwqlLJuz7LKpQkPw5Frn5HW/F.9m9lC",
+    "currency_preference": "INR",
+    "created_at": "2026-01-08T11:53:52.755571+00:00"
+  },
+  {
+    "_id": "695f9b36ffc71c9ca68f251b",
+    "id": "fc6f6461-c54a-40e6-9fe1-ed822c9c3f78",
+    "email": "Company@company.com",
+    "full_name": "company",
+    "role": "company",
+    "password": "$2b$12$V04trb/AEtzIKpX7HaNrNeh/yfCcf.0jykX.L59TSImvBG3LrC5ae",
+    "currency_preference": "INR",
+    "created_at": "2026-01-08T11:55:34.975604+00:00"
+  },
+  {
+    "_id": "695f9bdbffc71c9ca68f251e",
+    "id": "d0af6d9c-9568-4596-aadc-c9f96cac6c55",
+    "email": "Admin@admin.com",
+    "full_name": "Admin",
+    "role": "admin",
+    "password": "$2b$12$uBoxt6gzVbCqDnfo7TAhj.iw5S0UFEv0lBCl.BaCZReH6soi327eK",
+    "currency_preference": "INR",
+    "created_at": "2026-01-08T11:58:19.448980+00:00"
+  },
+  {
+    "_id": "695fa0a3c91ff0c92b0ed361",
+    "id": "6e5466d8-676c-450d-bd36-ca93a806a226",
+    "email": "recruiter@refer.com",
+    "full_name": "Test Recruiter",
+    "role": "recruiter",
+    "password": "$2b$12$OtYqJSMu0MijtGio7gXnqeHhxufR9ky44NVYw80nWYFyxyfrEArki",
+    "currency_preference": "INR",
+    "created_at": "2026-01-08T12:18:43.713545+00:00"
+  },
+  {
+    "_id": "695fa0a4c91ff0c92b0ed362",
+    "id": "ffb0ec62-df44-42d0-8078-b508f6a23ac4",
+    "email": "candidate@test.com",
+    "full_name": "Test Candidate",
+    "role": "candidate",
+    "password": "$2b$12$tu0mus5GIRmq7hutK/Mg1.cbmDk3EuSWz52aLtFXFJygdQ8EUFN76",
+    "currency_preference": "INR",
+    "created_at": "2026-01-08T12:18:44.020994+00:00"
+  },
+  {
+    "_id": "695fa0a4c91ff0c92b0ed363",
+    "id": "534e3def-0e7b-4280-b7a4-8c01624eae09",
+    "email": "admin@hire.com",
+    "full_name": "Admin User",
+    "role": "admin",
+    "password": "$2b$12$Rh0HsMrmScZbzOReE6MAmeplCF1UDk5y5T5X2K2bjezHO3fK.34QW",
+    "currency_preference": "INR",
+    "created_at": "2026-01-08T12:18:44.304878+00:00"
+  }
+]
