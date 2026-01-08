@@ -438,12 +438,12 @@ async def upload_resume(file: UploadFile = File(...), current_user: dict = Depen
     return ResumeAnalysis(**{k: v for k, v in resume_doc.items() if k != "_id"})
 
 @api_router.get("/resumes", response_model=List[ResumeAnalysis])
-async def get_resumes(current_user: dict = Depends(get_current_user)):
+async def get_resumes(limit: int = 100, current_user: dict = Depends(get_current_user)):
     query = {}
     if current_user["role"] == "candidate":
         query["candidate_id"] = current_user["id"]
     
-    resumes = await db.resumes.find(query, {"_id": 0}).to_list(1000)
+    resumes = await db.resumes.find(query, {"_id": 0}).limit(limit).to_list(limit)
     return [ResumeAnalysis(**r) for r in resumes]
 
 @api_router.post("/applications", response_model=ApplicationResponse)
