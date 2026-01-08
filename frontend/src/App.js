@@ -14,6 +14,12 @@ import Settings from './pages/Settings';
 import DomainSettings from './pages/DomainSettings';
 import GamificationDashboard from './pages/GamificationDashboard';
 import GamificationPage from './pages/GamificationPage';
+// New enterprise pages
+import CompaniesManagement from './pages/CompaniesManagement';
+import CandidatesManagement from './pages/CandidatesManagement';
+import InterviewsManagement from './pages/InterviewsManagement';
+import FinancialDashboard from './pages/FinancialDashboard';
+import CommunicationCenter from './pages/CommunicationCenter';
 import './App.css';
 
 function App() {
