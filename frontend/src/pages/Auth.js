@@ -10,6 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Briefcase } from 'lucide-react';
 
+const EMERGENT_AUTH_URL = 'https://demobackend.emergentagent.com/auth/v1/env/oauth/initiate';
+
 const Auth = ({ setUser }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -53,6 +55,13 @@ const Auth = ({ setUser }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGmailLogin = () => {
+    // Get the current domain dynamically
+    const redirectUrl = window.location.origin;
+    const gmailAuthUrl = `${EMERGENT_AUTH_URL}?provider=google&redirect_url=${encodeURIComponent(redirectUrl)}`;
+    window.location.href = gmailAuthUrl;
   };
 
   return (
