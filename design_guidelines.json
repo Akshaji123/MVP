@@ -8,13 +8,15 @@
         "Inter font for headings",
         "Centered layouts everywhere",
         "Gradient overload (>20%)",
-        "Generic 'AI' brain/node visualizations"
+        "Generic 'AI' brain/node visualizations",
+        "Default Shadcn/Vercel look"
       ]
     },
     "theme": {
       "mode": "light",
       "strategy": "Swiss & High-Contrast with Electric Accents",
-      "rationale": "B2B Recruitment requires clarity (Swiss) but 'Next-Gen' implies energy (Electric). Light mode builds trust; electric accents drive gamification."
+      "rationale": "B2B Recruitment requires clarity (Swiss) but 'Next-Gen' implies energy (Electric). Light mode builds trust; electric accents drive gamification.",
+      "dark_mode_handling": "Use 'class' strategy. Dark mode is 'Deep Space' (indigo-950) not just black."
     },
     "typography": {
       "font_family": {
@@ -23,16 +25,17 @@
         "mono": "JetBrains Mono, monospace"
       },
       "usage_rules": {
-        "headings": "Tight tracking (tracking-tight). Bold or Black weights. Never Inter.",
+        "headings": "Tight tracking (tracking-tight). Bold (700) or Black (900) weights. Never Inter.",
         "body": "Relaxed leading (leading-relaxed). High legibility.",
-        "overline": "Uppercase, wide spacing (tracking-widest), tiny size."
+        "overline": "Uppercase, wide spacing (tracking-widest), tiny size (text-xs).",
+        "numbers": "Use tabular-nums for data tables and dashboards."
       },
       "scale": {
         "h1": "text-5xl md:text-7xl font-bold tracking-tighter",
         "h2": "text-4xl md:text-5xl font-bold tracking-tight",
         "h3": "text-2xl md:text-3xl font-semibold tracking-tight",
         "body_lg": "text-lg leading-relaxed",
-        "body_base": "text-base leading-relaxed text-slate-600",
+        "body_base": "text-base leading-relaxed text-slate-600 dark:text-slate-300",
         "caption": "text-xs font-medium uppercase tracking-widest text-slate-400"
       }
     },
@@ -42,7 +45,7 @@
           "name": "Deep Indigo",
           "hex": "#4338ca",
           "tailwind": "indigo-700",
-          "usage": "Primary Actions, Brand Identity"
+          "usage": "Primary Actions, Brand Identity, Trust"
         },
         "secondary": {
           "name": "Electric Lime",
@@ -50,10 +53,17 @@
           "tailwind": "lime-400",
           "usage": "Gamification Badges, Success States, High-Energy Accents"
         },
+        "accent": {
+          "name": "Hot Pink",
+          "hex": "#ec4899",
+          "tailwind": "pink-500",
+          "usage": "AI Insights, 'Hot' Matches, Urgent Notifications"
+        },
         "background": {
           "default": "#ffffff",
           "subtle": "#f8fafc",
-          "dark": "#0f172a"
+          "dark": "#0f172a",
+          "card": "#ffffff"
         },
         "text": {
           "primary": "#0f172a",
@@ -69,7 +79,7 @@
         "No generic full-screen gradients.",
         "Use 'Tinted Grey' (slate/zinc) instead of pure grey.",
         "Text on colored backgrounds must meet APCA contrast.",
-        "Hover states must explicitly set text color."
+        "Hover states must explicitly set text color (e.g., hover:text-white)."
       ]
     },
     "layout": {
@@ -89,7 +99,7 @@
           "name": "The Control Room",
           "cols": "grid-cols-1 md:grid-cols-4",
           "gap": "gap-4",
-          "rules": "Density. 100% utilization. No jagged bottoms."
+          "rules": "Density. 100% utilization. No jagged bottoms. Use col-span-2 for main charts."
         }
       },
       "alignment": {
@@ -110,9 +120,10 @@
         "borders": "1px solid border-slate-200. Active: border-indigo-500."
       },
       "specifics": {
-        "buttons": "Pill-shaped or sharp. Micro-interactions on hover (scale-105).",
-        "cards": "Flat, bordered. Hover: lift (-translate-y-1) + shadow-md.",
-        "inputs": "Shadcn Input. Focus: ring-2 ring-indigo-100 border-indigo-500."
+        "buttons": "Pill-shaped or sharp. Micro-interactions on hover (scale-105). Primary: Indigo-700. Secondary: White with Border.",
+        "cards": "Flat, bordered. Hover: lift (-translate-y-1) + shadow-md. No massive padding in dashboards.",
+        "inputs": "Shadcn Input. Focus: ring-2 ring-indigo-100 border-indigo-500.",
+        "badges": "Pill-shaped. Vibrant background (Lime-400/Pink-500) with dark text for gamification."
       }
     },
     "visual_enhancers": {
@@ -126,6 +137,10 @@
           "Transition: Smooth layout changes (layout prop)"
         ],
         "rules": "Respect prefers-reduced-motion. No 'transition: all'."
+      },
+      "gamification": {
+        "leaderboards": "List view with avatars. Top 3 highlighted with Gold/Silver/Bronze accents.",
+        "progress": "Circular progress bars for AI Scores. Green (>80), Yellow (>50), Red (<50)."
       }
     },
     "assets": {
@@ -137,7 +152,7 @@
       "images": {
         "style": "Authentic, candid, high-resolution.",
         "subjects": "Diverse teams, modern offices, abstract architectural forms (for AI).",
-        "rules": "No generic stock photos. Use 'image selector' tool."
+        "rules": "No generic stock photos. Use provided Unsplash URLs."
       }
     },
     "accessibility": {
@@ -164,7 +179,8 @@
     "hero_background": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80",
     "team_meeting": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80",
     "recruiter_working": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80",
-    "abstract_ai": "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80",
-    "office_space": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80"
+    "abstract_ai": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80",
+    "office_space": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80",
+    "candidate_profile": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80"
   }
 }
