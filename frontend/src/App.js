@@ -10,6 +10,7 @@ import CandidateDashboard from './pages/CandidateDashboard';
 import JobDetails from './pages/JobDetails';
 import Leaderboard from './pages/Leaderboard';
 import EnterpriseAdmin from './pages/EnterpriseAdmin';
+import Settings from './pages/Settings';
 import './App.css';
 
 function App() {
@@ -80,6 +81,11 @@ function App() {
           <Route path="/enterprise-admin" element={
             <ProtectedRoute allowedRoles={['admin']}>
               <EnterpriseAdmin user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          } />
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <Settings user={user} onLogout={handleLogout} />
             </ProtectedRoute>
           } />
         </Routes>
