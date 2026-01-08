@@ -20,6 +20,7 @@ import CandidatesManagement from './pages/CandidatesManagement';
 import InterviewsManagement from './pages/InterviewsManagement';
 import FinancialDashboard from './pages/FinancialDashboard';
 import CommunicationCenter from './pages/CommunicationCenter';
+import JDGenerator from './pages/JDGenerator';
 import './App.css';
 
 function App() {
