@@ -1415,6 +1415,78 @@ async def generate_invoice(
     tax_amount = amount * tax_rate
     total_amount = amount + tax_amount
     
+
+
+# ============= GAMIFICATION ENDPOINTS =============
+
+@api_router.get("/gamification/achievements")
+async def get_all_achievements():
+    """Get all available achievements"""
+    achievements = await gamification_service.get_all_achievements()
+    return achievements
+
+@api_router.get("/gamification/user/{user_id}/achievements")
+async def get_user_achievements_endpoint(user_id: str, current_user: dict = Depends(get_current_user)):
+    """Get user's earned achievements"""
+    achievements = await gamification_service.get_user_achievements(user_id)
+    return achievements
+
+@api_router.get("/gamification/user/{user_id}/points")
+async def get_user_points_endpoint(user_id: str, current_user: dict = Depends(get_current_user)):
+    """Get user's points and tier information"""
+    points = await gamification_service.get_user_points(user_id)
+    return points
+
+@api_router.get("/gamification/user/{user_id}/streak")
+async def get_user_streak_endpoint(user_id: str, current_user: dict = Depends(get_current_user)):
+    """Get user's activity streak"""
+    streak = await gamification_service.get_user_streak(user_id)
+    return streak
+
+@api_router.post("/gamification/user/{user_id}/streak/update")
+async def update_user_streak_endpoint(user_id: str, current_user: dict = Depends(get_current_user)):
+    """Update user's daily streak"""
+    result = await gamification_service.update_user_streak(user_id)
+    return result
+
+@api_router.post("/gamification/user/{user_id}/award/{achievement_id}")
+async def award_achievement_endpoint(
+    user_id: str,
+    achievement_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Award an achievement to a user"""
+    if current_user["role"] not in ["admin"]:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    result = await gamification_service.award_achievement(user_id, achievement_id)
+    return result
+
+@api_router.get("/gamification/leaderboard")
+async def get_gamification_leaderboard(limit: int = 10):
+    """Get gamification leaderboard"""
+    leaderboard = await gamification_service.get_leaderboard(limit)
+    return leaderboard
+
+@api_router.get("/gamification/user/{user_id}/stats")
+async def get_user_gamification_stats(user_id: str, current_user: dict = Depends(get_current_user)):
+    """Get comprehensive gamification stats for a user"""
+    stats = await gamification_service.get_user_stats(user_id)
+    return stats
+
+@api_router.post("/gamification/user/{user_id}/commission")
+async def calculate_user_commission(
+    user_id: str,
+    base_amount: float,
+    current_user: dict = Depends(get_current_user)
+):
+    """Calculate commission based on user's level"""
+    if current_user["role"] not in ["admin", "company"]:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    commission = await gamification_service.calculate_commission(user_id, base_amount)
+    return commission
+
     invoice_data = {
         "id": invoice_id,
         "invoice_number": invoice_number,
