@@ -36,6 +36,10 @@ db = client[os.environ['DB_NAME']]
 invoice_generator = InvoiceGenerator()
 backup_manager = BackupManager()
 code_exporter = CodeExporter()
+email_service = EmailService()
+
+# Emergent Auth configuration
+EMERGENT_AUTH_URL = "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data"
 
 # JWT Configuration
 JWT_SECRET = os.environ.get('JWT_SECRET', 'your-secret-key-change-in-production')
