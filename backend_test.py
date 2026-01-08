@@ -209,32 +209,33 @@ class BackendTester:
             self.log_result("Test Job Creation", False, error=error)
         
         # Test match score calculation
-        match_data = {
-            "candidate": {
-                "skills": ["python", "django", "react", "postgresql"],
-                "experience_years": 5,
-                "education": ["B.Tech Computer Science"],
-                "location": "Bangalore",
-                "expected_salary": 1400000
-            },
-            "job": {
-                "requirements": ["python", "django", "postgresql"],
-                "experience_min": 3,
-                "experience_max": 7,
-                "location": "Bangalore",
-                "salary_min": 1200000,
-                "salary_max": 1800000
-            }
-        }
-        
-        response = self.make_request("POST", "/matching/score", match_data, self.admin_token)
-        if response and response.status_code == 200:
-            data = response.json()
-            score = data.get("overall_score", 0)
-            self.log_result("Match Score Calculation", True, f"Score: {score}%")
+        # We need actual candidate_id and job_id for this test
+        if job_id:  # We have a job from the previous test
+            # Get a candidate ID from existing resumes
+            response = self.make_request("GET", "/resumes", token=self.admin_token)
+            if response and response.status_code == 200:
+                resumes = response.json()
+                if resumes:
+                    candidate_id = resumes[0].get("candidate_id")
+                    match_data = {
+                        "candidate_id": candidate_id,
+                        "job_id": job_id
+                    }
+                    
+                    response = self.make_request("POST", "/matching/score", match_data, self.admin_token)
+                    if response and response.status_code == 200:
+                        data = response.json()
+                        score = data.get("overall_score", 0)
+                        self.log_result("Match Score Calculation", True, f"Score: {score}%")
+                    else:
+                        error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+                        self.log_result("Match Score Calculation", False, error=error)
+                else:
+                    self.log_result("Match Score Calculation", False, error="No resumes found for testing")
+            else:
+                self.log_result("Match Score Calculation", False, error="Could not fetch resumes")
         else:
-            # This endpoint might not be implemented, so let's not fail the test
-            self.log_result("Match Score Calculation", False, error="Endpoint not implemented or accessible")
+            self.log_result("Match Score Calculation", False, error="No job ID available for testing")
     
     def test_application_pipeline(self):
         """Test application processing pipeline"""
