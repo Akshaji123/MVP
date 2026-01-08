@@ -22,6 +22,7 @@ from utils.invoice_generator import InvoiceGenerator
 from utils.backup_manager import BackupManager
 from utils.code_export import CodeExporter
 from utils.email_service import EmailService
+from gamification_service import GamificationService
 import httpx
 
 ROOT_DIR = Path(__file__).parent
@@ -37,6 +38,7 @@ invoice_generator = InvoiceGenerator()
 backup_manager = BackupManager()
 code_exporter = CodeExporter()
 email_service = EmailService()
+gamification_service = GamificationService(db)
 
 # Emergent Auth configuration
 EMERGENT_AUTH_URL = "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data"
