@@ -4,223 +4,223 @@
     "success": true,
     "details": "User ID: 534e3def-0e7b-4280-b7a4-8c01624eae09",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.120208"
+    "timestamp": "2026-01-08T13:55:21.049350"
   },
   {
     "test": "Recruiter Login",
     "success": true,
     "details": "User ID: 6e5466d8-676c-450d-bd36-ca93a806a226",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.374296"
+    "timestamp": "2026-01-08T13:55:21.313191"
   },
   {
     "test": "Commission Calculation - Senior Level",
     "success": true,
     "details": "Rate: 12.0%, Gross: \u20b9180000.0",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.408046"
+    "timestamp": "2026-01-08T13:55:21.349083"
   },
   {
     "test": "TDS Calculation",
     "success": true,
     "details": "TDS: \u20b918000.0 on gross \u20b9180000.0",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.408075"
+    "timestamp": "2026-01-08T13:55:21.349110"
   },
   {
     "test": "Platform Fee Calculation",
     "success": true,
     "details": "Fee: \u20b99000.0",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.408085"
+    "timestamp": "2026-01-08T13:55:21.349117"
   },
   {
     "test": "Commission Summary",
     "success": true,
     "details": "Tier: bronze, Multiplier: 1.0",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.444250"
+    "timestamp": "2026-01-08T13:55:21.384553"
   },
   {
     "test": "Commission Rates API",
     "success": true,
     "details": "Public rates retrieved",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.474553"
+    "timestamp": "2026-01-08T13:55:21.423335"
   },
   {
     "test": "Test Job Creation",
     "success": true,
-    "details": "Job ID: 64130229-3e80-4504-9f6d-5f82727d85a1",
+    "details": "Job ID: 0be225fa-4089-43ce-9e9a-b0dde18e72b5",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.508590"
+    "timestamp": "2026-01-08T13:55:21.462607"
   },
   {
     "test": "Candidate Matching",
     "success": true,
     "details": "Found 3 matching candidates",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.547082"
+    "timestamp": "2026-01-08T13:55:21.500402"
   },
   {
     "test": "Match Score Calculation",
     "success": false,
     "details": "",
     "error": "Endpoint not implemented or accessible",
-    "timestamp": "2026-01-08T13:54:55.620775"
+    "timestamp": "2026-01-08T13:55:21.537320"
   },
   {
     "test": "Auto-screening",
     "success": true,
     "details": "Score: 50.0%, Recommendation: manual_review",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.688520"
+    "timestamp": "2026-01-08T13:55:21.645881"
   },
   {
     "test": "Status Update",
     "success": true,
     "details": "Status updated to shortlisted",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.723311"
+    "timestamp": "2026-01-08T13:55:21.681188"
   },
   {
     "test": "Status History",
     "success": true,
     "details": "Found 2 history entries",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.754863"
+    "timestamp": "2026-01-08T13:55:21.713227"
   },
   {
     "test": "Interview Scheduling",
     "success": true,
-    "details": "Interview ID: 3233ff7f-a485-4e07-9b2c-7bc2f65d4a26",
+    "details": "Interview ID: fabbc120-fce9-45b3-a7be-5ff0c38724bd",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.791927"
+    "timestamp": "2026-01-08T13:55:21.748604"
   },
   {
     "test": "Interview Feedback",
     "success": true,
     "details": "Feedback submitted successfully",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.824728"
+    "timestamp": "2026-01-08T13:55:21.826312"
   },
   {
     "test": "Pipeline Statistics",
     "success": true,
     "details": "Total applications: 1",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.859334"
+    "timestamp": "2026-01-08T13:55:21.857094"
   },
   {
     "test": "BGV Request Creation",
     "success": true,
-    "details": "BGV ID: 0b57a408-a0bf-4a9a-b887-0b4b553beb30",
+    "details": "BGV ID: 46c56077-67eb-4b83-8d1b-4ae5f70d3e3e",
     "error": "",
-    "timestamp": "2026-01-08T13:54:55.894187"
+    "timestamp": "2026-01-08T13:55:21.932804"
   },
   {
     "test": "BGV Specialist Assignment",
     "success": true,
     "details": "Identity check assigned",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.071552"
+    "timestamp": "2026-01-08T13:55:21.966523"
   },
   {
     "test": "BGV Check Update",
-    "success": false,
-    "details": "",
-    "error": "Connection failed",
-    "timestamp": "2026-01-08T13:54:56.105264"
+    "success": true,
+    "details": "Identity check marked as verified",
+    "error": "",
+    "timestamp": "2026-01-08T13:55:22.004384"
   },
   {
     "test": "BGV Requests Listing",
     "success": true,
-    "details": "Found 4 BGV requests",
+    "details": "Found 5 BGV requests",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.139118"
+    "timestamp": "2026-01-08T13:55:22.038227"
   },
   {
     "test": "BGV Details Retrieval",
     "success": true,
     "details": "BGV details retrieved successfully",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.171589"
+    "timestamp": "2026-01-08T13:55:22.071768"
   },
   {
     "test": "User Audit Log",
     "success": true,
     "details": "Found 2 audit entries",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.208146"
+    "timestamp": "2026-01-08T13:55:22.106296"
   },
   {
     "test": "Security Events",
     "success": true,
     "details": "Found 2 security events",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.242481"
+    "timestamp": "2026-01-08T13:55:22.139259"
   },
   {
     "test": "User Notifications",
     "success": true,
-    "details": "Found 4 notifications, 3 unread",
+    "details": "Found 5 notifications, 3 unread",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.281668"
+    "timestamp": "2026-01-08T13:55:22.176816"
   },
   {
     "test": "Mark Notification Read",
     "success": true,
     "details": "Notification marked as read",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.312611"
+    "timestamp": "2026-01-08T13:55:22.210278"
   },
   {
     "test": "Get Profile",
     "success": true,
     "details": "Profile for None",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.344071"
+    "timestamp": "2026-01-08T13:55:22.256103"
   },
   {
     "test": "Update Profile",
     "success": true,
     "details": "Profile updated successfully",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.398199"
+    "timestamp": "2026-01-08T13:55:22.287377"
   },
   {
     "test": "Get All Achievements",
     "success": true,
     "details": "Found 11 achievements",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.434848"
+    "timestamp": "2026-01-08T13:55:22.320609"
   },
   {
     "test": "Get User Points",
     "success": true,
     "details": "Points: 0",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.469179"
+    "timestamp": "2026-01-08T13:55:22.352815"
   },
   {
     "test": "Get User Stats",
     "success": true,
     "details": "Level: 1",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.503654"
+    "timestamp": "2026-01-08T13:55:22.386816"
   },
   {
     "test": "Update Streak",
     "success": true,
     "details": "Current streak: 1",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.538338"
+    "timestamp": "2026-01-08T13:55:22.419049"
   },
   {
     "test": "Get Leaderboard",
     "success": true,
     "details": "Found 2 users on leaderboard",
     "error": "",
-    "timestamp": "2026-01-08T13:54:56.570533"
+    "timestamp": "2026-01-08T13:55:22.452741"
   }
 ]
