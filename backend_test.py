@@ -553,6 +553,300 @@ class BackendTester:
             error = response.json().get("detail", "Unknown error") if response else "Connection failed"
             self.log_result("Get Leaderboard", False, error=error)
     
+    def test_companies_router(self):
+        """Test Companies Router endpoints"""
+        print("\n=== Testing Companies Router ===")
+        
+        if not self.admin_token:
+            self.log_result("Companies Tests", False, error="No admin token available")
+            return
+        
+        company_id = None
+        
+        # Test create company
+        company_data = {
+            "name": "TechCorp Solutions",
+            "legal_name": "TechCorp Solutions Private Limited",
+            "industry": "Technology",
+            "company_size": "medium",
+            "website": "https://techcorp.com",
+            "description": "Leading technology solutions provider",
+            "headquarters_location": "Bangalore, India",
+            "founded_year": 2015,
+            "company_type": "corporation",
+            "billing_address": {
+                "street": "123 Tech Park",
+                "city": "Bangalore",
+                "state": "Karnataka",
+                "country": "India",
+                "pincode": "560001"
+            },
+            "contact_info": {
+                "primary_email": "contact@techcorp.com",
+                "phone": "+91-80-12345678",
+                "hr_email": "hr@techcorp.com"
+            }
+        }
+        
+        response = self.make_request("POST", "/companies", company_data, self.admin_token)
+        if response and response.status_code == 200:
+            company = response.json()
+            company_id = company.get("id")
+            self.log_result("Create Company", True, f"Company ID: {company_id}")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Create Company", False, error=error)
+        
+        # Test list companies
+        response = self.make_request("GET", "/companies", token=self.admin_token)
+        if response and response.status_code == 200:
+            companies = response.json()
+            self.log_result("List Companies", True, f"Found {len(companies)} companies")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("List Companies", False, error=error)
+        
+        if company_id:
+            # Test get company by ID
+            response = self.make_request("GET", f"/companies/{company_id}", token=self.admin_token)
+            if response and response.status_code == 200:
+                self.log_result("Get Company by ID", True, "Company details retrieved")
+            else:
+                error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+                self.log_result("Get Company by ID", False, error=error)
+            
+            # Test company stats
+            response = self.make_request("GET", f"/companies/{company_id}/stats", token=self.admin_token)
+            if response and response.status_code == 200:
+                stats = response.json()
+                self.log_result("Company Stats", True, f"Stats retrieved for company")
+            else:
+                error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+                self.log_result("Company Stats", False, error=error)
+    
+    def test_candidates_router(self):
+        """Test Candidates Router endpoints"""
+        print("\n=== Testing Candidates Router ===")
+        
+        if not self.recruiter_token:
+            self.log_result("Candidates Tests", False, error="No recruiter token available")
+            return
+        
+        # Test list candidates with filters
+        response = self.make_request("GET", "/candidates", token=self.recruiter_token)
+        if response and response.status_code == 200:
+            candidates = response.json()
+            self.log_result("List Candidates", True, f"Found {len(candidates)} candidates")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("List Candidates", False, error=error)
+        
+        # Test with skills filter
+        params = {"skills": "python,django", "min_experience": 2}
+        response = self.make_request("GET", "/candidates", token=self.recruiter_token, params=params)
+        if response and response.status_code == 200:
+            candidates = response.json()
+            self.log_result("Filter Candidates by Skills", True, f"Found {len(candidates)} matching candidates")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Filter Candidates by Skills", False, error=error)
+        
+        # Test get candidates with experience filter
+        params = {"min_experience": 3, "max_experience": 8}
+        response = self.make_request("GET", "/candidates", token=self.recruiter_token, params=params)
+        if response and response.status_code == 200:
+            candidates = response.json()
+            self.log_result("Filter by Experience", True, f"Found {len(candidates)} candidates with 3-8 years exp")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Filter by Experience", False, error=error)
+        
+        # Test match jobs for a candidate (if we have candidates)
+        if candidates and len(candidates) > 0:
+            candidate_id = candidates[0].get("id")
+            response = self.make_request("GET", f"/candidates/{candidate_id}/match-jobs", token=self.recruiter_token)
+            if response and response.status_code == 200:
+                matches = response.json()
+                self.log_result("Match Jobs for Candidate", True, f"Found {len(matches.get('matches', []))} job matches")
+            else:
+                error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+                self.log_result("Match Jobs for Candidate", False, error=error)
+    
+    def test_interviews_router(self):
+        """Test Interviews Router endpoints"""
+        print("\n=== Testing Interviews Router ===")
+        
+        if not self.admin_token:
+            self.log_result("Interviews Tests", False, error="No admin token available")
+            return
+        
+        # Test list interviews
+        response = self.make_request("GET", "/interviews", token=self.admin_token)
+        if response and response.status_code == 200:
+            interviews = response.json()
+            self.log_result("List Interviews", True, f"Found {len(interviews)} interviews")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("List Interviews", False, error=error)
+        
+        # Test calendar view
+        response = self.make_request("GET", "/interviews/calendar/upcoming", token=self.admin_token)
+        if response and response.status_code == 200:
+            calendar = response.json()
+            self.log_result("Interview Calendar", True, f"Calendar view with {calendar.get('total_interviews', 0)} interviews")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Interview Calendar", False, error=error)
+        
+        # Test upcoming interviews only
+        params = {"upcoming_only": True}
+        response = self.make_request("GET", "/interviews", token=self.admin_token, params=params)
+        if response and response.status_code == 200:
+            upcoming = response.json()
+            self.log_result("Upcoming Interviews", True, f"Found {len(upcoming)} upcoming interviews")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Upcoming Interviews", False, error=error)
+        
+        # Test feedback submission (if we have interviews)
+        if interviews and len(interviews) > 0:
+            interview_id = interviews[0].get("id")
+            feedback_data = {
+                "rating": 8,
+                "technical_score": 7,
+                "communication_score": 9,
+                "problem_solving_score": 8,
+                "cultural_fit_score": 8,
+                "strengths": ["Strong technical skills", "Good communication"],
+                "areas_of_improvement": ["Could improve problem-solving approach"],
+                "comments": "Overall good candidate with strong potential",
+                "recommendation": "proceed"
+            }
+            
+            response = self.make_request("POST", f"/interviews/{interview_id}/feedback", feedback_data, self.admin_token)
+            if response and response.status_code == 200:
+                self.log_result("Submit Interview Feedback", True, "Feedback submitted successfully")
+            else:
+                error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+                self.log_result("Submit Interview Feedback", False, error=error)
+    
+    def test_financial_router(self):
+        """Test Financial Router endpoints"""
+        print("\n=== Testing Financial Router ===")
+        
+        if not self.admin_token:
+            self.log_result("Financial Tests", False, error="No admin token available")
+            return
+        
+        # Test financial dashboard
+        response = self.make_request("GET", "/financial/dashboard", token=self.admin_token)
+        if response and response.status_code == 200:
+            dashboard = response.json()
+            self.log_result("Financial Dashboard", True, "Dashboard data retrieved")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Financial Dashboard", False, error=error)
+        
+        # Test list commissions
+        response = self.make_request("GET", "/financial/commissions", token=self.admin_token)
+        if response and response.status_code == 200:
+            commissions = response.json()
+            self.log_result("List Commissions", True, f"Found {len(commissions)} commissions")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("List Commissions", False, error=error)
+        
+        # Test list payments
+        response = self.make_request("GET", "/financial/payments", token=self.admin_token)
+        if response and response.status_code == 200:
+            payments = response.json()
+            self.log_result("List Payments", True, f"Found {len(payments)} payments")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("List Payments", False, error=error)
+        
+        # Test list invoices
+        response = self.make_request("GET", "/financial/invoices", token=self.admin_token)
+        if response and response.status_code == 200:
+            invoices = response.json()
+            self.log_result("List Invoices", True, f"Found {len(invoices)} invoices")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("List Invoices", False, error=error)
+        
+        # Test payout requests (as recruiter)
+        response = self.make_request("GET", "/financial/payout-requests", token=self.recruiter_token)
+        if response and response.status_code == 200:
+            payouts = response.json()
+            self.log_result("List Payout Requests", True, f"Found {payouts.get('total', 0)} payout requests")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("List Payout Requests", False, error=error)
+    
+    def test_communication_router(self):
+        """Test Communication Router endpoints"""
+        print("\n=== Testing Communication Router ===")
+        
+        if not self.recruiter_token:
+            self.log_result("Communication Tests", False, error="No recruiter token available")
+            return
+        
+        message_id = None
+        
+        # Test send message
+        message_data = {
+            "recipient_id": self.admin_user["id"],
+            "subject": "Test Message",
+            "message_body": "This is a test message from the backend testing suite.",
+            "message_type": "text",
+            "priority": "normal"
+        }
+        
+        response = self.make_request("POST", "/communication/messages", message_data, self.recruiter_token)
+        if response and response.status_code == 200:
+            message = response.json()
+            message_id = message.get("id")
+            self.log_result("Send Message", True, f"Message ID: {message_id}")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Send Message", False, error=error)
+        
+        # Test inbox messages
+        response = self.make_request("GET", "/communication/messages/inbox", token=self.admin_token)
+        if response and response.status_code == 200:
+            inbox = response.json()
+            self.log_result("Get Inbox Messages", True, f"Found {len(inbox)} inbox messages")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Get Inbox Messages", False, error=error)
+        
+        # Test sent messages
+        response = self.make_request("GET", "/communication/messages/sent", token=self.recruiter_token)
+        if response and response.status_code == 200:
+            sent = response.json()
+            self.log_result("Get Sent Messages", True, f"Found {len(sent)} sent messages")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Get Sent Messages", False, error=error)
+        
+        # Test unread count
+        response = self.make_request("GET", "/communication/messages/unread-count", token=self.admin_token)
+        if response and response.status_code == 200:
+            count = response.json()
+            self.log_result("Get Unread Count", True, f"Unread messages: {count.get('unread_count', 0)}")
+        else:
+            error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+            self.log_result("Get Unread Count", False, error=error)
+        
+        # Test get specific message (if we have one)
+        if message_id:
+            response = self.make_request("GET", f"/communication/messages/{message_id}", token=self.admin_token)
+            if response and response.status_code == 200:
+                self.log_result("Get Message by ID", True, "Message retrieved and marked as read")
+            else:
+                error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+                self.log_result("Get Message by ID", False, error=error)
+
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Backend API Testing Suite")
@@ -571,6 +865,13 @@ class BackendTester:
         self.test_audit_and_notifications()
         self.test_user_profile()
         self.test_gamification_endpoints()
+        
+        # Test new enterprise routers
+        self.test_companies_router()
+        self.test_candidates_router()
+        self.test_interviews_router()
+        self.test_financial_router()
+        self.test_communication_router()
         
         # Print summary
         self.print_summary()
