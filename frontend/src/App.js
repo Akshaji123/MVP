@@ -107,6 +107,31 @@ function App() {
               <GamificationPage user={user} onLogout={handleLogout} />
             </ProtectedRoute>
           } />
+          <Route path="/companies" element={
+            <ProtectedRoute allowedRoles={['admin', 'super_admin']}>
+              <CompaniesManagement user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          } />
+          <Route path="/candidates" element={
+            <ProtectedRoute allowedRoles={['admin', 'super_admin', 'recruiter', 'client']}>
+              <CandidatesManagement user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          } />
+          <Route path="/interviews" element={
+            <ProtectedRoute allowedRoles={['admin', 'super_admin', 'recruiter', 'client', 'candidate']}>
+              <InterviewsManagement user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          } />
+          <Route path="/financial" element={
+            <ProtectedRoute>
+              <FinancialDashboard user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          } />
+          <Route path="/messages" element={
+            <ProtectedRoute>
+              <CommunicationCenter user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          } />
         </Routes>
       </BrowserRouter>
       <Toaster position="top-right" expand={true} richColors />
