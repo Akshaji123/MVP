@@ -105,6 +105,66 @@
 user_problem_statement: Build a comprehensive AI-powered hiring referrals platform with gamification system
 
 backend:
+  - task: "Enhanced Commission Calculation API"
+    implemented: true
+    working: true
+    file: "/app/backend/services/commission_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Multi-tier commission rates (6%-18%), user tier multipliers (Bronze-Diamond), TDS & platform fee deductions implemented."
+
+  - task: "Intelligent Candidate Matching API"
+    implemented: true
+    working: true
+    file: "/app/backend/services/matching_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Multi-factor matching with Skills (40%), Experience (25%), Education (15%), Location (10%), Salary (10%) weights."
+
+  - task: "Application Processing Pipeline"
+    implemented: true
+    working: true
+    file: "/app/backend/services/pipeline_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Auto-screening (70% threshold), status workflow, interview scheduling, feedback system implemented."
+
+  - task: "BGV Service with Specialist Role"
+    implemented: true
+    working: true
+    file: "/app/backend/services/bgv_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Full BGV workflow: identity, address, employment, education, criminal checks with specialist assignment."
+
+  - task: "Audit Logging Service"
+    implemented: true
+    working: true
+    file: "/app/backend/services/audit_service.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Comprehensive audit logging for user actions, security events, compliance reporting."
+
   - task: "Gamification Service Initialization"
     implemented: true
     working: true
