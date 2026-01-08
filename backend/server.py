@@ -558,45 +558,42 @@ async def get_referrals(current_user: dict = Depends(get_current_user)):
     return [ReferralResponse(**r) for r in referrals]
 
 @api_router.get("/leaderboard", response_model=List[LeaderboardEntry])
-async def get_leaderboard():
+async def get_leaderboard(limit: int = 100):
+    # Use aggregation to join user data in one query
     pipeline = [
-        {"$match": {"status": "hired"}},
         {"$group": {
             "_id": "$referrer_id",
-            "successful_referrals": {"$sum": 1},
-            "total_earnings": {"$sum": "$reward_amount"}
-        }}
+            "total_referrals": {"$sum": 1},
+            "successful_referrals": {
+                "$sum": {"$cond": [{"$eq": ["$status", "hired"]}, 1, 0]}
+            },
+            "total_earnings": {
+                "$sum": {"$cond": [{"$eq": ["$status", "hired"]}, "$reward_amount", 0]}
+            }
+        }},
+        {"$lookup": {
+            "from": "users",
+            "localField": "_id",
+            "foreignField": "id",
+            "as": "user_info"
+        }},
+        {"$unwind": "$user_info"},
+        {"$project": {
+            "user_id": "$_id",
+            "user_name": "$user_info.full_name",
+            "role": "$user_info.role",
+            "total_referrals": 1,
+            "successful_referrals": 1,
+            "total_earnings": 1,
+            "_id": 0
+        }},
+        {"$sort": {"successful_referrals": -1, "total_earnings": -1}},
+        {"$limit": limit}
     ]
     
-    successful = {item["_id"]: item for item in await db.referrals.aggregate(pipeline).to_list(1000)}
+    leaderboard = await db.referrals.aggregate(pipeline).to_list(limit)
     
-    # Get all referrers
-    all_referrals = await db.referrals.aggregate([
-        {"$group": {
-            "_id": "$referrer_id",
-            "total_referrals": {"$sum": 1}
-        }}
-    ]).to_list(1000)
-    
-    # Get user details
-    leaderboard = []
-    for item in all_referrals:
-        user_id = item["_id"]
-        user = await db.users.find_one({"id": user_id}, {"_id": 0})
-        if user:
-            success_data = successful.get(user_id, {})
-            leaderboard.append({
-                "user_id": user_id,
-                "user_name": user["full_name"],
-                "role": user["role"],
-                "total_referrals": item["total_referrals"],
-                "successful_referrals": success_data.get("successful_referrals", 0),
-                "total_earnings": success_data.get("total_earnings", 0),
-                "rank": 0
-            })
-    
-    # Sort and assign ranks
-    leaderboard.sort(key=lambda x: (x["successful_referrals"], x["total_earnings"]), reverse=True)
+    # Assign ranks
     for idx, entry in enumerate(leaderboard):
         entry["rank"] = idx + 1
     
