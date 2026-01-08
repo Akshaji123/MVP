@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Briefcase, LayoutDashboard, Users, Award, LogOut, Menu, Settings, Shield, Trophy, Building2, Calendar, DollarSign, MessageSquare } from 'lucide-react';
+import { Briefcase, LayoutDashboard, Users, Award, LogOut, Menu, Settings, Shield, Trophy, Building2, Calendar, DollarSign, MessageSquare, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 
 const DashboardLayout = ({ user, onLogout, children }) => {
@@ -17,6 +17,7 @@ const DashboardLayout = ({ user, onLogout, children }) => {
   // Add role-based navigation
   if (user.role === 'admin' || user.role === 'super_admin' || user.role === 'recruiter' || user.role === 'client') {
     navigation.push({ name: 'Candidates', path: '/candidates', icon: <Users className="w-5 h-5" /> });
+    navigation.push({ name: 'JD Generator', path: '/jd-generator', icon: <Sparkles className="w-5 h-5" /> });
   }
   
   if (user.role === 'admin' || user.role === 'super_admin' || user.role === 'recruiter' || user.role === 'client' || user.role === 'candidate') {
