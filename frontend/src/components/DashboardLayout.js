@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Briefcase, LayoutDashboard, Users, Award, LogOut, Menu, Settings, Shield, Trophy } from 'lucide-react';
+import { Briefcase, LayoutDashboard, Users, Award, LogOut, Menu, Settings, Shield, Trophy, Building2, Calendar, DollarSign, MessageSquare } from 'lucide-react';
 import { useState } from 'react';
 
 const DashboardLayout = ({ user, onLogout, children }) => {
@@ -14,8 +14,22 @@ const DashboardLayout = ({ user, onLogout, children }) => {
     { name: 'Gamification', path: '/gamification', icon: <Trophy className="w-5 h-5" /> },
   ];
 
+  // Add role-based navigation
+  if (user.role === 'admin' || user.role === 'super_admin' || user.role === 'recruiter' || user.role === 'client') {
+    navigation.push({ name: 'Candidates', path: '/candidates', icon: <Users className="w-5 h-5" /> });
+  }
+  
+  if (user.role === 'admin' || user.role === 'super_admin' || user.role === 'recruiter' || user.role === 'client' || user.role === 'candidate') {
+    navigation.push({ name: 'Interviews', path: '/interviews', icon: <Calendar className="w-5 h-5" /> });
+  }
+
+  // Financial and Messages for everyone
+  navigation.push({ name: 'Financial', path: '/financial', icon: <DollarSign className="w-5 h-5" /> });
+  navigation.push({ name: 'Messages', path: '/messages', icon: <MessageSquare className="w-5 h-5" /> });
+
   // Add Enterprise Admin for admin users
-  if (user.role === 'admin') {
+  if (user.role === 'admin' || user.role === 'super_admin') {
+    navigation.push({ name: 'Companies', path: '/companies', icon: <Building2 className="w-5 h-5" /> });
     navigation.push({ name: 'Enterprise Admin', path: '/enterprise-admin', icon: <Settings className="w-5 h-5" /> });
     navigation.push({ name: 'Domain Settings', path: '/domain-settings', icon: <Shield className="w-5 h-5" /> });
   }
