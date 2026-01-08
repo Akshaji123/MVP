@@ -604,13 +604,35 @@ async def update_application_status(app_id: str, status: str, current_user: dict
     if current_user["role"] not in ["company", "admin"]:
         raise HTTPException(status_code=403, detail="Only companies can update application status")
     
+    # Get application details
+    application = await db.applications.find_one({"id": app_id}, {"_id": 0})
+    if not application:
+        raise HTTPException(status_code=404, detail="Application not found")
+    
+    # Update status
     result = await db.applications.update_one(
         {"id": app_id},
         {"$set": {"status": status}}
     )
     
     if result.modified_count == 0:
-        raise HTTPException(status_code=404, detail="Application not found")
+        return {"message": "Status already up to date"}
+    
+    # Send email notification to candidate
+    try:
+        candidate = await db.users.find_one({"id": application["candidate_id"]}, {"_id": 0})
+        job = await db.jobs.find_one({"id": application["job_id"]}, {"_id": 0})
+        
+        if candidate and job:
+            await email_service.send_application_status_update(
+                candidate_email=candidate["email"],
+                candidate_name=candidate["full_name"],
+                job_title=job["title"],
+                new_status=status,
+                company_name=job["company_name"]
+            )
+    except Exception as e:
+        logging.error(f"Failed to send status email: {str(e)}")
     
     return {"message": "Status updated successfully"}
 
