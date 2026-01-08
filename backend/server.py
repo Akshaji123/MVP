@@ -326,6 +326,7 @@ async def register(user: UserCreate):
         "full_name": user.full_name,
         "role": user.role,
         "password": hash_password(user.password),
+        "currency_preference": "INR",  # Default currency
         "created_at": datetime.now(timezone.utc).isoformat()
     }
     
