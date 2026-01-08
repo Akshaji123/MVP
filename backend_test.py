@@ -18,6 +18,7 @@ HEADERS = {"Content-Type": "application/json"}
 # Test credentials
 TEST_ADMIN = {"email": "admin@hire.com", "password": "adminpassword"}
 TEST_RECRUITER = {"email": "recruiter@refer.com", "password": "password"}
+TEST_CANDIDATE = {"email": "candidate@test.com", "password": "password"}
 
 class BackendTester:
     def __init__(self):
