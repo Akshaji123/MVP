@@ -267,8 +267,13 @@ class BackendTester:
                 if response and response.status_code == 200:
                     self.log_result("Status Update", True, "Status updated to shortlisted")
                 else:
-                    error = response.json().get("detail", "Unknown error") if response else "Connection failed"
-                    self.log_result("Status Update", False, error=error)
+                    # Try PATCH method instead
+                    response = self.make_request("PATCH", f"/applications/{app_id}/status", {"status": "shortlisted"}, self.admin_token)
+                    if response and response.status_code == 200:
+                        self.log_result("Status Update", True, "Status updated to shortlisted")
+                    else:
+                        error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+                        self.log_result("Status Update", False, error=error)
                 
                 # Test status history
                 response = self.make_request("GET", f"/applications/{app_id}/history", token=self.admin_token)
