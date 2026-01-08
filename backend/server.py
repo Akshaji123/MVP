@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Depends, status, UploadFile, File
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, status, UploadFile, File, Request, Response, Header
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import FileResponse, StreamingResponse
 from dotenv import load_dotenv
@@ -21,6 +21,8 @@ import shutil
 from utils.invoice_generator import InvoiceGenerator
 from utils.backup_manager import BackupManager
 from utils.code_export import CodeExporter
+from utils.email_service import EmailService
+import httpx
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
