@@ -1821,6 +1821,689 @@ async def download_export(filename: str, current_user: dict = Depends(get_curren
     
     return FileResponse(export_path, filename=filename, media_type="application/zip")
 
+
+# ============= ENHANCED COMMISSION ENDPOINTS =============
+
+class CommissionCalculateRequest(BaseModel):
+    annual_package: float
+    currency: str = "INR"
+    custom_rate: Optional[float] = None
+
+@api_router.post("/commission/calculate")
+async def calculate_commission(
+    request: CommissionCalculateRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Calculate commission for a placement"""
+    result = await commission_calculator.calculate_commission(
+        user_id=current_user["id"],
+        annual_package=request.annual_package,
+        currency=request.currency,
+        custom_rate=request.custom_rate
+    )
+    return result
+
+@api_router.get("/commission/summary")
+async def get_commission_summary(current_user: dict = Depends(get_current_user)):
+    """Get commission summary including tier info"""
+    result = await commission_calculator.get_commission_summary(current_user["id"])
+    return result
+
+@api_router.get("/commission/rates")
+async def get_commission_rates():
+    """Get commission rate structure"""
+    from services.commission_service import PACKAGE_COMMISSION_RATES, USER_TIER_MULTIPLIERS, PackageLevel, UserTier
+    
+    return {
+        "package_rates": {
+            level.value: {
+                "rate": f"{rate * 100}%",
+                "package_range": {
+                    "entry": "₹0-3L",
+                    "junior": "₹3-6L",
+                    "mid_level": "₹6-12L",
+                    "senior": "₹12-20L",
+                    "leadership": "₹20-35L",
+                    "executive": "₹35L+"
+                }.get(level.value)
+            }
+            for level, rate in PACKAGE_COMMISSION_RATES.items()
+        },
+        "tier_multipliers": {
+            tier.value: multiplier
+            for tier, multiplier in USER_TIER_MULTIPLIERS.items()
+        },
+        "deductions": {
+            "tds": "10% (if commission > ₹30,000)",
+            "platform_fee": "5%"
+        }
+    }
+
+
+# ============= CANDIDATE MATCHING ENDPOINTS =============
+
+@api_router.get("/matching/job/{job_id}/candidates")
+async def find_matching_candidates(
+    job_id: str,
+    limit: int = 50,
+    min_score: int = 0,
+    current_user: dict = Depends(get_current_user)
+):
+    """Find and rank matching candidates for a job"""
+    if current_user["role"] not in ["admin", "company", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    matches = await candidate_matcher.find_matching_candidates(
+        job_id=job_id,
+        limit=limit,
+        min_score=min_score
+    )
+    return {
+        "job_id": job_id,
+        "total_matches": len(matches),
+        "matches": matches
+    }
+
+class MatchScoreRequest(BaseModel):
+    candidate_id: str
+    job_id: str
+
+@api_router.post("/matching/score")
+async def calculate_match_score(
+    request: MatchScoreRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Calculate match score between candidate and job"""
+    # Get candidate resume
+    resume = await db.resumes.find_one({"candidate_id": request.candidate_id}, {"_id": 0})
+    if not resume:
+        raise HTTPException(status_code=404, detail="Candidate resume not found")
+    
+    # Get job
+    job = await db.jobs.find_one({"id": request.job_id}, {"_id": 0})
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    # Build candidate profile
+    candidate = {
+        "id": request.candidate_id,
+        "skills": resume.get("skills", []),
+        "experience_years": resume.get("experience_years", 0),
+        "education": resume.get("education", []),
+        "location": resume.get("parsed_data", {}).get("location", ""),
+        "expected_salary": resume.get("parsed_data", {}).get("expected_salary", 0)
+    }
+    
+    result = await candidate_matcher.calculate_match_score(candidate, job)
+    return result
+
+
+# ============= APPLICATION PIPELINE ENDPOINTS =============
+
+@api_router.post("/applications/{application_id}/screen")
+async def screen_application(
+    application_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Run automated screening on an application"""
+    if current_user["role"] not in ["admin", "company", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await application_pipeline.auto_screen_application(application_id)
+    if "error" in result:
+        raise HTTPException(status_code=404, detail=result["error"])
+    
+    return result
+
+class StatusUpdateRequest(BaseModel):
+    new_status: str
+    reason: Optional[str] = None
+    notes: Optional[str] = None
+
+@api_router.put("/applications/{application_id}/status")
+async def update_application_status(
+    application_id: str,
+    request: StatusUpdateRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Update application status with validation"""
+    if current_user["role"] not in ["admin", "company", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await application_pipeline.update_status(
+        application_id=application_id,
+        new_status=request.new_status,
+        changed_by=current_user["id"],
+        reason=request.reason,
+        notes=request.notes
+    )
+    
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+    
+    return result
+
+@api_router.get("/applications/{application_id}/history")
+async def get_application_history(
+    application_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get status change history for an application"""
+    logs = await db.application_status_logs.find(
+        {"application_id": application_id},
+        {"_id": 0}
+    ).sort("timestamp", -1).to_list(100)
+    
+    return {"application_id": application_id, "history": logs}
+
+class InterviewScheduleRequest(BaseModel):
+    interview_type: str
+    scheduled_at: str
+    duration_minutes: int = 60
+    location: Optional[str] = None
+    meeting_link: Optional[str] = None
+    interviewers: List[str] = []
+    notes: Optional[str] = None
+
+@api_router.post("/applications/{application_id}/interview")
+async def schedule_interview(
+    application_id: str,
+    request: InterviewScheduleRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Schedule an interview for an application"""
+    if current_user["role"] not in ["admin", "company", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await application_pipeline.schedule_interview(
+        application_id=application_id,
+        interview_type=request.interview_type,
+        scheduled_by=current_user["id"],
+        scheduled_at=request.scheduled_at,
+        duration_minutes=request.duration_minutes,
+        location=request.location,
+        meeting_link=request.meeting_link,
+        interviewers=request.interviewers,
+        notes=request.notes
+    )
+    
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+    
+    return result
+
+class InterviewFeedbackRequest(BaseModel):
+    rating: int = Field(ge=1, le=5)
+    technical_score: Optional[int] = Field(None, ge=1, le=10)
+    communication_score: Optional[int] = Field(None, ge=1, le=10)
+    cultural_fit_score: Optional[int] = Field(None, ge=1, le=10)
+    comments: Optional[str] = None
+    recommendation: str = "proceed"
+
+@api_router.post("/interviews/{interview_id}/feedback")
+async def submit_interview_feedback(
+    interview_id: str,
+    request: InterviewFeedbackRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Submit feedback for a completed interview"""
+    if current_user["role"] not in ["admin", "company", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await application_pipeline.submit_interview_feedback(
+        interview_id=interview_id,
+        feedback_by=current_user["id"],
+        rating=request.rating,
+        technical_score=request.technical_score,
+        communication_score=request.communication_score,
+        cultural_fit_score=request.cultural_fit_score,
+        comments=request.comments,
+        recommendation=request.recommendation
+    )
+    
+    if "error" in result:
+        raise HTTPException(status_code=404, detail=result["error"])
+    
+    return result
+
+@api_router.get("/pipeline/stats")
+async def get_pipeline_stats(
+    job_id: Optional[str] = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get application pipeline statistics"""
+    if current_user["role"] not in ["admin", "company", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await application_pipeline.get_pipeline_stats(job_id)
+    return result
+
+
+# ============= BGV ENDPOINTS =============
+
+class BGVCreateRequest(BaseModel):
+    candidate_id: str
+    application_id: str
+    verification_types: List[str]
+    priority: str = "normal"
+    deadline: Optional[str] = None
+    special_instructions: Optional[str] = None
+
+@api_router.post("/bgv/requests")
+async def create_bgv_request(
+    request: BGVCreateRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Create a new BGV request"""
+    if current_user["role"] not in ["admin", "company", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await bgv_service.create_bgv_request(
+        candidate_id=request.candidate_id,
+        application_id=request.application_id,
+        requested_by=current_user["id"],
+        verification_types=request.verification_types,
+        priority=request.priority,
+        deadline=request.deadline,
+        special_instructions=request.special_instructions
+    )
+    
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+    
+    return result
+
+@api_router.get("/bgv/requests")
+async def list_bgv_requests(
+    status: Optional[str] = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """List BGV requests"""
+    query = {}
+    if status:
+        query["status"] = status
+    
+    # Filter by role
+    if current_user["role"] == "bgv_specialist":
+        query["checks.assigned_to"] = current_user["id"]
+    elif current_user["role"] == "candidate":
+        query["candidate_id"] = current_user["id"]
+    elif current_user["role"] not in ["admin", "company", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    requests = await db.bgv_requests.find(query, {"_id": 0}).sort("created_at", -1).to_list(100)
+    return {"total": len(requests), "requests": requests}
+
+@api_router.get("/bgv/requests/{bgv_id}")
+async def get_bgv_request(
+    bgv_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get BGV request details"""
+    request = await db.bgv_requests.find_one({"id": bgv_id}, {"_id": 0})
+    if not request:
+        raise HTTPException(status_code=404, detail="BGV request not found")
+    
+    return request
+
+class BGVAssignRequest(BaseModel):
+    check_type: str
+    specialist_id: str
+
+@api_router.post("/bgv/requests/{bgv_id}/assign")
+async def assign_bgv_specialist(
+    bgv_id: str,
+    request: BGVAssignRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Assign a specialist to a BGV check"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    result = await bgv_service.assign_specialist(
+        bgv_id=bgv_id,
+        check_type=request.check_type,
+        specialist_id=request.specialist_id
+    )
+    
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+    
+    return result
+
+class BGVCheckUpdateRequest(BaseModel):
+    check_type: str
+    new_status: str
+    verification_data: Optional[Dict[str, Any]] = None
+    discrepancies: Optional[List[str]] = None
+    remarks: Optional[str] = None
+
+@api_router.put("/bgv/requests/{bgv_id}/check")
+async def update_bgv_check(
+    bgv_id: str,
+    request: BGVCheckUpdateRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Update a BGV check status"""
+    if current_user["role"] not in ["admin", "bgv_specialist"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await bgv_service.update_check_status(
+        bgv_id=bgv_id,
+        check_type=request.check_type,
+        new_status=request.new_status,
+        specialist_id=current_user["id"],
+        verification_data=request.verification_data,
+        discrepancies=request.discrepancies,
+        remarks=request.remarks
+    )
+    
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+    
+    return result
+
+class BGVCompleteRequest(BaseModel):
+    overall_result: str  # clear, discrepancy, failed
+    summary: str
+    recommendations: Optional[str] = None
+
+@api_router.post("/bgv/requests/{bgv_id}/complete")
+async def complete_bgv_verification(
+    bgv_id: str,
+    request: BGVCompleteRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Complete BGV verification"""
+    if current_user["role"] not in ["admin", "bgv_specialist"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await bgv_service.complete_verification(
+        bgv_id=bgv_id,
+        specialist_id=current_user["id"],
+        overall_result=request.overall_result,
+        summary=request.summary,
+        recommendations=request.recommendations
+    )
+    
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+    
+    return result
+
+@api_router.get("/bgv/specialist/workload")
+async def get_specialist_workload(current_user: dict = Depends(get_current_user)):
+    """Get workload for BGV specialist"""
+    if current_user["role"] not in ["admin", "bgv_specialist"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    specialist_id = current_user["id"]
+    result = await bgv_service.get_specialist_workload(specialist_id)
+    return result
+
+
+# ============= AUDIT LOG ENDPOINTS =============
+
+@api_router.get("/audit/user/{user_id}")
+async def get_user_audit_log(
+    user_id: str,
+    limit: int = 50,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get audit log for a user"""
+    if current_user["role"] != "admin" and current_user["id"] != user_id:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    logs = await audit_logger.get_user_activity(user_id, limit)
+    return {"user_id": user_id, "logs": logs}
+
+@api_router.get("/audit/resource/{resource_type}/{resource_id}")
+async def get_resource_audit_log(
+    resource_type: str,
+    resource_id: str,
+    limit: int = 100,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get audit log for a specific resource"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    logs = await audit_logger.get_resource_history(resource_type, resource_id, limit)
+    return {"resource_type": resource_type, "resource_id": resource_id, "logs": logs}
+
+@api_router.get("/audit/security")
+async def get_security_events(
+    hours: int = 24,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get security-related audit events"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
+    logs = await audit_logger.get_security_events(since)
+    return {"events": logs, "period_hours": hours}
+
+@api_router.get("/audit/failed-logins")
+async def get_failed_logins(
+    hours: int = 24,
+    min_attempts: int = 3,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get failed login attempts"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    results = await audit_logger.get_failed_logins(hours, min_attempts)
+    return {"suspicious_accounts": results}
+
+class ComplianceReportRequest(BaseModel):
+    start_date: str
+    end_date: str
+
+@api_router.post("/audit/compliance-report")
+async def generate_compliance_report(
+    request: ComplianceReportRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """Generate compliance report"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    report = await audit_logger.generate_compliance_report(
+        start_date=request.start_date,
+        end_date=request.end_date
+    )
+    return report
+
+
+# ============= NOTIFICATION ENDPOINTS =============
+
+@api_router.get("/notifications")
+async def get_notifications(
+    unread_only: bool = False,
+    limit: int = 50,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get user notifications"""
+    query = {"user_id": current_user["id"]}
+    if unread_only:
+        query["read"] = False
+    
+    notifications = await db.notifications.find(
+        query, {"_id": 0}
+    ).sort("created_at", -1).limit(limit).to_list(limit)
+    
+    unread_count = await db.notifications.count_documents({
+        "user_id": current_user["id"],
+        "read": False
+    })
+    
+    return {
+        "notifications": notifications,
+        "unread_count": unread_count
+    }
+
+@api_router.put("/notifications/{notification_id}/read")
+async def mark_notification_read(
+    notification_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Mark notification as read"""
+    result = await db.notifications.update_one(
+        {"id": notification_id, "user_id": current_user["id"]},
+        {"$set": {"read": True, "read_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Notification not found")
+    
+    return {"status": "marked_read"}
+
+@api_router.put("/notifications/read-all")
+async def mark_all_notifications_read(current_user: dict = Depends(get_current_user)):
+    """Mark all notifications as read"""
+    result = await db.notifications.update_many(
+        {"user_id": current_user["id"], "read": False},
+        {"$set": {"read": True, "read_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    return {"marked_read": result.modified_count}
+
+
+# ============= USER PROFILE ENDPOINTS =============
+
+class UserProfileUpdate(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    phone: Optional[str] = None
+    address: Optional[Dict[str, Any]] = None
+    date_of_birth: Optional[str] = None
+    bio: Optional[str] = None
+    skills: Optional[List[str]] = None
+    linkedin_url: Optional[str] = None
+    portfolio_url: Optional[str] = None
+    expected_salary: Optional[float] = None
+    notice_period_days: Optional[int] = None
+    willing_to_relocate: Optional[bool] = None
+    preferred_locations: Optional[List[str]] = None
+
+@api_router.get("/profile")
+async def get_user_profile(current_user: dict = Depends(get_current_user)):
+    """Get current user's extended profile"""
+    profile = await db.user_profiles.find_one(
+        {"user_id": current_user["id"]},
+        {"_id": 0}
+    )
+    
+    if not profile:
+        # Return basic profile from users collection
+        return {
+            "user_id": current_user["id"],
+            "email": current_user["email"],
+            "full_name": current_user.get("full_name"),
+            "role": current_user["role"],
+            "profile_complete": False
+        }
+    
+    return {**profile, "profile_complete": True}
+
+@api_router.put("/profile")
+async def update_user_profile(
+    request: UserProfileUpdate,
+    current_user: dict = Depends(get_current_user)
+):
+    """Update user profile"""
+    update_data = {k: v for k, v in request.dict().items() if v is not None}
+    update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+    
+    # Calculate profile completion
+    profile_fields = ["first_name", "last_name", "phone", "skills", "bio"]
+    existing = await db.user_profiles.find_one({"user_id": current_user["id"]}) or {}
+    merged = {**existing, **update_data}
+    completed = sum(1 for f in profile_fields if merged.get(f))
+    completion_pct = int((completed / len(profile_fields)) * 100)
+    update_data["profile_completion"] = completion_pct
+    
+    result = await db.user_profiles.update_one(
+        {"user_id": current_user["id"]},
+        {
+            "$set": update_data,
+            "$setOnInsert": {
+                "user_id": current_user["id"],
+                "created_at": datetime.now(timezone.utc).isoformat()
+            }
+        },
+        upsert=True
+    )
+    
+    return {
+        "status": "updated",
+        "profile_completion": completion_pct
+    }
+
+
+# ============= JOB VIEW TRACKING =============
+
+@api_router.post("/jobs/{job_id}/view")
+async def track_job_view(
+    job_id: str,
+    request: Request,
+    current_user: dict = Depends(get_current_user)
+):
+    """Track job view for analytics"""
+    view = {
+        "id": str(uuid.uuid4()),
+        "job_id": job_id,
+        "viewer_id": current_user["id"] if current_user else None,
+        "viewer_ip": request.client.host if request.client else None,
+        "source": request.headers.get("referer", "direct"),
+        "viewed_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    await db.job_views.insert_one(view)
+    return {"tracked": True}
+
+@api_router.get("/jobs/{job_id}/analytics")
+async def get_job_analytics(
+    job_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get job view analytics"""
+    if current_user["role"] not in ["admin", "company", "recruiter"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    # Total views
+    total_views = await db.job_views.count_documents({"job_id": job_id})
+    
+    # Unique viewers
+    unique_viewers = len(await db.job_views.distinct("viewer_id", {"job_id": job_id}))
+    
+    # Views by day (last 30 days)
+    thirty_days_ago = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat()
+    pipeline = [
+        {"$match": {"job_id": job_id, "viewed_at": {"$gte": thirty_days_ago}}},
+        {"$group": {
+            "_id": {"$substr": ["$viewed_at", 0, 10]},
+            "count": {"$sum": 1}
+        }},
+        {"$sort": {"_id": 1}}
+    ]
+    views_by_day = await db.job_views.aggregate(pipeline).to_list(30)
+    
+    # Applications count
+    applications = await db.applications.count_documents({"job_id": job_id})
+    
+    return {
+        "job_id": job_id,
+        "total_views": total_views,
+        "unique_viewers": unique_viewers,
+        "applications": applications,
+        "conversion_rate": f"{(applications / total_views * 100) if total_views > 0 else 0:.1f}%",
+        "views_by_day": views_by_day
+    }
+
+
 app.include_router(api_router)
 
 app.add_middleware(
