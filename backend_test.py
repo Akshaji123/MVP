@@ -301,10 +301,10 @@ class BackendTester:
                     
                     # Test interview feedback
                     feedback_data = {
-                        "rating": 8,
-                        "technical_score": 85,
-                        "communication_score": 90,
-                        "cultural_fit_score": 80,
+                        "rating": 4,  # 1-5 scale
+                        "technical_score": 8,  # 1-10 scale
+                        "communication_score": 9,  # 1-10 scale
+                        "cultural_fit_score": 8,  # 1-10 scale
                         "comments": "Strong technical skills, good communication",
                         "recommendation": "proceed"
                     }
