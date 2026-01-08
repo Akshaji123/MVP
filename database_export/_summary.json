@@ -1,5 +1,5 @@
 {
-  "exported_at": "2026-01-08T13:36:56.784388+00:00",
+  "exported_at": "2026-01-08T13:49:57.171386+00:00",
   "database": "test_database",
   "collections": {
     "resumes": 11,
@@ -11,7 +11,7 @@
     "gamification_tiers": 5,
     "user_streaks": 2,
     "gamification_achievements": 11,
-    "users": 13
+    "users": 14
   },
-  "total_documents": 56
+  "total_documents": 57
 }

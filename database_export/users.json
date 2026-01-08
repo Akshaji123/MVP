@@ -123,5 +123,15 @@
     "password": "$2b$12$Rh0HsMrmScZbzOReE6MAmeplCF1UDk5y5T5X2K2bjezHO3fK.34QW",
     "currency_preference": "INR",
     "created_at": "2026-01-08T12:18:44.304878+00:00"
+  },
+  {
+    "_id": "695fb4b47e60aff74ffa3009",
+    "id": "9f89364d-a8fc-4374-b9ad-24289aaa04b6",
+    "email": "Ajhar@ali.com",
+    "full_name": "Ajhar",
+    "role": "admin",
+    "password": "$2b$12$EkoeGDZ8Bg5zwj5IadOx1uR4aj7VJUMBzYcyL7CsVeVk5.uhwmlWW",
+    "currency_preference": "INR",
+    "created_at": "2026-01-08T13:44:20.474686+00:00"
   }
 ]
