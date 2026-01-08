@@ -7,264 +7,103 @@
       "url": "mongodb://localhost:27017",
       "database_name": "test_database",
       "options": {
-        "maxPoolSize": 10,
+        "maxPoolSize": 20,
         "minPoolSize": 1,
         "retryWrites": true
       }
     }
   },
+  "schemas": {
+    "core": {
+      "description": "User Management and Authentication",
+      "collections": ["users", "roles", "user_roles", "user_profiles", "user_sessions"]
+    },
+    "business": {
+      "description": "Core Business Entities",
+      "collections": ["companies", "jobs", "candidates", "applications", "referrals", "background_verifications", "interviews", "assessments"]
+    },
+    "financial": {
+      "description": "Payment and Commission Management",
+      "collections": ["commissions", "payments", "invoices", "payout_requests"]
+    },
+    "communication": {
+      "description": "Messaging and Notifications",
+      "collections": ["messages", "notifications", "email_templates", "communication_logs"]
+    },
+    "integration": {
+      "description": "External API Management",
+      "collections": ["ats_integrations", "job_board_syncs", "api_keys", "webhook_events"]
+    },
+    "audit": {
+      "description": "Logging and Compliance",
+      "collections": ["activity_logs", "data_access_logs"]
+    },
+    "gamification": {
+      "description": "Gamification System",
+      "collections": ["gamification_achievements", "gamification_tiers", "gamification_levels", "user_gamification", "user_achievements", "user_streaks"]
+    }
+  },
   "collections": {
     "users": {
-      "description": "User accounts (admin, company, recruiter, candidate)",
-      "indexes": ["email", "id", "role"],
+      "description": "Core user accounts with authentication",
+      "indexes": ["email (unique)", "phone (unique, sparse)", "is_active + is_verified", "created_at"],
       "schema": {
         "id": "string (UUID)",
         "email": "string (unique)",
-        "full_name": "string",
-        "role": "string (admin|company|recruiter|candidate)",
-        "password": "string (bcrypt hashed)",
-        "currency_preference": "string (INR|USD)",
-        "created_at": "datetime"
+        "phone": "string (unique, optional)",
+        "password_hash": "string",
+        "is_active": "boolean",
+        "is_verified": "boolean",
+        "last_login": "datetime",
+        "failed_login_attempts": "integer",
+        "locked_until": "datetime (optional)",
+        "created_at": "datetime",
+        "updated_at": "datetime"
       }
     },
-    "jobs": {
-      "description": "Job postings by companies",
-      "indexes": ["id", "company_id", "status"],
+    "roles": {
+      "description": "Role definitions with permissions",
+      "indexes": ["name (unique)"],
       "schema": {
         "id": "string (UUID)",
-        "title": "string",
+        "name": "string (super_admin|admin|client|recruiter|freelancer|candidate|bgv_specialist)",
         "description": "string",
-        "requirements": "array[string]",
-        "location": "string",
-        "salary_range": "string",
-        "experience_level": "string",
-        "employment_type": "string",
-        "company_id": "string (FK to users)",
-        "company_name": "string",
-        "status": "string (active|closed)",
+        "permissions": "object",
+        "hierarchy_level": "integer",
         "created_at": "datetime"
       }
     },
-    "applications": {
-      "description": "Job applications by candidates",
-      "indexes": ["id", "job_id", "candidate_id"],
+    "user_roles": {
+      "description": "User-role assignments",
+      "indexes": ["user_id + role_id (unique)", "user_id + is_active"],
       "schema": {
         "id": "string (UUID)",
-        "job_id": "string (FK to jobs)",
-        "job_title": "string",
-        "candidate_id": "string (FK to users)",
-        "candidate_name": "string",
-        "resume_id": "string (FK to resumes)",
-        "match_score": "integer (0-100)",
-        "score_details": "object",
-        "status": "string (pending|reviewing|shortlisted|rejected|hired)",
-        "created_at": "datetime"
-      }
-    },
-    "resumes": {
-      "description": "Parsed resumes with AI analysis",
-      "indexes": ["id", "candidate_id"],
-      "schema": {
-        "id": "string (UUID)",
-        "candidate_id": "string (FK to users)",
-        "file_name": "string",
-        "parsed_data": "object (AI extracted data)",
-        "overall_score": "integer",
-        "skills": "array[string]",
-        "experience_years": "integer",
-        "education": "array[string]",
-        "created_at": "datetime"
-      }
-    },
-    "referrals": {
-      "description": "Candidate referrals by recruiters/employees",
-      "indexes": ["id", "referrer_id", "job_id"],
-      "schema": {
-        "id": "string (UUID)",
-        "job_id": "string (FK to jobs)",
-        "job_title": "string",
-        "referrer_id": "string (FK to users)",
-        "referrer_name": "string",
-        "candidate_email": "string",
-        "candidate_name": "string",
-        "candidate_phone": "string (optional)",
-        "status": "string (pending|applied|hired|rejected)",
-        "reward_amount": "integer",
-        "created_at": "datetime"
-      }
-    },
-    "documents": {
-      "description": "Uploaded documents (resumes, certificates, etc.)",
-      "indexes": ["id", "uploaded_by", "category"],
-      "schema": {
-        "id": "string (UUID)",
-        "name": "string",
-        "file_path": "string",
-        "file_type": "string",
-        "file_size": "integer",
-        "uploaded_by": "string (FK to users)",
-        "uploaded_at": "datetime",
-        "category": "string",
-        "related_to": "string",
-        "status": "string"
-      }
-    },
-    "bgv_requests": {
-      "description": "Background verification requests",
-      "indexes": ["id", "candidate_id", "status"],
-      "schema": {
-        "id": "string (UUID)",
-        "candidate_id": "string (FK to users)",
-        "candidate_name": "string",
-        "application_id": "string (FK to applications)",
-        "requested_by": "string (FK to users)",
-        "requested_at": "datetime",
-        "status": "string (pending|in_progress|completed)",
-        "verification_types": "array[string]",
-        "checks_completed": "array[string]",
-        "checks_pending": "array[string]",
-        "completed_at": "datetime (optional)",
-        "verified_by": "string (optional)"
-      }
-    },
-    "candidate_tracking": {
-      "description": "91-day post-hire tracking",
-      "indexes": ["id", "candidate_id", "company_id"],
-      "schema": {
-        "id": "string (UUID)",
-        "candidate_id": "string (FK to users)",
-        "application_id": "string (FK to applications)",
-        "job_id": "string (FK to jobs)",
-        "company_id": "string (FK to users)",
-        "join_date": "date",
-        "tracking_start_date": "date",
-        "tracking_end_date": "date",
-        "current_day": "integer",
-        "status": "string (tracking|completed|terminated)",
-        "milestones": "array[object]",
-        "feedback_records": "array[object]",
-        "invoice_eligible": "boolean",
-        "invoice_generated": "boolean"
-      }
-    },
-    "invoices": {
-      "description": "Generated invoices",
-      "indexes": ["id", "company_id", "invoice_number"],
-      "schema": {
-        "id": "string (UUID)",
-        "invoice_number": "string",
-        "company_id": "string (FK to users)",
-        "company_name": "string",
-        "candidate_tracking_id": "string (FK to candidate_tracking)",
-        "amount": "float",
-        "tax_amount": "float",
-        "total_amount": "float",
-        "currency": "string (INR|USD)",
-        "issue_date": "date",
-        "due_date": "date",
-        "status": "string (draft|sent|paid)",
-        "pdf_path": "string (optional)"
-      }
-    },
-    "gamification_achievements": {
-      "description": "Achievement definitions",
-      "indexes": ["id", "type"],
-      "schema": {
-        "id": "string",
-        "name": "string",
-        "description": "string",
-        "type": "string (referral|network|mentor|placement|profile|streak|milestone)",
-        "points": "integer",
-        "tier": "integer (1-5)",
-        "icon": "string",
-        "renewable": "boolean (optional)"
-      }
-    },
-    "gamification_tiers": {
-      "description": "Reward tier definitions",
-      "indexes": ["id"],
-      "schema": {
-        "id": "string (tier1-tier5)",
-        "name": "string (Bronze|Silver|Gold|Platinum|Diamond)",
-        "point_threshold": "integer",
-        "rewards": "array[{id, name, type}]"
-      }
-    },
-    "gamification_levels": {
-      "description": "User level definitions with commission rates",
-      "indexes": ["id"],
-      "schema": {
-        "id": "string (level1-level5)",
-        "name": "string",
-        "min_referrals": "integer",
-        "commission_rate": "float (0.05-0.15)",
-        "color": "string (hex)",
-        "icon": "string"
-      }
-    },
-    "user_gamification": {
-      "description": "User's gamification progress",
-      "indexes": ["user_id"],
-      "schema": {
         "user_id": "string (FK to users)",
-        "total_points": "integer",
-        "current_tier": "string (FK to gamification_tiers)",
-        "current_level": "string (FK to gamification_levels)",
-        "created_at": "datetime"
-      }
-    },
-    "user_achievements": {
-      "description": "User's earned achievements",
-      "indexes": ["user_id", "achievement_id"],
-      "schema": {
-        "user_id": "string (FK to users)",
-        "achievement_id": "string (FK to gamification_achievements)",
-        "achieved_at": "datetime",
-        "points": "integer"
-      }
-    },
-    "user_streaks": {
-      "description": "User's activity streaks",
-      "indexes": ["user_id"],
-      "schema": {
-        "user_id": "string (FK to users)",
-        "current_streak": "integer",
-        "max_streak": "integer",
-        "last_active_date": "date",
-        "streak_freeze_available": "boolean"
-      }
-    },
-    "platform_settings": {
-      "description": "Platform configuration settings",
-      "indexes": ["key"],
-      "schema": {
-        "key": "string (unique)",
-        "value": "any",
-        "updated_at": "datetime",
-        "updated_by": "string (FK to users)"
-      }
-    },
-    "user_sessions": {
-      "description": "OAuth user sessions",
-      "indexes": ["user_id", "session_token"],
-      "schema": {
-        "user_id": "string (FK to users)",
-        "session_token": "string",
-        "expires_at": "datetime",
-        "created_at": "datetime"
+        "role_id": "string (FK to roles)",
+        "role_name": "string (denormalized)",
+        "assigned_by": "string (FK to users)",
+        "assigned_at": "datetime",
+        "expires_at": "datetime (optional)",
+        "is_active": "boolean"
       }
     },
     "user_profiles": {
       "description": "Extended user profile information",
-      "indexes": ["user_id"],
+      "indexes": ["user_id (unique)", "profile_type", "company_id"],
       "schema": {
+        "id": "string (UUID)",
         "user_id": "string (FK to users)",
         "first_name": "string",
         "last_name": "string",
-        "phone": "string",
-        "address": "object {street, city, state, country, pincode}",
-        "date_of_birth": "string",
+        "profile_type": "string (candidate|recruiter|client|freelancer|admin)",
+        "company_id": "string (FK to companies, optional)",
+        "profile_data": "object (flexible)",
+        "avatar_url": "string",
         "bio": "string",
+        "location": "string",
+        "timezone": "string",
+        "language_preference": "string",
+        "privacy_settings": "object",
         "skills": "array[string]",
         "linkedin_url": "string",
         "portfolio_url": "string",
@@ -277,106 +116,374 @@
         "updated_at": "datetime"
       }
     },
-    "interview_schedules": {
-      "description": "Interview scheduling and feedback",
-      "indexes": ["id", "application_id", "candidate_id"],
-      "schema": {
-        "id": "string (UUID)",
-        "application_id": "string (FK to applications)",
-        "candidate_id": "string (FK to users)",
-        "job_id": "string (FK to jobs)",
-        "interview_type": "string (phone|video|onsite|technical|hr|panel)",
-        "scheduled_by": "string (FK to users)",
-        "scheduled_at": "datetime",
-        "duration_minutes": "integer",
-        "location": "string",
-        "meeting_link": "string",
-        "interviewers": "array[string]",
-        "status": "string (scheduled|completed|cancelled|rescheduled)",
-        "feedback": "object {rating, scores, comments, recommendation}",
-        "created_at": "datetime"
-      }
-    },
-    "application_status_logs": {
-      "description": "Application status change audit trail",
-      "indexes": ["application_id", "timestamp"],
-      "schema": {
-        "id": "string (UUID)",
-        "application_id": "string (FK to applications)",
-        "old_status": "string",
-        "new_status": "string",
-        "changed_by": "string (FK to users)",
-        "reason": "string",
-        "notes": "string",
-        "timestamp": "datetime"
-      }
-    },
-    "job_views": {
-      "description": "Job view analytics tracking",
-      "indexes": ["job_id", "viewed_at"],
-      "schema": {
-        "id": "string (UUID)",
-        "job_id": "string (FK to jobs)",
-        "viewer_id": "string (FK to users, optional)",
-        "viewer_ip": "string",
-        "source": "string (direct|search|referral|email)",
-        "viewed_at": "datetime"
-      }
-    },
-    "audit_logs": {
-      "description": "System-wide audit logging",
-      "indexes": ["user_id", "action", "timestamp"],
+    "user_sessions": {
+      "description": "User authentication sessions",
+      "indexes": ["session_token (unique)", "user_id + is_active", "expires_at"],
       "schema": {
         "id": "string (UUID)",
         "user_id": "string (FK to users)",
-        "action": "string (login|logout|create|update|delete|etc)",
-        "resource_type": "string",
-        "resource_id": "string",
-        "old_value": "object",
-        "new_value": "object",
+        "session_token": "string (unique)",
+        "refresh_token": "string",
         "ip_address": "string",
         "user_agent": "string",
-        "success": "boolean",
-        "timestamp": "datetime"
+        "device_info": "object",
+        "expires_at": "datetime",
+        "is_active": "boolean",
+        "created_at": "datetime"
+      }
+    },
+    "companies": {
+      "description": "Company/organization profiles",
+      "indexes": ["name", "is_active", "industry"],
+      "schema": {
+        "id": "string (UUID)",
+        "name": "string",
+        "legal_name": "string",
+        "industry": "string",
+        "company_size": "string (startup|small|medium|large|enterprise)",
+        "website": "string",
+        "description": "string",
+        "logo_url": "string",
+        "headquarters_location": "string",
+        "founded_year": "integer",
+        "company_type": "string (startup|corporation|government|ngo)",
+        "tax_id": "string (encrypted)",
+        "billing_address": "object",
+        "contact_info": "object",
+        "settings": "object",
+        "is_active": "boolean",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "jobs": {
+      "description": "Job postings",
+      "indexes": ["company_id + job_status", "job_status + posted_at", "text(location, title, description)", "skills_required", "experience_level", "salary_min + salary_max", "created_at"],
+      "schema": {
+        "id": "string (UUID)",
+        "company_id": "string (FK to companies)",
+        "company_name": "string (denormalized)",
+        "title": "string",
+        "description": "string",
+        "requirements": "string",
+        "responsibilities": "string",
+        "location": "string",
+        "remote_policy": "string (remote|hybrid|onsite)",
+        "employment_type": "string (full_time|part_time|contract|internship)",
+        "experience_level": "string (entry|junior|mid|senior|lead|executive)",
+        "experience_min": "integer",
+        "experience_max": "integer",
+        "salary_min": "float",
+        "salary_max": "float",
+        "salary_currency": "string (INR|USD)",
+        "benefits": "string",
+        "skills_required": "array[string]",
+        "skills_preferred": "array[string]",
+        "qualifications": "object",
+        "education_required": "string",
+        "application_deadline": "date",
+        "positions_available": "integer",
+        "job_status": "string (draft|published|paused|closed|archived)",
+        "referral_bonus": "float",
+        "urgency_level": "string (urgent|high|normal|low)",
+        "posted_by": "string (FK to users)",
+        "posted_at": "datetime",
+        "view_count": "integer",
+        "application_count": "integer",
+        "created_at": "datetime"
+      }
+    },
+    "candidates": {
+      "description": "Candidate profiles with career information",
+      "indexes": ["user_id (unique)", "skills", "experience_years", "availability", "is_available_for_referral"],
+      "schema": {
+        "id": "string (UUID)",
+        "user_id": "string (FK to users)",
+        "resume_url": "string",
+        "portfolio_url": "string",
+        "current_title": "string",
+        "current_company": "string",
+        "experience_years": "integer",
+        "skills": "array[string]",
+        "education": "array[object]",
+        "certifications": "array[object]",
+        "work_history": "array[object]",
+        "expected_salary": "float",
+        "current_salary": "float",
+        "preferred_locations": "array[string]",
+        "availability": "string (immediate|2weeks|1month|3months)",
+        "job_preferences": "object",
+        "is_available_for_referral": "boolean",
+        "visibility_settings": "object",
+        "parsed_resume_data": "object",
+        "overall_score": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "applications": {
+      "description": "Job applications",
+      "indexes": ["job_id + candidate_id (unique)", "job_id + application_status", "candidate_id + applied_at", "recruiter_id", "application_status", "screening_score"],
+      "schema": {
+        "id": "string (UUID)",
+        "job_id": "string (FK to jobs)",
+        "job_title": "string (denormalized)",
+        "candidate_id": "string (FK to candidates)",
+        "candidate_name": "string (denormalized)",
+        "candidate_email": "string (denormalized)",
+        "referral_id": "string (FK to referrals, optional)",
+        "recruiter_id": "string (FK to users, optional)",
+        "application_status": "string (submitted|screening|shortlisted|interview_scheduled|...)",
+        "cover_letter": "string",
+        "resume_url": "string",
+        "resume_id": "string (FK to resumes)",
+        "additional_documents": "array[object]",
+        "applied_at": "datetime",
+        "last_status_change": "datetime",
+        "status_history": "array[object]",
+        "recruiter_notes": "string",
+        "screening_score": "integer",
+        "screening_result": "object",
+        "match_score": "float",
+        "match_details": "object",
+        "interview_feedback": "array[object]",
+        "rejection_reason": "string",
+        "offer_details": "object",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "referrals": {
+      "description": "Candidate referrals",
+      "indexes": ["referrer_id + referral_status", "job_id", "candidate_email", "is_hired + commission_paid"],
+      "schema": {
+        "id": "string (UUID)",
+        "job_id": "string (FK to jobs)",
+        "job_title": "string (denormalized)",
+        "candidate_id": "string (FK to candidates, optional)",
+        "candidate_name": "string",
+        "candidate_email": "string",
+        "candidate_phone": "string",
+        "referrer_id": "string (FK to users)",
+        "referrer_name": "string (denormalized)",
+        "referral_status": "string (submitted|under_review|applied|interviewing|hired|rejected|expired)",
+        "referral_notes": "string",
+        "commission_rate": "float",
+        "commission_amount": "float",
+        "application_id": "string (FK to applications)",
+        "is_hired": "boolean",
+        "hired_date": "date",
+        "probation_end_date": "date",
+        "commission_paid": "boolean",
+        "quality_score": "integer",
+        "feedback": "string",
+        "submitted_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "background_verifications": {
+      "description": "BGV requests and results",
+      "indexes": ["candidate_id", "application_id", "verification_status", "requested_at"],
+      "schema": {
+        "id": "string (UUID)",
+        "candidate_id": "string (FK to candidates)",
+        "candidate_name": "string (denormalized)",
+        "application_id": "string (FK to applications)",
+        "requested_by": "string (FK to users)",
+        "requested_at": "datetime",
+        "verification_types": "array[string]",
+        "verification_status": "string (pending|in_progress|verified|failed|discrepancy)",
+        "priority": "string (urgent|high|normal|low)",
+        "deadline": "date",
+        "special_instructions": "string",
+        "checks": "array[object]",
+        "overall_result": "string (clear|discrepancy|failed)",
+        "completion_percentage": "integer",
+        "completed_at": "datetime",
+        "completed_by": "string (FK to users)",
+        "report_url": "string",
+        "created_at": "datetime"
+      }
+    },
+    "interviews": {
+      "description": "Interview schedules and feedback",
+      "indexes": ["application_id", "candidate_id", "scheduled_at", "interview_status"],
+      "schema": {
+        "id": "string (UUID)",
+        "application_id": "string (FK to applications)",
+        "candidate_id": "string (FK to candidates)",
+        "job_id": "string (FK to jobs)",
+        "interview_type": "string (phone|video|onsite|technical|hr|panel)",
+        "interview_round": "integer",
+        "scheduled_at": "datetime",
+        "duration_minutes": "integer",
+        "interviewer_ids": "array[string]",
+        "interviewer_names": "array[string] (denormalized)",
+        "location": "string",
+        "meeting_link": "string",
+        "interview_status": "string (scheduled|completed|cancelled|rescheduled|no_show)",
+        "feedback": "object",
+        "rating": "integer (1-10)",
+        "scores": "object {technical, communication, cultural_fit}",
+        "recommendation": "string (hire|reject|next_round)",
+        "notes": "string",
+        "scheduled_by": "string (FK to users)",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "commissions": {
+      "description": "Commission calculations and payments",
+      "indexes": ["referral_id", "user_id + commission_status", "earned_date", "payment_due_date"],
+      "schema": {
+        "id": "string (UUID)",
+        "referral_id": "string (FK to referrals)",
+        "application_id": "string (FK to applications)",
+        "user_id": "string (FK to users)",
+        "user_name": "string (denormalized)",
+        "commission_type": "string (referral|performance|bonus)",
+        "base_amount": "float (annual package)",
+        "package_level": "string (entry|junior|mid_level|senior|leadership|executive)",
+        "base_commission_rate": "float",
+        "user_tier": "string (bronze|silver|gold|platinum|diamond)",
+        "tier_multiplier": "float",
+        "effective_rate": "float",
+        "gross_commission": "float",
+        "tds_rate": "float",
+        "tds_amount": "float",
+        "platform_fee_rate": "float",
+        "platform_fee": "float",
+        "net_commission": "float",
+        "currency": "string (INR|USD)",
+        "commission_status": "string (pending|approved|processing|paid|cancelled)",
+        "earned_date": "date",
+        "payment_due_date": "date",
+        "payment_date": "date",
+        "payment_reference": "string",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "payments": {
+      "description": "Payment transactions",
+      "indexes": ["gateway_transaction_id", "payee_id + payment_status", "payment_date", "related_entity_type + related_entity_id"],
+      "schema": {
+        "id": "string (UUID)",
+        "payer_id": "string (FK to users)",
+        "payer_name": "string (denormalized)",
+        "payee_id": "string (FK to users)",
+        "payee_name": "string (denormalized)",
+        "related_entity_type": "string (commission|invoice|refund|subscription)",
+        "related_entity_id": "string",
+        "payment_method": "string (card|bank_transfer|wallet|upi)",
+        "payment_gateway": "string (razorpay|stripe|paypal)",
+        "gateway_transaction_id": "string",
+        "amount": "float",
+        "currency": "string (INR|USD)",
+        "payment_status": "string (pending|processing|completed|failed|refunded)",
+        "failure_reason": "string",
+        "payment_date": "datetime",
+        "settlement_date": "date",
+        "gateway_fee": "float",
+        "tax_amount": "float",
+        "net_amount": "float",
+        "bank_reference": "string",
+        "metadata": "object",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "invoices": {
+      "description": "Invoices for billing",
+      "indexes": ["invoice_number (unique)", "company_id", "invoice_status", "due_date"],
+      "schema": {
+        "id": "string (UUID)",
+        "invoice_number": "string (unique)",
+        "company_id": "string (FK to companies)",
+        "company_name": "string (denormalized)",
+        "billing_address": "object",
+        "billing_period_start": "date",
+        "billing_period_end": "date",
+        "line_items": "array[object {description, quantity, unit_price, amount}]",
+        "subtotal": "float",
+        "tax_rate": "float",
+        "tax_amount": "float",
+        "total_amount": "float",
+        "currency": "string (INR|USD)",
+        "invoice_status": "string (draft|sent|paid|overdue|cancelled)",
+        "issued_date": "date",
+        "due_date": "date",
+        "paid_date": "date",
+        "payment_terms": "integer (days)",
+        "notes": "string",
+        "pdf_url": "string",
+        "created_at": "datetime",
+        "updated_at": "datetime"
       }
     },
     "notifications": {
       "description": "User notifications",
-      "indexes": ["user_id", "read", "created_at"],
+      "indexes": ["user_id + is_read", "notification_type", "created_at"],
       "schema": {
         "id": "string (UUID)",
         "user_id": "string (FK to users)",
+        "notification_type": "string",
         "title": "string",
         "message": "string",
-        "type": "string (info|success|warning|error)",
-        "read": "boolean",
-        "action_url": "string (optional)",
-        "created_at": "datetime",
-        "read_at": "datetime (optional)"
+        "action_url": "string",
+        "action_text": "string",
+        "channels": "array[string] (email|sms|push|in_app)",
+        "delivery_status": "object",
+        "is_read": "boolean",
+        "read_at": "datetime",
+        "priority": "string (urgent|high|normal|low)",
+        "metadata": "object",
+        "created_at": "datetime"
       }
     },
-    "payments": {
-      "description": "Commission payments tracking",
-      "indexes": ["id", "recruiter_id", "status"],
+    "email_templates": {
+      "description": "Email template definitions",
+      "indexes": ["template_name (unique)", "template_type + is_active"],
       "schema": {
         "id": "string (UUID)",
-        "application_id": "string (FK to applications)",
-        "recruiter_id": "string (FK to users)",
-        "annual_package": "float",
-        "base_commission_rate": "float",
-        "tier_multiplier": "float",
-        "gross_commission": "float",
-        "tds_amount": "float",
-        "platform_fee": "float",
-        "net_commission": "float",
-        "currency": "string (INR|USD)",
-        "status": "string (pending|processing|completed|failed)",
-        "transaction_id": "string",
-        "initiated_at": "datetime",
-        "processed_at": "datetime"
+        "template_name": "string (unique)",
+        "template_type": "string (transactional|marketing|system)",
+        "subject_template": "string",
+        "html_template": "string",
+        "text_template": "string",
+        "variables": "array[string]",
+        "language": "string",
+        "is_active": "boolean",
+        "created_by": "string (FK to users)",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "activity_logs": {
+      "description": "Audit trail for compliance",
+      "indexes": ["user_id + action + created_at", "resource_type + resource_id", "created_at"],
+      "schema": {
+        "id": "string (UUID)",
+        "user_id": "string (FK to users)",
+        "user_email": "string (denormalized)",
+        "action": "string (login|logout|create|update|delete|view|export)",
+        "resource_type": "string",
+        "resource_id": "string",
+        "old_values": "object",
+        "new_values": "object",
+        "ip_address": "string",
+        "user_agent": "string",
+        "session_id": "string",
+        "result": "string (success|failure|partial)",
+        "error_message": "string",
+        "duration_ms": "integer",
+        "metadata": "object",
+        "created_at": "datetime"
       }
     }
   },
   "export_location": "/app/database_export/",
-  "backup_location": "/app/database_backups/"
+  "backup_location": "/app/database_backups/",
+  "schema_file": "/app/backend/schemas/mongodb_schema.py",
+  "migration_script": "/app/backend/scripts/init_database.py"
 }
