@@ -262,15 +262,15 @@ class BackendTester:
                     self.log_result("Auto-screening", False, error=error)
                 
                 # Test status update
-                status_data = {"status": "shortlisted", "notes": "Test status update"}
+                status_data = {"new_status": "shortlisted", "notes": "Test status update", "reason": "Automated test"}
                 response = self.make_request("PUT", f"/applications/{app_id}/status", status_data, self.admin_token)
                 if response and response.status_code == 200:
                     self.log_result("Status Update", True, "Status updated to shortlisted")
                 else:
-                    # Try PATCH method instead
+                    # Try the older PATCH endpoint
                     response = self.make_request("PATCH", f"/applications/{app_id}/status", {"status": "shortlisted"}, self.admin_token)
                     if response and response.status_code == 200:
-                        self.log_result("Status Update", True, "Status updated to shortlisted")
+                        self.log_result("Status Update", True, "Status updated to shortlisted (PATCH)")
                     else:
                         error = response.json().get("detail", "Unknown error") if response else "Connection failed"
                         self.log_result("Status Update", False, error=error)
