@@ -1701,6 +1701,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+@app.on_event("startup")
+async def startup_event():
+    """Initialize services on startup"""
+    # Initialize gamification system
+    await gamification_service.initialize()
+    logger.info("Gamification system initialized")
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
