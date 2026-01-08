@@ -439,15 +439,20 @@ class BackendTester:
             notifications = response.json()
             self.log_result("User Notifications", True, f"Found {len(notifications)} notifications")
             
-            if notifications:
+            if notifications and len(notifications) > 0:
                 # Test marking notification as read
                 notif_id = notifications[0].get("id")
-                response = self.make_request("PUT", f"/notifications/{notif_id}/read", token=self.recruiter_token)
-                if response and response.status_code == 200:
-                    self.log_result("Mark Notification Read", True, "Notification marked as read")
+                if notif_id:
+                    response = self.make_request("PUT", f"/notifications/{notif_id}/read", token=self.recruiter_token)
+                    if response and response.status_code == 200:
+                        self.log_result("Mark Notification Read", True, "Notification marked as read")
+                    else:
+                        error = response.json().get("detail", "Unknown error") if response else "Connection failed"
+                        self.log_result("Mark Notification Read", False, error=error)
                 else:
-                    error = response.json().get("detail", "Unknown error") if response else "Connection failed"
-                    self.log_result("Mark Notification Read", False, error=error)
+                    self.log_result("Mark Notification Read", False, error="No notification ID found")
+            else:
+                self.log_result("Mark Notification Read", False, error="No notifications available to test")
         else:
             error = response.json().get("detail", "Unknown error") if response else "Connection failed"
             self.log_result("User Notifications", False, error=error)
