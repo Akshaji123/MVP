@@ -253,6 +253,128 @@
         "expires_at": "datetime",
         "created_at": "datetime"
       }
+    },
+    "user_profiles": {
+      "description": "Extended user profile information",
+      "indexes": ["user_id"],
+      "schema": {
+        "user_id": "string (FK to users)",
+        "first_name": "string",
+        "last_name": "string",
+        "phone": "string",
+        "address": "object {street, city, state, country, pincode}",
+        "date_of_birth": "string",
+        "bio": "string",
+        "skills": "array[string]",
+        "linkedin_url": "string",
+        "portfolio_url": "string",
+        "expected_salary": "float",
+        "notice_period_days": "integer",
+        "willing_to_relocate": "boolean",
+        "preferred_locations": "array[string]",
+        "profile_completion": "integer (0-100)",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "interview_schedules": {
+      "description": "Interview scheduling and feedback",
+      "indexes": ["id", "application_id", "candidate_id"],
+      "schema": {
+        "id": "string (UUID)",
+        "application_id": "string (FK to applications)",
+        "candidate_id": "string (FK to users)",
+        "job_id": "string (FK to jobs)",
+        "interview_type": "string (phone|video|onsite|technical|hr|panel)",
+        "scheduled_by": "string (FK to users)",
+        "scheduled_at": "datetime",
+        "duration_minutes": "integer",
+        "location": "string",
+        "meeting_link": "string",
+        "interviewers": "array[string]",
+        "status": "string (scheduled|completed|cancelled|rescheduled)",
+        "feedback": "object {rating, scores, comments, recommendation}",
+        "created_at": "datetime"
+      }
+    },
+    "application_status_logs": {
+      "description": "Application status change audit trail",
+      "indexes": ["application_id", "timestamp"],
+      "schema": {
+        "id": "string (UUID)",
+        "application_id": "string (FK to applications)",
+        "old_status": "string",
+        "new_status": "string",
+        "changed_by": "string (FK to users)",
+        "reason": "string",
+        "notes": "string",
+        "timestamp": "datetime"
+      }
+    },
+    "job_views": {
+      "description": "Job view analytics tracking",
+      "indexes": ["job_id", "viewed_at"],
+      "schema": {
+        "id": "string (UUID)",
+        "job_id": "string (FK to jobs)",
+        "viewer_id": "string (FK to users, optional)",
+        "viewer_ip": "string",
+        "source": "string (direct|search|referral|email)",
+        "viewed_at": "datetime"
+      }
+    },
+    "audit_logs": {
+      "description": "System-wide audit logging",
+      "indexes": ["user_id", "action", "timestamp"],
+      "schema": {
+        "id": "string (UUID)",
+        "user_id": "string (FK to users)",
+        "action": "string (login|logout|create|update|delete|etc)",
+        "resource_type": "string",
+        "resource_id": "string",
+        "old_value": "object",
+        "new_value": "object",
+        "ip_address": "string",
+        "user_agent": "string",
+        "success": "boolean",
+        "timestamp": "datetime"
+      }
+    },
+    "notifications": {
+      "description": "User notifications",
+      "indexes": ["user_id", "read", "created_at"],
+      "schema": {
+        "id": "string (UUID)",
+        "user_id": "string (FK to users)",
+        "title": "string",
+        "message": "string",
+        "type": "string (info|success|warning|error)",
+        "read": "boolean",
+        "action_url": "string (optional)",
+        "created_at": "datetime",
+        "read_at": "datetime (optional)"
+      }
+    },
+    "payments": {
+      "description": "Commission payments tracking",
+      "indexes": ["id", "recruiter_id", "status"],
+      "schema": {
+        "id": "string (UUID)",
+        "application_id": "string (FK to applications)",
+        "recruiter_id": "string (FK to users)",
+        "annual_package": "float",
+        "base_commission_rate": "float",
+        "tier_multiplier": "float",
+        "gross_commission": "float",
+        "tds_amount": "float",
+        "platform_fee": "float",
+        "net_commission": "float",
+        "currency": "string (INR|USD)",
+        "status": "string (pending|processing|completed|failed)",
+        "transaction_id": "string",
+        "initiated_at": "datetime",
+        "processed_at": "datetime"
+      }
     }
   },
   "export_location": "/app/database_export/",
