@@ -25,6 +25,13 @@ from utils.email_service import EmailService
 from gamification_service import GamificationService
 import httpx
 
+# Import new services
+from services.commission_service import CommissionCalculator, create_commission_calculator
+from services.matching_service import CandidateMatcher, create_candidate_matcher
+from services.pipeline_service import ApplicationPipeline, ApplicationStatus, create_application_pipeline
+from services.audit_service import AuditLogger, AuditAction, create_audit_logger
+from services.bgv_service import BGVService, BGVType, BGVStatus, create_bgv_service
+
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
@@ -40,6 +47,13 @@ code_exporter = CodeExporter()
 email_service = EmailService()
 gamification_service = GamificationService(db)
 
+# Initialize new business logic services
+commission_calculator = create_commission_calculator(db)
+candidate_matcher = create_candidate_matcher(db)
+audit_logger = create_audit_logger(db)
+bgv_service = create_bgv_service(db)
+application_pipeline = create_application_pipeline(db, candidate_matcher)
+
 # Emergent Auth configuration
 EMERGENT_AUTH_URL = "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data"
 
@@ -51,6 +65,7 @@ JWT_EXPIRATION_HOURS = 720
 # File upload configuration
 UPLOAD_DIR = "/app/uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs("/app/bgv_reports", exist_ok=True)
 
 # Security
 security = HTTPBearer()
