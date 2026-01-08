@@ -24,8 +24,10 @@ class BackendTester:
     def __init__(self):
         self.admin_token = None
         self.recruiter_token = None
+        self.candidate_token = None
         self.admin_user = None
         self.recruiter_user = None
+        self.candidate_user = None
         self.test_results = []
         
     def log_result(self, test_name, success, details="", error=""):
