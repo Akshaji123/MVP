@@ -133,6 +133,11 @@ function App() {
               <CommunicationCenter user={user} onLogout={handleLogout} />
             </ProtectedRoute>
           } />
+          <Route path="/jd-generator" element={
+            <ProtectedRoute allowedRoles={['admin', 'super_admin', 'recruiter', 'client']}>
+              <JDGenerator user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          } />
         </Routes>
       </BrowserRouter>
       <Toaster position="top-right" expand={true} richColors />
