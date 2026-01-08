@@ -12,6 +12,7 @@ import Leaderboard from './pages/Leaderboard';
 import EnterpriseAdmin from './pages/EnterpriseAdmin';
 import Settings from './pages/Settings';
 import DomainSettings from './pages/DomainSettings';
+import GamificationDashboard from './pages/GamificationDashboard';
 import './App.css';
 
 function App() {
@@ -92,6 +93,11 @@ function App() {
           <Route path="/settings" element={
             <ProtectedRoute>
               <Settings user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          } />
+          <Route path="/gamification" element={
+            <ProtectedRoute>
+              <GamificationPage user={user} onLogout={handleLogout} />
             </ProtectedRoute>
           } />
         </Routes>
