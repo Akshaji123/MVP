@@ -361,19 +361,33 @@ async def create_job(job: JobCreate, current_user: dict = Depends(get_current_us
     return JobResponse(**{k: v for k, v in job_doc.items() if k != "_id"}, applications_count=0)
 
 @api_router.get("/jobs", response_model=List[JobResponse])
-async def get_jobs(status: Optional[str] = None, current_user: dict = Depends(get_current_user)):
+async def get_jobs(status: Optional[str] = None, limit: int = 100, current_user: dict = Depends(get_current_user)):
     query = {}
     if status:
         query["status"] = status
     if current_user["role"] == "company":
         query["company_id"] = current_user["id"]
     
-    jobs = await db.jobs.find(query, {"_id": 0}).to_list(1000)
+    # Use aggregation to get application counts in one query
+    pipeline = [
+        {"$match": query},
+        {"$limit": limit},
+        {"$lookup": {
+            "from": "applications",
+            "localField": "id",
+            "foreignField": "job_id",
+            "as": "applications"
+        }},
+        {"$addFields": {
+            "applications_count": {"$size": "$applications"}
+        }},
+        {"$project": {
+            "_id": 0,
+            "applications": 0
+        }}
+    ]
     
-    # Get application counts
-    for job in jobs:
-        count = await db.applications.count_documents({"job_id": job["id"]})
-        job["applications_count"] = count
+    jobs = await db.jobs.aggregate(pipeline).to_list(limit)
     
     return [JobResponse(**job) for job in jobs]
 
