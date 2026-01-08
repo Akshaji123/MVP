@@ -63,7 +63,7 @@ const Auth = ({ setUser }) => {
             <div className="w-12 h-12 bg-gradient-to-br from-indigo-700 to-indigo-900 rounded-xl flex items-center justify-center">
               <Briefcase className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold" style={{fontFamily: 'Outfit, sans-serif'}}>TalentSphere</span>
+            <span className="text-2xl font-bold" style={{fontFamily: 'Outfit, sans-serif'}}>Hiring referrals</span>
           </div>
           <h1 className="text-3xl font-bold mb-2" style={{fontFamily: 'Outfit, sans-serif'}}>Welcome</h1>
           <p className="text-slate-600">Sign in or create your account</p>

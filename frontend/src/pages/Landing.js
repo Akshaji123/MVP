@@ -15,7 +15,7 @@ const Landing = () => {
             <div className="w-10 h-10 bg-gradient-to-br from-indigo-700 to-indigo-900 rounded-lg flex items-center justify-center">
               <Briefcase className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight" style={{fontFamily: 'Outfit, sans-serif'}}>TalentSphere</span>
+            <span className="text-xl font-bold tracking-tight" style={{fontFamily: 'Outfit, sans-serif'}}>Hiring referrals</span>
           </div>
           <Button data-testid="nav-login-btn" onClick={() => navigate('/auth')} className="bg-indigo-700 hover:bg-indigo-800 text-white rounded-lg px-6">
             Sign In
@@ -127,7 +127,7 @@ const Landing = () => {
       {/* Footer */}
       <footer className="bg-slate-900 text-slate-400 py-8">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p>© 2025 TalentSphere. Powered by AI.</p>
+          <p>© 2025 Hiring referrals. Powered by AI.</p>
         </div>
       </footer>
     </div>

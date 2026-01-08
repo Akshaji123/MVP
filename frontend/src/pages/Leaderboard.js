@@ -58,7 +58,7 @@ const Leaderboard = ({ user, onLogout }) => {
             <div className="w-10 h-10 bg-gradient-to-br from-indigo-700 to-indigo-900 rounded-lg flex items-center justify-center">
               <Briefcase className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight" style={{fontFamily: 'Outfit, sans-serif'}}>TalentSphere</span>
+            <span className="text-xl font-bold tracking-tight" style={{fontFamily: 'Outfit, sans-serif'}}>Hiring referrals</span>
           </div>
           <Button data-testid="back-dashboard-btn" onClick={() => navigate('/')} variant="outline" className="border-slate-300">
             Back to Dashboard
