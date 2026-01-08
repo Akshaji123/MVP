@@ -549,12 +549,12 @@ async def create_referral(referral: ReferralCreate, current_user: dict = Depends
     return ReferralResponse(**{k: v for k, v in referral_doc.items() if k != "_id"})
 
 @api_router.get("/referrals", response_model=List[ReferralResponse])
-async def get_referrals(current_user: dict = Depends(get_current_user)):
+async def get_referrals(limit: int = 100, current_user: dict = Depends(get_current_user)):
     query = {}
     if current_user["role"] in ["recruiter", "employee"]:
         query["referrer_id"] = current_user["id"]
     
-    referrals = await db.referrals.find(query, {"_id": 0}).to_list(1000)
+    referrals = await db.referrals.find(query, {"_id": 0}).limit(limit).to_list(limit)
     return [ReferralResponse(**r) for r in referrals]
 
 @api_router.get("/leaderboard", response_model=List[LeaderboardEntry])
