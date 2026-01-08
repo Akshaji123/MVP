@@ -232,17 +232,6 @@ def get_communication_router(db, get_current_user):
         await db.messages.insert_one(reply_doc)
         return reply_doc
     
-    @router.get("/messages/unread-count")
-    async def get_unread_count(
-        current_user: dict = Depends(get_current_user)
-    ):
-        """Get count of unread messages"""
-        count = await db.messages.count_documents({
-            "recipient_id": current_user["id"],
-            "is_read": False
-        })
-        return {"unread_count": count}
-    
     # ============= EMAIL TEMPLATES =============
     
     @router.post("/email-templates", response_model=EmailTemplateResponse)
